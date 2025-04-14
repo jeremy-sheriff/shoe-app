@@ -63,17 +63,23 @@ jobs:
             # Avoid replacing existing .env
             unzip -o /home/bitnami/shoe-app.zip -d /opt/bitnami/apache/htdocs/shoe-app
 
-            # Set permissions
             cd /opt/bitnami/apache/htdocs/shoe-app
+
+          # Ensure all necessary directories exist
+            mkdir -p storage/framework/{cache,sessions,views}
+            mkdir -p bootstrap/cache
+
+            # Ensure correct permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
 
-            # Composer install
+
+  # Composer install
             sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
 
             # Laravel config
-            /opt/bitnami/php/bin/php artisan config:clear
-            /opt/bitnami/php/bin/php artisan config:cache
+            /opt/bitnami/apache/htdocs/shoe-app php artisan config:clear
+            /opt/bitnami/apache/htdocs/shoe-app php artisan config:cache
 
             # Restart apache
             sudo /opt/bitnami/ctlscript.sh restart apache
