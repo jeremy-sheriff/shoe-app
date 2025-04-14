@@ -35,32 +35,39 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             APP_DIR=/opt/bitnami/apache/htdocs/shoe-app
-            TMP_DIR=/home/bitnami/shoe-app-temp
 
-            sudo rm -rf /opt/bitnami/apache/htdocs/shoe-app-backup
-            sudo mv $APP_DIR /opt/bitnami/apache/htdocs/shoe-app-backup || true
-            mkdir -p $APP_DIR
+            # Create the directory if it doesn't exist
+            sudo mkdir -p $APP_DIR
 
-            rm -rf $TMP_DIR
-            mkdir -p $TMP_DIR
-            unzip -o /home/bitnami/shoe-app.zip -d $TMP_DIR
+            # Temporarily back up .env if it exists
+            if [ -f "$APP_DIR/.env" ]; then
+              sudo mv $APP_DIR/.env /home/bitnami/.env.bak
+            fi
 
-            # Remove .env from unzipped folder just in case
-            rm -f $TMP_DIR/.env
+            # Unzip directly into the Laravel app directory
+            sudo unzip -o /home/bitnami/shoe-app.zip -d $APP_DIR
 
-            rsync -av $TMP_DIR/ $APP_DIR/
+            # Restore the .env file
+            if [ -f "/home/bitnami/.env.bak" ]; then
+              sudo mv /home/bitnami/.env.bak $APP_DIR/.env
+            fi
 
             cd $APP_DIR
 
+            # Ensure Laravel cache directories exist
             mkdir -p storage/framework/{cache,sessions,views}
             mkdir -p bootstrap/cache
 
+            # Set permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
 
+            # Install dependencies
             sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
 
+            # Laravel cache & config
             /opt/bitnami/php/bin/php artisan config:clear
             /opt/bitnami/php/bin/php artisan config:cache
 
+            # Restart Apache
             sudo /opt/bitnami/ctlscript.sh restart apache
