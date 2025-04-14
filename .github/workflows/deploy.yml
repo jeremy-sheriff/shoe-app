@@ -5,24 +5,20 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
-  LIGHTSAIL_INSTANCE_IP: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
-  DEPLOY_USER: bitnami
-  PROJECT_DIR: /opt/bitnami/apache/htdocs/shoe-app
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: prod  # 👈 This is the key
 
     steps:
       - name: Deploy via git pull
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
-          username: ${{ env.DEPLOY_USER }}
+          username: bitnami
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd $PROJECT_DIR
+            cd /opt/bitnami/apache/htdocs/shoe-app
             git pull origin main
             /opt/bitnami/php/bin/php /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
             sudo chown -R daemon:daemon storage bootstrap/cache
