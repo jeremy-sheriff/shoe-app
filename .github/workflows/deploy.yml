@@ -11,16 +11,13 @@ jobs:
     environment: prod
 
     steps:
-      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step 2: Zip project excluding vendor, node_modules, .git, .env
       - name: Archive Laravel project
         run: |
           zip -r shoe-app.zip . -x "vendor/*" "node_modules/*" ".git/*" ".env"
 
-      # Step 3: Upload zip to server
       - name: Upload zip to server
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -30,7 +27,6 @@ jobs:
           source: "shoe-app.zip"
           target: "/home/bitnami/"
 
-      # Step 4: Deploy on server
       - name: SSH deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -38,40 +34,33 @@ jobs:
           username: bitnami
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Define paths
             APP_DIR=/opt/bitnami/apache/htdocs/shoe-app
             TMP_DIR=/home/bitnami/shoe-app-temp
 
-            # Backup current app
             sudo rm -rf /opt/bitnami/apache/htdocs/shoe-app-backup
             sudo mv $APP_DIR /opt/bitnami/apache/htdocs/shoe-app-backup || true
             mkdir -p $APP_DIR
 
-            # Unzip to temporary location
             rm -rf $TMP_DIR
             mkdir -p $TMP_DIR
             unzip -o /home/bitnami/shoe-app.zip -d $TMP_DIR
 
-            # Sync from temp to app dir (excluding .env)
-            rsync -av --exclude='.env' $TMP_DIR/ $APP_DIR/
+            # Remove .env from unzipped folder just in case
+            rm -f $TMP_DIR/.env
 
-            # Move into app directory
+            rsync -av $TMP_DIR/ $APP_DIR/
+
             cd $APP_DIR
 
-            # Ensure Laravel cache directories exist
             mkdir -p storage/framework/{cache,sessions,views}
             mkdir -p bootstrap/cache
 
-            # Set permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
 
-            # Install dependencies
             sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
 
-            # Clear and cache Laravel config
             /opt/bitnami/php/bin/php artisan config:clear
             /opt/bitnami/php/bin/php artisan config:cache
 
-            # Restart Apache
             sudo /opt/bitnami/ctlscript.sh restart apache
