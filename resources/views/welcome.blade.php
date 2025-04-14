@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dr-MorchCraft - Custom Shoe Design</title>
+    <title>Dr-Dr-MorchCrafts - Custom Shoe Design</title>
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,7 +93,7 @@
 <!-- Features Section -->
 <section class="py-20 px-6 md:px-12 bg-gray-50">
     <div class="text-center mb-12">
-        <h2 class="text-4xl font-bold mb-4">Why Choose Dr-MorchCraft?</h2>
+        <h2 class="text-4xl font-bold mb-4">Why Choose Dr Dr-MorchCrafts?</h2>
         <p class="max-w-xl mx-auto">Everything you need to craft your perfect pair of shoes, all in one place.</p>
     </div>
     <div class="grid gap-8 md:grid-cols-3">
@@ -118,7 +118,7 @@
 <!-- Call To Action -->
 <section class="bg-dark text-white py-20 text-center">
     <h2 class="text-3xl md:text-4xl font-bold mb-6">Join the Movement in Custom Shoe Design</h2>
-    <p class="mb-8">Whether you're a fashionista or sneakerhead, Dr-MorchCraft has you covered.</p>
+    <p class="mb-8">Whether you're a fashionista or sneakerhead, Dr-Dr-MorchCrafts has you covered.</p>
     <a href="#" class="btn btn-primary">Create Your First Pair</a>
 </section>
 
@@ -126,7 +126,7 @@
 <footer class="bg-gray-900 text-white py-12 px-6 md:px-12">
     <div class="grid md:grid-cols-4 gap-8">
         <div>
-            <h3 class="text-xl font-bold mb-4 text-primary">Dr-MorchCraft</h3>
+            <h3 class="text-xl font-bold mb-4 text-primary">Dr-Dr-MorchCrafts</h3>
             <p>Custom shoes made easy, accessible, and personal.</p>
         </div>
         <div>
@@ -155,7 +155,7 @@
         </div>
     </div>
     <div class="text-center text-sm mt-12 border-t pt-6 border-gray-700">
-        &copy; 2025 Dr-MorchCraft. All rights reserved.
+        &copy; 2025 Dr-Dr-MorchCrafts. All rights reserved.
     </div>
 </footer>
 </body>

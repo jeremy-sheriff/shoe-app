@@ -18,13 +18,12 @@ jobs:
           username: bitnami
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            script: |
-              cd /opt/bitnami/apache/htdocs/shoe-app
-              git pull origin main
-              /opt/bitnami/php/bin/php /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
-              /opt/bitnami/php/bin/php artisan config:clear
-              /opt/bitnami/php/bin/php artisan config:cache
-              sudo chown -R daemon:daemon storage bootstrap/cache
-              sudo chmod -R 775 storage bootstrap/cache
-              sudo /opt/bitnami/ctlscript.sh restart apache
+            cd /opt/bitnami/apache/htdocs/shoe-app
+            git pull origin main
+            /opt/bitnami/php/bin/php /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
+            cd /opt/bitnami/apache/htdocs/shoe-app && /opt/bitnami/php/bin/php artisan config:clear
+            cd /opt/bitnami/apache/htdocs/shoe-app && /opt/bitnami/php/bin/php artisan config:cache
+            sudo chown -R daemon:daemon storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+            sudo /opt/bitnami/ctlscript.sh restart apache
 
