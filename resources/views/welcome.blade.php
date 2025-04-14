@@ -56,7 +56,7 @@
 <!-- Navigation -->
 <nav class="py-6 px-6 md:px-12 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
     <div class="text-2xl font-bold">
-        <span class="text-primary">Sole</span><span class="text-secondary">Craft</span>
+        <span class="text-primary">Dr-Morch</span><span class="text-secondary">Crafts</span>
     </div>
 
     @if (Route::has('login'))
