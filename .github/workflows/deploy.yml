@@ -7,46 +7,54 @@ on:
 
 env:
   LIGHTSAIL_INSTANCE_IP: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
-  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-  DEPLOY_USER: ubuntu  # or 'ec2-user' for Amazon Linux
+  DEPLOY_USER: bitnami
   PROJECT_DIR: /opt/bitnami/apache/htdocs/shoe-app
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Setup SSH key
         run: |
-          ssh lightsail "sudo apt-get update && sudo apt-get install -y git unzip"
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/lightsail_key
+          chmod 600 ~/.ssh/lightsail_key
+          ssh-keyscan -H $LIGHTSAIL_INSTANCE_IP >> ~/.ssh/known_hosts
 
-      - name: Deploy application
+      - name: Deploy Laravel App to Lightsail
         run: |
-          # Create directory structure
-          ssh lightsail "sudo mkdir -p $PROJECT_DIR && sudo chown -R $DEPLOY_USER:$DEPLOY_USER $PROJECT_DIR"
-
-          # Rsync files
+          # Sync files to Lightsail server
           rsync -avz -e "ssh -i ~/.ssh/lightsail_key" \
             --exclude='.git' \
-            --exclude='.env' \
             --exclude='storage' \
-            ./ ubuntu@$LIGHTSAIL_INSTANCE_IP:$PROJECT_DIR/
+            --exclude='.env' \
+            ./ $DEPLOY_USER@$LIGHTSAIL_INSTANCE_IP:$PROJECT_DIR/
 
-          # Install PHP dependencies
-          ssh lightsail "cd $PROJECT_DIR && composer install --no-dev --optimize-autoloader"
+          # Run remote setup tasks
+          ssh -i ~/.ssh/lightsail_key $DEPLOY_USER@$LIGHTSAIL_INSTANCE_IP << 'EOF'
+            cd /opt/bitnami/apache/htdocs/shoe-app
 
-          # Set up environment
-          ssh lightsail "cd $PROJECT_DIR && cp .env.example .env && php artisan key:generate"
+            # Install composer deps
+            /opt/bitnami/php/bin/php /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
 
-          # Set permissions
-          ssh lightsail "sudo chown -R www-data:www-data $PROJECT_DIR/storage"
-          ssh lightsail "sudo chmod -R 775 $PROJECT_DIR/storage"
+            # Setup Laravel env if needed
+            if [ ! -f .env ]; then
+              cp .env.example .env
+              /opt/bitnami/php/bin/php artisan key:generate
+            fi
 
-          # Restart services
-          ssh lightsail "sudo systemctl restart php8.2-fpm nginx"
+            # Set Laravel permissions
+            sudo chown -R daemon:daemon storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+
+            # Restart Apache
+            sudo /opt/bitnami/ctlscript.sh restart apache
+          EOF
 
       - name: Verify deployment
         run: |
-          ssh lightsail "curl -I http://localhost"
+          curl -I http://$LIGHTSAIL_INSTANCE_IP
