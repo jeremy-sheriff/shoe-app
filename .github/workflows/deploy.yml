@@ -1,37 +1,61 @@
-name: Deploy to Lightsail
+name: Deploy Laravel App to Lightsail
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: prod  # 👈 This is the key
+    environment: prod
 
     steps:
-      - name: Deploy via git pull
+      # Step 1: Checkout your code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Compress code into zip (excluding vendor & node_modules)
+      - name: Archive Laravel project
+        run: |
+          zip -r shoe-app.zip . -x "vendor/*" "node_modules/*" ".git/*"
+
+      # Step 3: Upload zip to Lightsail via SCP
+      - name: Upload zip to server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
+          username: bitnami
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "shoe-app.zip"
+          target: "/home/bitnami/"
+
+      # Step 4: SSH into server, unzip and deploy
+      - name: SSH deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
           username: bitnami
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # Clean previous deployment (optional/safe)
+            sudo rm -rf /opt/bitnami/apache/htdocs/shoe-app-backup
+            sudo mv /opt/bitnami/apache/htdocs/shoe-app /opt/bitnami/apache/htdocs/shoe-app-backup || true
+
+            # Unzip new app
+            unzip -o /home/bitnami/shoe-app.zip -d /opt/bitnami/apache/htdocs/shoe-app
+
+            # Set permissions
             cd /opt/bitnami/apache/htdocs/shoe-app
-            git pull origin main
-
-            # Run composer install as root without prompt
-            sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
-
-            # Clear and cache config
-            /opt/bitnami/php/bin/php artisan config:clear
-            /opt/bitnami/php/bin/php artisan config:cache
-
-            # Permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
 
+            # Composer install
+            sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
+
+            # Laravel config
+            /opt/bitnami/php/bin/php artisan config:clear
+            /opt/bitnami/php/bin/php artisan config:cache
+
             # Restart apache
             sudo /opt/bitnami/ctlscript.sh restart apache
-
