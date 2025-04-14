@@ -55,6 +55,7 @@ jobs:
             # Sync from temp to app dir (excluding .env)
             rsync -av --exclude='.env' $TMP_DIR/ $APP_DIR/
 
+            # Move into app directory
             cd $APP_DIR
 
             # Ensure Laravel cache directories exist
@@ -68,9 +69,10 @@ jobs:
             # Install dependencies
             sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
 
-            # Clear and cache config
+            # Clear and cache Laravel config
             /opt/bitnami/php/bin/php artisan config:clear
             /opt/bitnami/php/bin/php artisan config:cache
 
-            # Restart apache
+            # Restart Apache
             sudo /opt/bitnami/ctlscript.sh restart apache
+
