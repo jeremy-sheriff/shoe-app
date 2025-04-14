@@ -10,52 +10,21 @@ env:
   DEPLOY_USER: bitnami
   PROJECT_DIR: /opt/bitnami/apache/htdocs/shoe-app
 
-#update the LIGHTSAIL_INSTANCE_IP
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/lightsail_key
-          chmod 600 ~/.ssh/lightsail_key
-          ssh-keyscan -H $LIGHTSAIL_INSTANCE_IP >> ~/.ssh/known_hosts
-
-      - name: Deploy Laravel App to Lightsail
-        run: |
-          # Sync files to Lightsail server
-          rsync -avz -e "ssh -i ~/.ssh/lightsail_key" \
-            --exclude='.git' \
-            --exclude='storage' \
-            --exclude='.env' \
-            ./ $DEPLOY_USER@$LIGHTSAIL_INSTANCE_IP:$PROJECT_DIR/
-
-          # Run remote setup tasks
-          ssh -i ~/.ssh/lightsail_key $DEPLOY_USER@$LIGHTSAIL_INSTANCE_IP << 'EOF'
-            cd /opt/bitnami/apache/htdocs/shoe-app
-
-            # Install composer deps
+      - name: Deploy via git pull
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
+          username: ${{ env.DEPLOY_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd $PROJECT_DIR
+            git pull origin main
             /opt/bitnami/php/bin/php /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
-
-            # Setup Laravel env if needed
-            if [ ! -f .env ]; then
-              cp .env.example .env
-              /opt/bitnami/php/bin/php artisan key:generate
-            fi
-
-            # Set Laravel permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
-
-            # Restart Apache
             sudo /opt/bitnami/ctlscript.sh restart apache
-          EOF
-
-      - name: Verify deployment
-        run: |
-          curl -I http://$LIGHTSAIL_INSTANCE_IP
