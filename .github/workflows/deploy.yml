@@ -20,10 +20,18 @@ jobs:
           script: |
             cd /opt/bitnami/apache/htdocs/shoe-app
             git pull origin main
-            cd /opt/bitnami/apache/htdocs composer install --no-dev --optimize-autoloader
-            cd /opt/bitnami/apache/htdocs/shoe-app && /opt/bitnami/php/bin/php artisan config:clear
-            cd /opt/bitnami/apache/htdocs/shoe-app && /opt/bitnami/php/bin/php artisan config:cache
+
+            # Run composer install as root without prompt
+            sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
+
+            # Clear and cache config
+            /opt/bitnami/php/bin/php artisan config:clear
+            /opt/bitnami/php/bin/php artisan config:cache
+
+            # Permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
+
+            # Restart apache
             sudo /opt/bitnami/ctlscript.sh restart apache
 
