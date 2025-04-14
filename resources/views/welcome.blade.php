@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dr-Dr-MorchCrafts - Custom Shoe Design</title>
+    <title>Dr-MorchCrafts - Custom Shoe Design</title>
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -119,7 +119,7 @@
 <section class="bg-dark text-white py-20 text-center">
     <h2 class="text-3xl md:text-4xl font-bold mb-6">Join the Movement in Custom Shoe Design</h2>
     <p class="mb-8">Whether you're a fashionista or sneakerhead, Dr-Dr-MorchCrafts has you covered.</p>
-    <a href="#" class="btn btn-primary">Create Your First Pair</a>
+    <a href="#" class="btn btn-primary">Would you like to place an order?</a>
 </section>
 
 <!-- Footer -->
