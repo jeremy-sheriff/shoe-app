@@ -30,6 +30,24 @@ jobs:
           source: "shoe-app.zip"
           target: "/home/bitnami/"
 
+      - name: Fix Laravel storage and cache permissions
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
+          username: bitnami
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /opt/bitnami/apache/htdocs/shoe-app
+
+            # Ensure cache directories exist
+            mkdir -p storage/framework/{cache,sessions,views}
+            mkdir -p bootstrap/cache
+
+            # Fix ownership and permissions
+            sudo chown -R daemon:daemon storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+
+
       # Step 4: SSH into server, unzip and deploy
       - name: SSH deploy
         uses: appleboy/ssh-action@v0.1.10
@@ -42,7 +60,7 @@ jobs:
             sudo rm -rf /opt/bitnami/apache/htdocs/shoe-app-backup
             sudo mv /opt/bitnami/apache/htdocs/shoe-app /opt/bitnami/apache/htdocs/shoe-app-backup || true
 
-            # Unzip new app
+            # Avoid replacing existing .env
             unzip -o /home/bitnami/shoe-app.zip -d /opt/bitnami/apache/htdocs/shoe-app
 
             # Set permissions
