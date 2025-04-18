@@ -21,7 +21,7 @@ return new class extends Migration
                 'cancelled'
             ])->default('pending');
             $table->text('description');
-            $table->text('image-path');
+            $table->text('image_path');
             $table->timestamps();
         });
     }

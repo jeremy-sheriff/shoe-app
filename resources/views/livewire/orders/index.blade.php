@@ -27,6 +27,7 @@
                                 <th class="px-6 py-3">Customer</th>
                                 <th class="px-6 py-3">Status</th>
                                 <th class="px-6 py-3">Order Date</th>
+                                <th class="px-6 py-3">Order Sample</th>
                             </tr>
                             </thead>
                             <tbody class="text-zinc-800 dark:text-zinc-100 divide-y divide-zinc-200 dark:divide-zinc-700">
@@ -48,6 +49,12 @@
                             </span>
                                     </td>
                                     <td class="px-6 py-4">{{ $order->created_at->format('M d, Y') }}</td>
+                                    <td>
+                                        @if ($order->image_path)
+                                            <img height="40px" width="40px" src="{{ asset('storage/' . $order->image_path) }}" alt="Sample Image" class="w-20 h-20 object-cover rounded-md shadow">
+                                        @endif
+                                    </td>
+
                                 </tr>
                             @empty
                                 <tr>

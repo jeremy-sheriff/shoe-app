@@ -44,7 +44,7 @@ class OrderController extends Controller
             'color' => $validated['color'],
             'quantity' => $validated['quantity'],
             'description' => $validated['description'],
-            'image-path' => $imagePath,
+            'image_path' => $imagePath,
         ]);
 
         return redirect()->back()->with('success', 'Your order has been placed!');
