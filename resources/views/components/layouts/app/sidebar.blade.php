@@ -1,3 +1,7 @@
+@php
+    $user = auth()->user();
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
@@ -16,22 +20,37 @@
                     <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
                 </flux:navlist.group>
 
+                @if ($user && $user->role === 'admin')
                 <flux:navlist.group :headiFng="__('Platform')" class="grid">
                     <flux:navlist.item icon="users" :href="route('products.index')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Products') }}</flux:navlist.item>
                 </flux:navlist.group>
+                @endif
 
                 <flux:spacer />
 
 
 
-                <flux:navlist.item
-                    icon="shopping-cart"
-                    :href="route('orders.index')"
-                    :current="request()->routeIs('orders.*')"
-                    wire:navigate
-                >
-                    {{ __('Orders') }}
-                </flux:navlist.item>
+                @if ($user && $user->role === 'admin')
+                    <flux:navlist.item
+                        icon="shopping-cart"
+                        :href="route('orders.index')"
+                        :current="request()->routeIs('orders.*')"
+                        wire:navigate
+                    >
+                        {{ __('Orders') }}
+                    </flux:navlist.item>
+                @endif
+
+                @if ($user && $user->role === 'user')
+                    <flux:navlist.item
+                        icon="shopping-cart"
+                        :href="route('orders.index.users')"
+                        :current="request()->routeIs('orders.*')"
+                        wire:navigate
+                    >
+                        {{ __('Orders') }}
+                    </flux:navlist.item>
+                @endif
             </flux:navlist>
 
             <flux:spacer />
