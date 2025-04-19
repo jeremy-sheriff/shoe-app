@@ -21,6 +21,10 @@ return new class extends Migration
                 'completed',
                 'cancelled'
             ])->default('pending');
+            $table->text('shoe_name');
+            $table->text('size');
+            $table->text('color');
+            $table->text('quantity');
             $table->text('description');
             $table->text('image_path');
             $table->timestamps();

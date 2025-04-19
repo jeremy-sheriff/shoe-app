@@ -28,6 +28,7 @@
                                 <th class="px-6 py-3">Status</th>
                                 <th class="px-6 py-3">Order Date</th>
                                 <th class="px-6 py-3">Order Sample</th>
+                                <th class="px-6 py-3">Actions</th>
                             </tr>
                             </thead>
                             <tbody class="text-zinc-800 dark:text-zinc-100 divide-y divide-zinc-200 dark:divide-zinc-700">
@@ -54,6 +55,14 @@
                                             <img height="40px" width="40px" src="{{ asset('storage/' . $order->image_path) }}" alt="Sample Image" class="w-20 h-20 object-cover rounded-md shadow">
                                         @endif
                                     </td>
+
+                                    <td class="px-6 py-4">
+                                        <a href="{{ route('orders.show', $order->uuid) }}"
+                                           class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 font-medium">
+                                            View Order
+                                        </a>
+                                    </td>
+
 
                                 </tr>
                             @empty

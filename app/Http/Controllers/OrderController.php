@@ -60,4 +60,25 @@ class OrderController extends Controller
     public function create(){
 
     }
+
+    public function show($uuid)
+    {
+        return view('livewire.orders.show', [
+            'order' => Order::query()->where('uuid', $uuid)->firstOrFail(),
+        ]);
+    }
+
+    public function updateStatus(Request $request, $uuid)
+    {
+        $request->validate([
+            'status' => 'required|string|in:pending,processing,completed,cancelled',
+        ]);
+
+        $order = Order::where('uuid', $uuid)->firstOrFail();
+        $order->status = $request->status;
+        $order->save();
+
+        return redirect()->back()->with('success', 'Order status updated successfully.');
+    }
+
 }

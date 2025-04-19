@@ -23,9 +23,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store')->middleware(['auth']);
 });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index')->middleware(['auth', 'can:access-admin-dashboard']);
-    Route::get('/admin/orders/create', [OrderController::class, 'create'])->name('orders.create');
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index')->middleware(['auth', 'can:access-admin-dashboard']);
+    Route::get('orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::get('orders/show/{uuid}', [OrderController::class, 'show'])->name('orders.show');
+    Route::patch('orders/{uuid}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware(['auth', 'can:access-admin-products']);
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
