@@ -69,7 +69,5 @@ jobs:
             /opt/bitnami/php/bin/php artisan config:clear
             /opt/bitnami/php/bin/php artisan config:cache
 
-             php artisan migrate:fresh --seed
-
             # Restart Apache
             sudo /opt/bitnami/ctlscript.sh restart apache
