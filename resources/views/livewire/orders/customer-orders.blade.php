@@ -4,6 +4,24 @@
             {{-- Left Form Card --}}
             <div class="relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 shadow-sm bg-gray-50 dark:bg-zinc-800">
                 <div class="p-6 space-y-6">
+                    {{-- Success Message --}}
+                    @if (session('success'))
+                        <div class="mb-4 rounded-md bg-green-100 p-4 text-green-700">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    {{-- Validation Errors --}}
+                    @if ($errors->any())
+                        <div class="mb-4 rounded-md bg-red-100 p-4 text-red-700">
+                            <strong>There were some problems with your input:</strong>
+                            <ul class="mt-2 list-disc list-inside text-sm">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form action="{{ route('orders.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                         @csrf
 

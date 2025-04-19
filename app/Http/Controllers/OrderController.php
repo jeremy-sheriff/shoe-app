@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class OrderController extends Controller
@@ -36,6 +35,7 @@ class OrderController extends Controller
             'color' => 'required|string|max:50',
             'quantity' => 'required|integer|min:1',
             'description' => 'required|string',
+            'sample_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         Order::create([
