@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Order extends Model
 {
     protected $fillable = [
-        'description','user_id','image_path'
+        'description','user_id','image_path','uuid'
     ];
 
     public function user(): BelongsTo

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
@@ -38,6 +39,7 @@ class OrderController extends Controller
         ]);
 
         Order::create([
+            'uuid' => Str::uuid(),
             'user_id' => auth()->id(),
             'shoe_name' => $validated['shoe_name'],
             'size' => $validated['size'],
