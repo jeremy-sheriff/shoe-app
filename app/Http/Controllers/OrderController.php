@@ -11,10 +11,6 @@ class OrderController extends Controller
     public function index(){
         return view('livewire.orders.index', [
             'orders' => Order::query()->latest()->paginate(10),
-            'totalOrders' => Order::count(),
-            'processingOrders' => Order::where('status', 'processing')->count(),
-            'completedOrders' => Order::where('status', 'completed')->count(),
-            'cancelledOrders' => Order::where('status', 'cancelled')->count(),
         ]);
     }
 
