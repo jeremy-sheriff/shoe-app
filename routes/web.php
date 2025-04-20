@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
@@ -13,6 +14,7 @@ use Livewire\Volt\Volt;
 //})->name('home');
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
+Route::get('/item/{id}', [WelcomeController::class, 'show'])->name('item.show');
 //
 //Route::view('dashboard', 'dashboard')
 //    ->middleware(['auth', 'verified'])
@@ -25,6 +27,10 @@ Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
 

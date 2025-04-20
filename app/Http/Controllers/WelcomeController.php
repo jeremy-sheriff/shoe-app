@@ -12,4 +12,13 @@ class WelcomeController extends Controller
             'products' => Product::all(),
         ]);
     }
+
+    public function show($id)
+    {
+        return view('show', [
+            'product' => Product::query()->findOrFail($id),
+        ]);
+    }
+
+
 }
