@@ -41,6 +41,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 
     Route::get('/products', [ProductController::class, 'index'])->name('products.index')->middleware(['auth', 'can:access-admin-products']);
+    Route::post('/products/store', [ProductController::class, 'store'])->name('products.store')->middleware(['auth', 'can:access-admin-products']);
     Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');

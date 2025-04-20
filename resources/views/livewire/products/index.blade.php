@@ -2,48 +2,101 @@
     <div class="flex flex-col gap-6 h-full w-full">
 
         {{-- Top Section with Form and Empty Right Side --}}
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             {{-- Left: Product Form --}}
-            <div class="rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 h-fit">
-                <form wire:submit.prevent="save" class="space-y-4">
-                    <x-input label="Name" wire:model.defer="name" />
-                    <x-textarea label="Description" wire:model.defer="description" />
+            <div
+                class="rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 h-fit md:col-span-2">
+                <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data"
+                      class="space-y-6">
+                    @csrf
 
-                    <div class="flex flex-col md:flex-row gap-4">
-                        <x-input label="Price" type="number" wire:model.defer="price" class="w-full" />
-                        <x-input label="Stock" type="number" wire:model.defer="stock" class="w-full" />
-                    </div>
-
-                    <x-input label="SKU" wire:model.defer="sku" />
-
-                    <div class="flex flex-col md:flex-row gap-4 items-start md:items-center">
-                        <select wire:model.defer="status"
-                                class="input w-full rounded-md border dark:bg-zinc-800 dark:border-zinc-600">
-                            <option value="active">Active</option>
-                            <option value="draft">Draft</option>
-                            <option value="archived">Archived</option>
+                    <!-- Category -->
+                    <div>
+                        <label for="category_id" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
+                        <select name="category_id" id="category_id" required
+                                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                            <option value="">Select Category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
-
-                        <label class="flex items-center gap-2 text-sm">
-                            <input type="checkbox" wire:model.defer="is_active" />
-                            Active
-                        </label>
                     </div>
 
-                    <div class="flex justify-end gap-2">
-                        <button type="button" wire:click="$set('showModal', false)"
-                                class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 dark:bg-zinc-700 dark:text-white">
-                            Cancel
-                        </button>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                            Save
+
+                    <!-- Name -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-white">Shoe
+                            Name</label>
+                        {{--                        <input type="text" name="name" id="name" required--}}
+                        {{--                               class="mt-1 block w-full rounded-md border-gray-300 dark:border-zinc-600 dark:bg-zinc-700 text-gray-900 dark:text-white">--}}
+
+                        <input name="name" id="name" required
+                               class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+
+                    </div>
+
+
+                    <!-- Description -->
+                    <div>
+                        <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
+                        <textarea name="description" id="description" rows="4" required
+                                  class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    </div>
+
+
+                    <!-- Price -->
+                    <div>
+                        <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
+                            (Ksh)</label>
+                        <input type="number" name="price" id="price" step="0.01" required
+                               class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </div>
+
+
+                    <!-- Image Uploads -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-black mb-2">Upload
+                            Images</label>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Image 1 -->
+                            <div class="slim border-2 border-dashed rounded-lg p-2"
+                                 data-label="Drop your image here"
+                                 data-size="240,240"
+                                 data-ratio="1:1">
+                                <input type="file" name="slim[]" required/>
+                            </div>
+
+                            <!-- Image 2 -->
+                            <div class="slim border-2 border-dashed rounded-lg p-2"
+                                 data-ratio="16:9"
+                                 data-size="240,240">
+                                <input type="file" name="slim[]"/>
+                            </div>
+
+                            <!-- Image 3 -->
+                            <div class="slim border-2 border-dashed rounded-lg p-2"
+                                 data-ratio="16:9"
+                                 data-size="240,240">
+                                <input type="file" name="slim[]"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="mt-6">
+                        <button type="submit"
+                                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md">
+                            Add Product
                         </button>
                     </div>
+
                 </form>
             </div>
 
             {{-- Right: Empty Section --}}
-            <div class="rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 flex items-center justify-center">
+            <div
+                class="md:col-span-1 rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 flex items-center justify-center">
                 <span class="text-zinc-400 dark:text-zinc-500">Empty space – for preview, image, stats, etc.</span>
             </div>
         </div>

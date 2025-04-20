@@ -22,7 +22,9 @@
 
                 @if ($user && $user->role === 'admin')
                 <flux:navlist.group :headiFng="__('Platform')" class="grid">
-                    <flux:navlist.item icon="users" :href="route('products.index')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Products') }}</flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="route('products.index')"
+                                       :current="request()->routeIs('products')"
+                                       wire:navigate>{{ __('Products') }}</flux:navlist.item>
                 </flux:navlist.group>
                 @endif
 
