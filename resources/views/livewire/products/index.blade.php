@@ -104,7 +104,7 @@
         {{-- Full-width Product Table --}}
         <div class="rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 w-full">
             <div class="flex items-center justify-between mb-4">
-                <h2 class="text-2xl font-bold text-zinc-800 dark:text-white">Products</h2>
+                <h2 class="text-2xl font-bold text-zinc-800 dark:text-white">Products!</h2>
             </div>
 
             <div class="overflow-x-auto border border-zinc-200 dark:border-zinc-700 rounded-lg">
