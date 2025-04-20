@@ -74,7 +74,7 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="hero bg-gradient-to-br from-primary to-secondary text-white py-24 px-6 md:px-20">
+<section class="hero bg-gradient-to-br from-primary to-secondary text-black py-24 px-6 md:px-20">
     <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="hero-content text-center md:text-left md:w-1/2">
             <h1 class="text-6xl font-extrabold leading-tight mb-6">Design Your Dream <span
