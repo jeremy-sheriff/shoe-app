@@ -86,10 +86,11 @@
                     <!-- Submit Button -->
                     <div class="mt-6">
                         <button type="submit"
-                                class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md">
+                                class="w-full sm:w-auto px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm transition duration-200 ease-in-out">
                             Add Product
                         </button>
                     </div>
+
 
                 </form>
             </div>
