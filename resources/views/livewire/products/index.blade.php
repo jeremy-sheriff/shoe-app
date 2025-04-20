@@ -69,14 +69,14 @@
 
                             <!-- Image 2 -->
                             <div class="slim border-2 border-dashed rounded-lg p-2"
-                                 data-ratio="16:9"
+                                 data-ratio="1:1"
                                  data-size="240,240">
                                 <input type="file" name="slim[]"/>
                             </div>
 
                             <!-- Image 3 -->
                             <div class="slim border-2 border-dashed rounded-lg p-2"
-                                 data-ratio="16:9"
+                                 data-ratio="1:1"
                                  data-size="240,240">
                                 <input type="file" name="slim[]"/>
                             </div>

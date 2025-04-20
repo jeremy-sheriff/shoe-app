@@ -87,11 +87,20 @@
             </div>
         </div>
         <div class="hero-image md:w-1/2">
-            <img src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=800&q=80"
+            <img height="400px;" width="600px;"
+                 src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=800&q=80"
                  alt="Custom Shoes" class="rounded-3xl shadow-2xl">
         </div>
     </div>
 </section>
+
+<!-- Wavy Divider -->
+<div class="relative z-0 -mt-1">
+    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#f9fafb" fill-opacity="1"
+              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+    </svg>
+</div>
 
 <!-- Features Section -->
 <section class="py-24 px-6 md:px-20 bg-gray-50">
@@ -120,12 +129,39 @@
     </div>
 </section>
 
-<!-- Call To Action -->
-<section class="bg-dark text-white py-24 text-center">
+<!-- Shopping Section -->
+<section class="bg-gray-100 dark:bg-zinc-900 py-24 px-6 md:px-20">
+    <div class="text-center mb-16">
+        <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Custom Shoes</h2>
+        <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">Browse our collection of unique, handcrafted shoes
+            created by our talented community of designers.</p>
+    </div>
+
+    <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @foreach ($products as $product)
+            <div class="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow hover:shadow-lg transition">
+                <div class="mb-4">
+                    <img src="{{ asset('storage/' . $product->images->first()->path) }}" alt="{{ $product->name }}"
+                         class="w-full h-56 object-cover rounded-lg">
+                </div>
+                <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2">{{ $product->name }}</h3>
+                <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
+                <div class="flex items-center justify-between">
+                    <span class="text-lg font-bold text-primary">KSh {{ number_format($product->price, 2) }}</span>
+                    <a href="#" class="btn btn-outline text-sm">View</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+<section class="bg-white dark:bg-dark text-dark dark:text-white py-24 text-center transition-all duration-300">
     <h2 class="text-4xl md:text-5xl font-bold mb-6">Step Into Your Story</h2>
     <p class="mb-10 text-lg">From vision to reality — start creating shoes that reflect you.</p>
     <a href="#" class="btn btn-primary text-lg">Place Your Custom Order</a>
 </section>
+
 
 <!-- Footer -->
 <footer class="bg-gray-900 text-white py-16 px-6 md:px-20">

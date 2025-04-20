@@ -4,12 +4,15 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 //
 //Route::view('dashboard', 'dashboard')
 //    ->middleware(['auth', 'verified'])
