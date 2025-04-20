@@ -97,7 +97,7 @@
             {{-- Right: Empty Section --}}
             <div
                 class="md:col-span-1 rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 flex items-center justify-center">
-                <span class="text-zinc-400 dark:text-zinc-500">Empty space – for preview, image, stats, etc.</span>
+                <span class="text-zinc-400 dark:text-zinc-500">Empty space spacer space !!! – for preview, image, stats, etc.</span>
             </div>
         </div>
 
