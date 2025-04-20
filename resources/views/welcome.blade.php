@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dr-MorchCrafts - Custom Shoe Design</title>
 
+    <!-- SplideJS Assets -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
+
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -129,6 +133,7 @@
     </div>
 </section>
 
+
 <!-- Shopping Section -->
 <section class="bg-gray-100 dark:bg-zinc-900 py-24 px-6 md:px-20">
     <div class="text-center mb-16">
@@ -138,23 +143,54 @@
     </div>
 
     <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        @foreach ($products as $product)
+        @foreach ($products as $index => $product)
             <div class="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow hover:shadow-lg transition">
-                <div class="mb-4">
-                    <img src="{{ asset('storage/' . $product->images->first()->path) }}" alt="{{ $product->name }}"
-                         class="w-full h-56 object-cover rounded-lg">
-                </div>
+                {{-- Splide Carousel --}}
+                @if($product->images->count())
+                    <div id="splide-{{ $index }}" class="splide mb-4">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                @foreach ($product->images as $image)
+                                    <li class="splide__slide">
+                                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}"
+                                             class="w-full h-56 object-cover rounded-lg">
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @else
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image"
+                         class="w-full h-56 object-cover rounded-lg mb-4">
+                @endif
+
+                {{-- Product Info --}}
                 <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2">{{ $product->name }}</h3>
                 <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
                 <div class="flex items-center justify-between">
                     <span class="text-lg font-bold text-primary">KSh {{ number_format($product->price, 2) }}</span>
                     <a href="{{ route('item.show', $product->id) }}" class="btn btn-outline text-sm">View</a>
-
                 </div>
             </div>
         @endforeach
     </div>
 </section>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @foreach ($products as $index => $product)
+        new Splide('#splide-{{ $index }}', {
+            type: 'loop',
+            perPage: 1,
+            height: '14rem',
+            arrows: false,
+            pagination: true,
+            autoplay: true,
+        }).mount();
+        @endforeach
+    });
+</script>
 
 
 <section class="bg-white dark:bg-dark text-dark dark:text-white py-24 text-center transition-all duration-300">
