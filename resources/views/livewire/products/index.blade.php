@@ -107,6 +107,7 @@
                 <h2 class="text-2xl font-bold text-zinc-800 dark:text-white">Products!</h2>
             </div>
 
+
             <div class="overflow-x-auto border border-zinc-200 dark:border-zinc-700 rounded-lg">
                 <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700 text-sm text-left">
                     <thead class="bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 uppercase tracking-wide text-xs">
