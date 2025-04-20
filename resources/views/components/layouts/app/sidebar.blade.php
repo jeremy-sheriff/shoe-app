@@ -26,6 +26,14 @@
                 </flux:navlist.group>
                 @endif
 
+                @if ($user && $user->role === 'admin')
+                    <flux:navlist.group :headiFng="__('Platform')" class="grid">
+                        <flux:navlist.item icon="users" :href="route('categories.index')"
+                                           :current="request()->routeIs('categories')"
+                                           wire:navigate>{{ __('Categories') }}</flux:navlist.item>
+                    </flux:navlist.group>
+                @endif
+
                 <flux:spacer />
 
 

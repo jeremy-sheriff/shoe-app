@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -26,6 +27,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/orders', [OrderController::class, 'customerOrders'])->name('orders.index.users')->middleware(['auth']);
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store')->middleware(['auth']);
+
+    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index')->middleware(['auth', 'can:access-admin-dashboard']);
+    Route::get('/categories/create', [CategoriesController::class, 'create'])->name('categories.create')->middleware(['auth', 'can:access-admin-dashboard']);
+    Route::post('/categories/store', [CategoriesController::class, 'store'])->name('categories.store')->middleware(['auth', 'can:access-admin-dashboard']);
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
