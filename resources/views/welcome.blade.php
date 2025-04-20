@@ -7,7 +7,7 @@
 
     <!-- SplideJS Assets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
+
 
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -138,8 +138,9 @@
 <section class="bg-gray-100 dark:bg-zinc-900 py-24 px-6 md:px-20">
     <div class="text-center mb-16">
         <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Custom Shoes</h2>
-        <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">Browse our collection of unique, handcrafted shoes
-            created by our talented community of designers.</p>
+        <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">
+            Browse our collection of unique, handcrafted shoes created by our talented community of designers.
+        </p>
     </div>
 
     <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -175,22 +176,6 @@
         @endforeach
     </div>
 </section>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        @foreach ($products as $index => $product)
-        new Splide('#splide-{{ $index }}', {
-            type: 'loop',
-            perPage: 1,
-            height: '14rem',
-            arrows: false,
-            pagination: true,
-            autoplay: true,
-        }).mount();
-        @endforeach
-    });
-</script>
 
 
 <section class="bg-white dark:bg-dark text-dark dark:text-white py-24 text-center transition-all duration-300">
@@ -236,5 +221,22 @@
         &copy; 2025 Dr-MorchCrafts. Designed with flair, coded with care.
     </div>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        @foreach ($products as $index => $product)
+        new Splide('#splide-{{ $index }}', {
+            type: 'loop',
+            perPage: 1,
+            height: '14rem',
+            arrows: true,
+            pagination: true,
+            autoplay: true,
+        }).mount();
+        @endforeach
+    });
+</script>
 </body>
 </html>
