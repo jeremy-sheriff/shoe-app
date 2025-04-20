@@ -7,14 +7,14 @@
             <div
                 class="rounded-xl border border-neutral-200 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 h-fit md:col-span-2">
                 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data"
-                      class="space-y-6">
+                      class="space-y-8">
                     @csrf
 
                     <!-- Category -->
-                    <div>
+                    <div class="space-y-2">
                         <label for="category_id" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
                         <select name="category_id" id="category_id" required
-                                class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                             <option value="">Select Category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -22,62 +22,47 @@
                         </select>
                     </div>
 
-
                     <!-- Name -->
-                    <div>
+                    <div class="space-y-2">
                         <label for="name" class="block text-sm font-medium text-gray-700 dark:text-white">Shoe
                             Name</label>
-                        {{--                        <input type="text" name="name" id="name" required--}}
-                        {{--                               class="mt-1 block w-full rounded-md border-gray-300 dark:border-zinc-600 dark:bg-zinc-700 text-gray-900 dark:text-white">--}}
-
                         <input name="name" id="name" required
-                               class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
-
+                               class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                     </div>
-
 
                     <!-- Description -->
-                    <div>
+                    <div class="space-y-2">
                         <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
                         <textarea name="description" id="description" rows="4" required
-                                  class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                  class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                     </div>
 
-
                     <!-- Price -->
-                    <div>
+                    <div class="space-y-2">
                         <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
                             (Ksh)</label>
                         <input type="number" name="price" id="price" step="0.01" required
-                               class="mt-1 block w-full rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                               class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                     </div>
 
-
                     <!-- Image Uploads -->
-                    <div>
+                    <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700 dark:text-black mb-2">Upload
                             Images</label>
-
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Image 1 -->
-                            <div class="slim border-2 border-dashed rounded-lg p-2"
-                                 data-label="Drop your image here"
-                                 data-size="240,240"
-                                 data-ratio="1:1">
+                            <div class="slim border-2 border-dashed rounded-lg p-4" data-label="Drop your image here"
+                                 data-size="240,240" data-ratio="1:1">
                                 <input type="file" name="slim[]" required/>
                             </div>
-
                             <!-- Image 2 -->
-                            <div class="slim border-2 border-dashed rounded-lg p-2"
-                                 data-ratio="1:1"
-                                 data-size="240,240">
+                            <div class="slim border-2 border-dashed rounded-lg p-4" data-size="240,240"
+                                 data-ratio="1:1">
                                 <input type="file" name="slim[]"/>
                             </div>
-
                             <!-- Image 3 -->
-                            <div class="slim border-2 border-dashed rounded-lg p-2"
-                                 data-ratio="1:1"
-                                 data-size="240,240">
+                            <div class="slim border-2 border-dashed rounded-lg p-4" data-size="240,240"
+                                 data-ratio="1:1">
                                 <input type="file" name="slim[]"/>
                             </div>
                         </div>
@@ -86,12 +71,12 @@
                     <!-- Submit Button -->
                     <div class="mt-6">
                         <button type="submit"
-                                class="w-full sm:w-auto px-6 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm transition duration-200 ease-in-out">
+                                class="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm transition duration-200 ease-in-out">
                             Add Product
                         </button>
                     </div>
-
                 </form>
+
             </div>
 
             {{-- Right: Empty Section --}}
