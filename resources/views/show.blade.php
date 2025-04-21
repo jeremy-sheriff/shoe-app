@@ -161,6 +161,7 @@
         <!-- Right: Checkout Form -->
         <div class="md:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">
             <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>
+            @if(count($cart))
             <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-4">
                 @csrf
                 <div>
@@ -194,6 +195,7 @@
                     </button>
                 </div>
             </form>
+            @endif
         </div>
     </div>
 </section>
