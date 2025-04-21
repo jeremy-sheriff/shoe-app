@@ -22,6 +22,7 @@ class CartController extends Controller
                 'price' => $product->price,
                 'image' => $product->images->first()->path ?? 'default.jpg',
                 'quantity' => $quantity,
+                'color' => $request->input('color'), // <- this line
             ];
         }
 
