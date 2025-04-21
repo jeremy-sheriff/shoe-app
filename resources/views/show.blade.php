@@ -77,71 +77,125 @@
         $cartTotal = 0;
     @endphp
 
-    @if(count($cart))
-        <div class="mt-16 max-w-5xl mx-auto">
-            <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
-            <table
-                class="w-full text-left border border-zinc-200 dark:border-zinc-700 shadow rounded-xl overflow-hidden">
-                <thead class="bg-zinc-100 dark:bg-zinc-800 text-sm uppercase">
-                <tr>
-                    <th class="p-3">Image</th>
-                    <th class="p-3">Product</th>
-                    <th class="p-3">Price</th>
-                    <th class="p-3">Add/Reduce</th>
-                    <th class="p-3">Color</th>
-                    <th class="p-3">Qty</th>
-                    <th class="p-3">Subtotal</th>
-                    <th class="p-3">Action</th>
-                </tr>
-                </thead>
-                <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
-                @foreach($cart as $id => $item)
-                    @php
-                        $subtotal = $item['price'] * $item['quantity'];
-                        $cartTotal += $subtotal;
-                    @endphp
-                    <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800">
-                        <td class="p-3">
-                            <img src="{{ asset('storage/' . $item['image']) }}" class="w-16 h-16 object-cover rounded"
-                                 alt="{{ $item['name'] }}">
-                        </td>
-                        <td class="p-3 font-medium">{{ $item['name'] }}</td>
-                        <td class="p-3">KSh {{ number_format($item['price'], 2) }}</td>
-                        <td class="p-3">
-                            <div class="flex items-center gap-2">
-                                <form action="{{ route('cart.decrease', $id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="px-2 py-1 bg-gray-200 dark:bg-zinc-700 rounded">-
-                                    </button>
-                                </form>
-                                <span>{{ $item['quantity'] }}</span>
-                                <form action="{{ route('cart.increase', $id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    <button type="submit" class="px-2 py-1 bg-gray-200 dark:bg-zinc-700 rounded">+
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                        <td class="p-3">KSh {{ number_format($item['price'], 2) }}</td>
-                        <td class="p-3 capitalize">{{ $item['color'] ?? 'N/A' }}</td>
-                        <td class="p-3 font-semibold">KSh {{ number_format($subtotal, 2) }}</td>
-                        <td class="p-3">
-                            <form action="{{ route('cart.remove', $id) }}" method="POST">
+    <div class="mt-16 max-w-5xl mx-auto">
+        <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
+
+        <table class="w-full text-left border border-zinc-200 dark:border-zinc-700 shadow rounded-xl overflow-hidden">
+            <thead class="bg-zinc-100 dark:bg-zinc-800 text-sm uppercase">
+            <tr>
+                <th class="p-3">Image</th>
+                <th class="p-3">Product</th>
+                <th class="p-3">Price</th>
+                <th class="p-3">Color</th>
+                <th class="p-3">Qty</th>
+                <th class="p-3">Subtotal</th>
+                <th class="p-3">Action</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
+            @forelse($cart as $id => $item)
+                @php
+                    $subtotal = $item['price'] * $item['quantity'];
+                    $cartTotal += $subtotal;
+                @endphp
+                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800">
+                    <td class="p-3">
+                        <img src="{{ asset('storage/' . $item['image']) }}" class="w-16 h-16 object-cover rounded"
+                             alt="{{ $item['name'] }}">
+                    </td>
+                    <td class="p-3 font-medium">{{ $item['name'] }}</td>
+                    <td class="p-3">KSh {{ number_format($item['price'], 2) }}</td>
+                    <td class="p-3 capitalize">{{ $item['color'] ?? 'N/A' }}</td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-2">
+                            <form action="{{ route('cart.decrease', $id) }}" method="POST" class="inline-block">
                                 @csrf
-                                <button type="submit" class="text-red-500 hover:underline text-sm">Remove</button>
+                                <button type="submit" class="px-2 py-1 bg-gray-200 dark:bg-zinc-700 rounded">-</button>
                             </form>
-                        </td>
-                    </tr>
-                @endforeach
+                            <span>{{ $item['quantity'] }}</span>
+                            <form action="{{ route('cart.increase', $id) }}" method="POST" class="inline-block">
+                                @csrf
+                                <button type="submit" class="px-2 py-1 bg-gray-200 dark:bg-zinc-700 rounded">+</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td class="p-3 font-semibold">KSh {{ number_format($subtotal, 2) }}</td>
+                    <td class="p-3">
+                        <form action="{{ route('cart.remove', $id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="text-red-500 hover:underline text-sm">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="7" class="p-6 text-center text-zinc-500 dark:text-zinc-400">
+                        Your cart is empty.
+                    </td>
+                </tr>
+            @endforelse
+
+            @if(count($cart))
                 <tr class="bg-zinc-100 dark:bg-zinc-800 font-bold">
-                    <td colspan="6" class="p-3 text-right">Total</td>
+                    <td colspan="5" class="p-3 text-right">Total</td>
                     <td class="p-3">KSh {{ number_format($cartTotal, 2) }}</td>
                     <td></td>
                 </tr>
-                </tbody>
-            </table>
+            @endif
+            </tbody>
+        </table>
+    </div>
+
+    @if(count($cart))
+        <div class="mt-12 max-w-5xl mx-auto bg-white dark:bg-zinc-800 p-8 rounded-xl shadow">
+            <h2 class="text-2xl font-bold mb-6 text-zinc-800 dark:text-white">Checkout</h2>
+
+            <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-6">
+                @csrf
+
+                {{-- Mpesa Number --}}
+                <div>
+                    <label for="mpesa_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">M-Pesa
+                        Number</label>
+                    <input type="text" name="mpesa_number" id="mpesa_number" required placeholder="e.g. 0712345678"
+                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                </div>
+
+                {{-- Address Section --}}
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="county" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">County</label>
+                        <input type="text" name="county" id="county" required placeholder="e.g. Nairobi"
+                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label for="town"
+                               class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>
+                        <input type="text" name="town" id="town" required placeholder="e.g. Westlands"
+                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label for="pickup_point"
+                               class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Pickup
+                            Point</label>
+                        <input type="text" name="pickup_point" id="pickup_point" required
+                               placeholder="e.g. Sarit Centre"
+                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                    </div>
+                </div>
+
+                {{-- Submit Button --}}
+                <div>
+                    <button type="submit"
+                            class="w-full md:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
+                        Confirm Order
+                    </button>
+                </div>
+            </form>
         </div>
     @endif
+
+
 </section>
 
 <!-- Splide Carousel JS -->

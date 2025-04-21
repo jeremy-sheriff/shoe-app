@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -33,6 +34,8 @@ Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.a
 Route::post('/cart/increase/{id}', [CartController::class, 'increase'])->name('cart.increase');
 Route::post('/cart/decrease/{id}', [CartController::class, 'decrease'])->name('cart.decrease');
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
+
 
 
 
