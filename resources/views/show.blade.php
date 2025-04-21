@@ -134,7 +134,7 @@
                     </tr>
                 @endforeach
                 <tr class="bg-zinc-100 dark:bg-zinc-800 font-bold">
-                    <td colspan="4" class="p-3 text-right">Total</td>
+                    <td colspan="6" class="p-3 text-right">Total</td>
                     <td class="p-3">KSh {{ number_format($cartTotal, 2) }}</td>
                     <td></td>
                 </tr>
