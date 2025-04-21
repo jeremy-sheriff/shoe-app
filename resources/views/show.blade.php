@@ -50,6 +50,19 @@
                     <input type="number" name="quantity" id="quantity" min="1" value="1"
                            class="w-20 px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
                 </div>
+
+                <div class="flex items-center gap-4">
+                    <label for="color" class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Color:</label>
+                    <select name="color" id="color"
+                            class="px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
+                        <option value="">Select Color</option>
+                        <option value="black">Black</option>
+                        <option value="white">White</option>
+                        <option value="red">Red</option>
+                        <option value="blue">Blue</option>
+                        <option value="custom">Custom Mix</option>
+                    </select>
+                </div>
                 <button type="submit"
                         class="mt-4 inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
                     <i class="fa fa-cart-plus mr-2"></i> Add to Cart
