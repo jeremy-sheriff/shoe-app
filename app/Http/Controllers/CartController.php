@@ -9,6 +9,11 @@ class CartController extends Controller
 {
     public function add(Request $request, $id)
     {
+        $request->validate([
+            'quantity' => 'required|integer|min:1',
+            'color' => 'required|in:black,white,red,blue,custom',
+        ]);
+
         $product = Product::with('images')->findOrFail($id);
         $quantity = $request->input('quantity', 1);
 

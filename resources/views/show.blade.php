@@ -87,6 +87,7 @@
                     <th class="p-3">Image</th>
                     <th class="p-3">Product</th>
                     <th class="p-3">Price</th>
+                    <th class="p-3">Add/Reduce</th>
                     <th class="p-3">Color</th>
                     <th class="p-3">Qty</th>
                     <th class="p-3">Subtotal</th>
