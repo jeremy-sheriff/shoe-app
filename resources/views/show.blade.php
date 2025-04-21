@@ -11,72 +11,76 @@
 
 <section class="py-16 px-6 md:px-20">
     <div class="max-w-7xl mx-auto grid md:grid-cols-10 gap-8">
-        <!-- Left Side: Images + Add to Cart + Cart -->
+        <!-- Left: Product Carousel + Add to Cart Form + Cart -->
         <div class="md:col-span-7 space-y-12">
-            <!-- Product Image Carousel -->
-            <div>
-                @if($product->images->count())
-                    <div id="product-carousel" class="splide">
-                        <div class="splide__track">
-                            <ul class="splide__list">
-                                @foreach($product->images as $image)
-                                    <li class="splide__slide">
-                                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}"
-                                             class="rounded-xl object-cover w-full h-[400px] shadow"/>
-                                    </li>
-                                @endforeach
-                            </ul>
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Product Image Carousel -->
+                <div>
+                    @if($product->images->count())
+                        <div id="product-carousel" class="splide">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    @foreach($product->images as $image)
+                                        <li class="splide__slide">
+                                            <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}"
+                                                 class="rounded-xl object-cover w-full h-[400px] shadow"/>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                @else
-                    <div class="bg-zinc-300 dark:bg-zinc-700 h-96 rounded-lg flex items-center justify-center">
-                        <span class="text-zinc-600 dark:text-zinc-200">No Image Available</span>
-                    </div>
-                @endif
-            </div>
+                    @else
+                        <div class="bg-zinc-300 dark:bg-zinc-700 h-96 rounded-lg flex items-center justify-center">
+                            <span class="text-zinc-600 dark:text-zinc-200">No Image Available</span>
+                        </div>
+                    @endif
+                </div>
 
-            <!-- Add to Cart Form -->
-            <div>
-                <h1 class="text-4xl font-bold text-zinc-800 dark:text-white mb-4">{{ $product->name }}</h1>
-                <p class="text-sm text-zinc-500 dark:text-zinc-300 mb-2">
-                    Category: {{ $product->category->name ?? 'Uncategorized' }}</p>
-                <p class="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed mb-6">{{ $product->description }}</p>
-                <p class="text-3xl font-extrabold text-indigo-600 mb-8">KSh {{ number_format($product->price, 2) }}</p>
+                <!-- Add to Cart Form -->
+                <div>
+                    <h1 class="text-4xl font-bold text-zinc-800 dark:text-white mb-4">{{ $product->name }}</h1>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-300 mb-2">
+                        Category: {{ $product->category->name ?? 'Uncategorized' }}</p>
+                    <p class="text-lg text-zinc-700 dark:text-zinc-300 leading-relaxed mb-6">{{ $product->description }}</p>
+                    <p class="text-3xl font-extrabold text-indigo-600 mb-8">
+                        KSh {{ number_format($product->price, 2) }}</p>
 
-                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="space-y-4">
-                    @csrf
-                    <div class="flex items-center gap-4">
-                        <label for="quantity"
-                               class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Quantity:</label>
-                        <input type="number" name="quantity" id="quantity" min="1" value="1"
-                               class="w-20 px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
-                    </div>
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST" class="space-y-4">
+                        @csrf
+                        <div class="flex items-center gap-4">
+                            <label for="quantity"
+                                   class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" min="1" value="1"
+                                   class="w-20 px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
+                        </div>
 
-                    <div class="flex items-center gap-4">
-                        <label for="color" class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Color:</label>
-                        <select name="color" id="color"
-                                class="px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
-                            <option value="">Select Color</option>
-                            <option value="black">Black</option>
-                            <option value="white">White</option>
-                            <option value="red">Red</option>
-                            <option value="blue">Blue</option>
-                            <option value="custom">Custom Mix</option>
-                        </select>
-                    </div>
+                        <div class="flex items-center gap-4">
+                            <label for="color"
+                                   class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Color:</label>
+                            <select name="color" id="color"
+                                    class="px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
+                                <option value="">Select Color</option>
+                                <option value="black">Black</option>
+                                <option value="white">White</option>
+                                <option value="red">Red</option>
+                                <option value="blue">Blue</option>
+                                <option value="custom">Custom Mix</option>
+                            </select>
+                        </div>
 
-                    <div class="mt-4 flex flex-wrap items-center gap-4">
-                        <button type="submit"
-                                class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
-                            <i class="fa fa-cart-plus mr-2"></i> Add to Cart
-                        </button>
+                        <div class="mt-4 flex flex-wrap items-center gap-4">
+                            <button type="submit"
+                                    class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
+                                <i class="fa fa-cart-plus mr-2"></i> Add to Cart
+                            </button>
 
-                        <a href="{{ route('home') }}"
-                           class="inline-block px-6 py-3 text-sm font-semibold text-white bg-gray-700 hover:bg-gray-800 rounded-md transition">
-                            ← Continue Shopping
-                        </a>
-                    </div>
-                </form>
+                            <a href="{{ route('home') }}"
+                               class="inline-block px-6 py-3 text-sm font-semibold text-white bg-gray-700 hover:bg-gray-800 rounded-md transition">
+                                ← Continue Shopping
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <!-- Cart Table -->
@@ -151,49 +155,46 @@
                     </tbody>
                 </table>
             </div>
+
         </div>
 
-        <!-- Checkout - 30% -->
-        @if(count($cart))
-            <div class="md:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">
-                <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>
-                <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-4">
-                    @csrf
-                    <div>
-                        <label for="mpesa_number"
-                               class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">M-Pesa
-                            Number</label>
-                        <input type="text" name="mpesa_number" id="mpesa_number" required placeholder="e.g. 0712345678"
-                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="county" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">County</label>
-                        <input type="text" name="county" id="county" required placeholder="e.g. Nairobi"
-                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="town"
-                               class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>
-                        <input type="text" name="town" id="town" required placeholder="e.g. Westlands"
-                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-                    </div>
-                    <div>
-                        <label for="pickup_point"
-                               class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Pickup
-                            Point</label>
-                        <input type="text" name="pickup_point" id="pickup_point" required
-                               placeholder="e.g. Sarit Centre"
-                               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-                    </div>
-                    <div class="pt-4">
-                        <button type="submit"
-                                class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
-                            Confirm Order
-                        </button>
-                    </div>
-                </form>
-            </div>
-        @endif
+        <!-- Right: Checkout Form -->
+        <div class="md:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">
+            <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>
+            <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-4">
+                @csrf
+                <div>
+                    <label for="mpesa_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">M-Pesa
+                        Number</label>
+                    <input type="text" name="mpesa_number" id="mpesa_number" required placeholder="e.g. 0712345678"
+                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                </div>
+                <div>
+                    <label for="county"
+                           class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">County</label>
+                    <input type="text" name="county" id="county" required placeholder="e.g. Nairobi"
+                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                </div>
+                <div>
+                    <label for="town"
+                           class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>
+                    <input type="text" name="town" id="town" required placeholder="e.g. Westlands"
+                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                </div>
+                <div>
+                    <label for="pickup_point" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Pickup
+                        Point</label>
+                    <input type="text" name="pickup_point" id="pickup_point" required placeholder="e.g. Sarit Centre"
+                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                </div>
+                <div class="pt-4">
+                    <button type="submit"
+                            class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
+                        Confirm Order
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </section>
 
