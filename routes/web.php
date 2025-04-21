@@ -16,14 +16,6 @@ use Livewire\Volt\Volt;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/item/{id}', [WelcomeController::class, 'show'])->name('item.show');
-//
-//Route::view('dashboard', 'dashboard')
-//    ->middleware(['auth', 'verified'])
-//    ->name('dashboard');
-
-//Route::view('home', 'home')
-//    ->middleware(['auth', 'verified'])
-//    ->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

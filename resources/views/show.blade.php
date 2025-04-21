@@ -63,10 +63,20 @@
                         <option value="custom">Custom Mix</option>
                     </select>
                 </div>
-                <button type="submit"
-                        class="mt-4 inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
-                    <i class="fa fa-cart-plus mr-2"></i> Add to Cart
-                </button>
+
+                <div class="mt-4 flex flex-wrap items-center gap-4">
+                    <button type="submit"
+                            class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
+                        <i class="fa fa-cart-plus mr-2"></i> Add to Cart
+                    </button>
+
+                    <a href="{{ route('home') }}"
+                       class="inline-block px-6 py-3 text-sm font-semibold text-white bg-gray-700 hover:bg-gray-800 rounded-md transition">
+                        ← Continue Shopping
+                    </a>
+                </div>
+
+
             </form>
         </div>
     </div>
@@ -79,6 +89,7 @@
 
     <div class="mt-16 max-w-5xl mx-auto">
         <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
+
 
         <table class="w-full text-left border border-zinc-200 dark:border-zinc-700 shadow rounded-xl overflow-hidden">
             <thead class="bg-zinc-100 dark:bg-zinc-800 text-sm uppercase">
