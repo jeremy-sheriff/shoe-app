@@ -8,11 +8,12 @@
 
 <!-- Splide Carousel -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css">
+<link rel="stylesheet" href="{{asset('css/slim.min.css')}}">
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
 
 <!-- EasyZoom -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.0/css/easyzoom.css"/>
-<script src="https://cdn.jsdelivr.net/npm/easyzoom@2.5.0/dist/easyzoom.js"></script>
+{{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easyzoom@2.5.0/css/easyzoom.css"/>--}}
+{{--<script src="https://cdn.jsdelivr.net/npm/easyzoom@2.5.0/dist/easyzoom.js"></script>--}}
 
 
 <script src="{{ asset('js/slim.kickstart.min.js') }}"></script>
