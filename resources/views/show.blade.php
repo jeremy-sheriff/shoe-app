@@ -87,6 +87,7 @@
                     <th class="p-3">Image</th>
                     <th class="p-3">Product</th>
                     <th class="p-3">Price</th>
+                    <th class="p-3">Color</th>
                     <th class="p-3">Qty</th>
                     <th class="p-3">Subtotal</th>
                     <th class="p-3">Action</th>
@@ -120,6 +121,8 @@
                                 </form>
                             </div>
                         </td>
+                        <td class="p-3">KSh {{ number_format($item['price'], 2) }}</td>
+                        <td class="p-3 capitalize">{{ $item['color'] ?? 'N/A' }}</td>
                         <td class="p-3 font-semibold">KSh {{ number_format($subtotal, 2) }}</td>
                         <td class="p-3">
                             <form action="{{ route('cart.remove', $id) }}" method="POST">
