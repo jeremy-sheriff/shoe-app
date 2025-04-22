@@ -35,12 +35,19 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'image_one' => 'nullable|image',
-            'image_two' => 'nullable|image',
-            'image_three' => 'nullable|image',
         ]);
 
-        $product = new Product($request->only(['category_id', 'name', 'description', 'price']));
+        $slug = Str::slug($request->name);
+
+        // Ensure it's unique by appending a number if needed
+        $originalSlug = $slug;
+        $counter = 1;
+        while (Product::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $counter++;
+        }
+
+
+        $product = new Product($request->only(['category_id', 'name', 'description', 'price', 'slug' => $slug]));
         $product->sku = 'SKU-' . strtoupper(Str::random(8));
 
         $product->save();
