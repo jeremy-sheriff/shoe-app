@@ -170,6 +170,14 @@
                     <input type="text" name="mpesa_number" id="mpesa_number" required placeholder="e.g. 0712345678"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
+
+                <div>
+                    <label for="customer_name" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
+                        Full Names
+                    </label>
+                    <input type="text" name="customer_name" id="customer_name" required placeholder="e.g. John Doe"
+                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                </div>
                 <div>
                     <label for="county"
                            class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">County</label>
