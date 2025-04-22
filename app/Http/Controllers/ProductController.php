@@ -46,8 +46,14 @@ class ProductController extends Controller
             $slug = $originalSlug . '-' . $counter++;
         }
 
+        $product = new Product([
+            'category_id' => $request->category_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'slug' => $slug,
+        ]);
 
-        $product = new Product($request->only(['category_id', 'name', 'description', 'price', 'slug' => $slug]));
         $product->sku = 'SKU-' . strtoupper(Str::random(8));
 
         $product->save();
