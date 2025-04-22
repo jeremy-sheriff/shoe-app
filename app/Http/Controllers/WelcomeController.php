@@ -19,10 +19,10 @@ class WelcomeController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show($slug)
     {
         return view('show', [
-            'product' => Product::query()->findOrFail($id),
+            'product' => Product::query()->where('slug', $slug)->firstOrFail()
         ]);
     }
 
