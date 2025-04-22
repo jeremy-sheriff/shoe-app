@@ -76,9 +76,9 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', 'Product added successfully.');
     }
 
-    public function show(string $id)
+    public function show(string $slug)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::query(where('slug', $slug)->firstOrFail());
         return view('livewire.products.show', compact('product'));
     }
 

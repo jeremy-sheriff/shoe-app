@@ -170,7 +170,7 @@
                 <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
                 <div class="flex items-center justify-between">
                     <span class="text-lg font-bold text-primary">KSh {{ number_format($product->price, 2) }}</span>
-                    <a href="{{ route('item.show', $product->id) }}" class="btn btn-outline text-sm">View</a>
+                    <a href="{{ route('item.show', $product->slug) }}" class="btn btn-outline text-sm">View</a>
                 </div>
             </div>
         @endforeach
