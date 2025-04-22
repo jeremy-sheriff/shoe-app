@@ -178,12 +178,7 @@
                     <input type="text" name="customer_name" id="customer_name" required placeholder="e.g. John Doe"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
-                <div>
-                    <label for="county"
-                           class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">County</label>
-                    <input type="text" name="county" id="county" required placeholder="e.g. Nairobi"
-                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
-                </div>
+
                 <div>
                     <label for="town"
                            class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>
@@ -191,10 +186,10 @@
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
                 <div>
-                    <label for="pickup_point" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Pickup
-                        Point</label>
-                    <input type="text" name="pickup_point" id="pickup_point" required placeholder="e.g. Sarit Centre"
-                           class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea name="description" id="description" rows="4" required
+                              class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    </textarea>
                 </div>
                 <div class="pt-4">
                     <button type="submit"
