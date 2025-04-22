@@ -70,7 +70,7 @@
             @else
                 <a href="{{ route('login') }}" class="hover:text-primary">Login</a>
                 @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-primary">Register</a>
+                    <a href="{{ route('register') }}" class="btn btn-primary">Cart</a>
                 @endif
             @endauth
         </div>

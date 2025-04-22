@@ -12,21 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('uuid')->unique();
-            $table->unsignedBigInteger('user_id');
-            $table->enum('status', [
-                'pending',
-                'processing',
-                'completed',
-                'cancelled'
-            ])->default('pending');
-            $table->text('shoe_name');
-            $table->text('size');
-            $table->text('color');
-            $table->text('quantity');
-            $table->text('description');
-            $table->text('image_path');
+            // Customer details (optional if no auth)
+            $table->string('customer_name')->nullable();
+
+            // Payment & M-Pesa
+            $table->string('mpesa_number');
+            $table->string('mpesa_code')->nullable(); // e.g. MPESA transaction ID
+            $table->decimal('amount', 10, 2);
+            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
+
+            // Address / Pickup info
+            $table->string('town');
+            $table->longText('description');
+            $table->enum('status', ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'])->default('pending');
+
             $table->timestamps();
         });
     }
