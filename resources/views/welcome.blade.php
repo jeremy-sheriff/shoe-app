@@ -117,7 +117,7 @@
 
             @if(session('order'))
 
-                {{$order}}
+                {{session('order')}}
             @endif
         </div>
 
