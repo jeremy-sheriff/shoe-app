@@ -27,6 +27,7 @@ Route::post('/cart/increase/{id}', [CartController::class, 'increase'])->name('c
 Route::post('/cart/decrease/{id}', [CartController::class, 'decrease'])->name('cart.decrease');
 Route::post('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::post('/checkout/confirm', [CheckoutController::class, 'confirm'])->name('checkout.confirm');
+Route::get('/track-order', [OrderController::class, 'track'])->name('orders.track');
 
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {

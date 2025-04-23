@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\ExternalLibraries\FormatPhoneNumberUtil;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
     public function confirm(Request $request)
     {
+
         $request->validate([
             'mpesa_number' => 'required|regex:/^07\d{8}$/',
             'customer_name' => 'required|string|max:100',
@@ -18,7 +20,10 @@ class CheckoutController extends Controller
             'description' => 'required|string|max:150',
         ]);
 
+        $trackingCode = strtoupper(Str::random(10));
+
         $cart = session('cart', []);
+
         $cartTotal = 0;
 
         foreach ($cart as $item) {
@@ -29,32 +34,38 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', 'Your cart is empty.');
         }
 
-        // Example: log data (replace this with DB save or order logic)
-        logger()->info('Order Placed', [
+
+        Order::query()->truncate();
+
+
+        Order::create([
+            'tracking_number' => $trackingCode,
+            'customer_name' => $request->customer_name,
+            'town' => $request->town,
+            'description' => $request->description,
             'mpesa_number' => $request->mpesa_number,
-            'address' => [
-                'county' => $request->county,
-                'town' => $request->town,
-                'pickup_point' => $request->pickup_point,
-            ],
-            'cart_items' => $cart,
+            'status' => 'pending',
+            'payment_status' => 'pending',
+            'amount' => $cartTotal,
+            'product_id' => $request->product_id,
         ]);
 
-        // TODO: You can save to `orders` table or trigger M-Pesa STK here
-
         // Clear cart
-        Session::forget('cart');
-        $response = $this->initiateStkPush($request->mpesa_number, $cartTotal, uniqid());
+//        Session::forget('cart');
+//        $response = $this->initiateStkPush($request->mpesa_number, $cartTotal,$trackingCode);
 
+        return redirect()->back()->with(
+            'trackingNumber', $trackingCode);
         if (isset($response['ResponseCode']) && $response['ResponseCode'] == '0') {
-            return redirect()->back()->with('success', 'Order placed! Please complete payment on your phone.');
+
+
         } else {
             return redirect()->back()->with('error', 'Failed to initiate M-Pesa STK Push. Please try again.');
         }
 
     }
 
-    public function getAccessToken()
+    private function getAccessToken()
     {
         //Variables specific to this application
         $consumer_key = env('MPESA_CONSUMER_KEY'); //Get these two from DARAJA Platform
@@ -100,7 +111,7 @@ class CheckoutController extends Controller
             'PartyB' => $merchant_id,
             'PhoneNumber' => $phone_paying,
             'CallBackURL' => "https://yourdomain.com/api/callback", // Update accordingly
-            'AccountReference' => 'Order_' . $order_id,
+            'AccountReference' => $order_id,
             'TransactionDesc' => 'Payment for Order #' . $order_id,
         ];
 

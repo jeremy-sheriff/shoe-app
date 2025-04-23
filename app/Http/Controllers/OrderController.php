@@ -8,6 +8,28 @@ use Illuminate\Support\Str;
 
 class OrderController extends Controller
 {
+
+    public function track(Request $request)
+    {
+        $validated = $request->validate([
+            'tracking_number' => 'required|string|size:10', // adjust size if needed
+        ], [
+            'tracking_number.required' => 'Please enter a tracking number.',
+            'tracking_number.size' => 'Tracking number must be exactly 10 characters.',
+        ]);
+
+        $tracking = $validated['tracking_number'];
+
+        $order = Order::where('tracking_number', $tracking)->first();
+
+        if (!$order) {
+            return redirect()->back()->with('error', 'Order not found.');
+        }
+
+        return view('orders.status', ['order' => $order]);
+    }
+
+
     public function index(){
         return view('livewire.orders.index', [
             'orders' => Order::query()->latest()->paginate(10),

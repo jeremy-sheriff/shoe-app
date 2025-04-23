@@ -80,23 +80,50 @@
 <!-- Hero Section -->
 <section class="hero bg-gradient-to-br from-primary to-secondary text-black py-24 px-6 md:px-20">
     <div class="flex flex-col md:flex-row items-center gap-12">
-        <div class="hero-content text-center md:text-left md:w-1/2">
-            <h1 class="text-6xl font-extrabold leading-tight mb-6">Design Your Dream <span
-                    class="text-accent">Shoes</span></h1>
-            <p class="text-lg mb-8">Craft personalized footwear that speaks your vibe, built with top-tier materials and
-                unmatched care.</p>
-            <div class="flex justify-center md:justify-start gap-4">
-                <a href="#" class="btn btn-primary">Start Designing</a>
-                <a href="#" class="btn btn-outline">View Gallery</a>
+        <div class="hero-content text-center md:text-left md:w-1/2 w-full">
+            <h1 class="text-6xl font-extrabold leading-tight mb-6">
+                Design Your Dream <span class="text-accent">Shoes</span>
+            </h1>
+            <p class="text-lg mb-8">
+                Craft personalized footwear that speaks your vibe, built with top-tier materials and unmatched care.
+            </p>
+
+            <div class="flex justify-center md:justify-start gap-4 mb-6 flex-wrap">
+                <a href="#" class="px-6 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition">Start
+                    Designing</a>
+                <a href="#"
+                   class="px-6 py-2 border border-black text-black font-semibold rounded hover:bg-black hover:text-white transition">View
+                    Gallery</a>
             </div>
+
+            <!-- Full Width Order Tracking Form -->
+            <form method="GET" action="{{ route('orders.track') }}" class="w-full">
+                <div class="flex flex-col sm:flex-row gap-2 items-stretch w-full max-w-full">
+                    <input
+                        type="text"
+                        name="tracking_number"
+                        placeholder="Enter your tracking number"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        required
+                    >
+                    <button
+                        type="submit"
+                        class="px-6 py-3 bg-black text-white font-medium rounded-md shadow hover:bg-gray-900 transition w-full sm:w-auto"
+                    >
+                        Track Order
+                    </button>
+                </div>
+            </form>
         </div>
-        <div class="hero-image md:w-1/2">
-            <img height="400px;" width="600px;"
+
+        <div class="hero-image md:w-1/2 w-full">
+            <img height="400px" width="600px"
                  src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=800&q=80"
-                 alt="Custom Shoes" class="rounded-3xl shadow-2xl">
+                 alt="Custom Shoes" class="rounded-3xl shadow-2xl w-full max-w-lg mx-auto">
         </div>
     </div>
 </section>
+
 
 <!-- Wavy Divider -->
 <div class="relative z-0 -mt-1">

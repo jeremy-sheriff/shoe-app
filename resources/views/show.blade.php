@@ -156,6 +156,45 @@
                 </table>
             </div>
 
+            @if(session('trackingNumber'))
+                <div class="bg-white p-4 shadow rounded mb-4">
+                    <h2 class="text-lg font-bold">Order Details</h2>
+
+                    <div class="flex items-center space-x-2">
+                        <p class="text-gray-700">
+                            <strong>Tracking Number:</strong>
+                            <span id="trackingNumber">{{ session('trackingNumber') }}</span>
+                        </p>
+                        <button onclick="copyTrackingNumber()" title="Copy" class="text-gray-600 hover:text-blue-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-4 12h4a2 2 0 002-2v-8a2 2 0 00-2-2h-4a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                        </button>
+
+                    </div>
+
+                    <p class="text-sm text-yellow-500 mt-2">
+                        ⚠️ This tracking number will be shown <strong>only once</strong>. It will disappear if you
+                        refresh or navigate away from this page.
+                    </p>
+                </div>
+
+                <script>
+                    function copyTrackingNumber() {
+                        const text = document.getElementById('trackingNumber').innerText;
+                        navigator.clipboard.writeText(text).then(() => {
+                            alert("Tracking number copied to clipboard!");
+                        }).catch(err => {
+                            alert("Failed to copy. Try manually.");
+                        });
+                    }
+                </script>
+            @endif
+
+
+
         </div>
 
         <!-- Right: Checkout Form -->
@@ -168,7 +207,8 @@
                     <label for="mpesa_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                         M-Pesa Number
                     </label>
-                    <input type="text" name="mpesa_number" id="mpesa_number" required placeholder="e.g. 0712345678"
+                    <input value="0712419949" type="text" name="mpesa_number" id="mpesa_number" required
+                           placeholder="e.g. 0712345678"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
 
                     {{-- Checkbox --}}
@@ -178,6 +218,8 @@
                         <label for="use_as_contact" class="text-sm text-zinc-700 dark:text-zinc-300">
                             <i>Use this number as my contact number</i>
                         </label>
+
+                        <input name="product" value="{{$product->id}}" hidden>
                     </div>
 
                 </div>
@@ -186,20 +228,22 @@
                     <label for="customer_name" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                         Full Names
                     </label>
-                    <input type="text" name="customer_name" id="customer_name" required placeholder="e.g. John Doe"
+                    <input value="Jeremiah Muhoho" type="text" name="customer_name" id="customer_name" required
+                           placeholder="e.g. John Doe"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
 
                 <div>
                     <label for="town"
                            class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>
-                    <input type="text" name="town" id="town" required placeholder="e.g. Westlands"
+                    <input value="Nyeri" type="text" name="town" id="town" required placeholder="e.g. Westlands"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                     <textarea name="description" id="description" rows="4" required
                               class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    Nyeri
                     </textarea>
                 </div>
                 <div class="pt-4">

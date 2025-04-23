@@ -21,6 +21,10 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
 
+            //tracking details
+            $table->text('tracking_number')->nullable();
+            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
+
             // Address / Pickup info
             $table->string('town');
             $table->longText('description');
