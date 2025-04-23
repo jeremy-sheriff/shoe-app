@@ -207,7 +207,7 @@
                     <label for="mpesa_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                         M-Pesa Number
                     </label>
-                    <input value="0712419949" type="text" name="mpesa_number" id="mpesa_number" required
+                    <input type="text" name="mpesa_number" id="mpesa_number" required
                            placeholder="e.g. 0712345678"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
 
@@ -228,7 +228,7 @@
                     <label for="customer_name" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
                         Full Names
                     </label>
-                    <input value="Jeremiah Muhoho" type="text" name="customer_name" id="customer_name" required
+                    <input type="text" name="customer_name" id="customer_name" required
                            placeholder="e.g. John Doe"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
@@ -236,14 +236,13 @@
                 <div>
                     <label for="town"
                            class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>
-                    <input value="Nyeri" type="text" name="town" id="town" required placeholder="e.g. Westlands"
+                    <input type="text" name="town" id="town" required placeholder="e.g. Westlands"
                            class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">
                 </div>
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                     <textarea name="description" id="description" rows="4" required
                               class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    Nyeri
                     </textarea>
                 </div>
                 <div class="pt-4">
