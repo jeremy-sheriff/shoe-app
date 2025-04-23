@@ -114,6 +114,11 @@
                     </button>
                 </div>
             </form>
+
+            @if(session('order'))
+
+                {{$order}}
+            @endif
         </div>
 
         <div class="hero-image md:w-1/2 w-full">

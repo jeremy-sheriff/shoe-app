@@ -26,7 +26,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Order not found.');
         }
 
-        return view('orders.status', ['order' => $order]);
+        return redirect()->back()->with('order', $order);
     }
 
 
