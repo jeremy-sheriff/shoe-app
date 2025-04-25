@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class CartController extends Controller
 {
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function add(Request $request, $id)
     {
         $request->validate([
@@ -21,13 +27,15 @@ class CartController extends Controller
 
         if (isset($cart[$id])) {
             $cart[$id]['quantity'] += $quantity;
+
         } else {
             $cart[$id] = [
                 'name' => $product->name,
                 'price' => $product->price,
                 'image' => $product->images->first()->path ?? 'default.jpg',
                 'quantity' => $quantity,
-                'color' => $request->input('color'), // <- this line
+                'color' => $request->input('color'),
+                'product' => $product,
             ];
         }
 
@@ -36,6 +44,10 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Product added to cart!');
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function increase($id)
     {
         $cart = session()->get('cart', []);
@@ -48,6 +60,10 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function decrease($id)
     {
         $cart = session()->get('cart', []);
@@ -65,6 +81,10 @@ class CartController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function remove($id)
     {
         $cart = session()->get('cart', []);

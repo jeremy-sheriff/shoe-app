@@ -27,7 +27,6 @@
                                 <th class="px-6 py-3">Customer</th>
                                 <th class="px-6 py-3">Status</th>
                                 <th class="px-6 py-3">Order Date</th>
-                                <th class="px-6 py-3">Order Sample</th>
                                 <th class="px-6 py-3">Actions</th>
                             </tr>
                             </thead>
@@ -36,7 +35,7 @@
                                 <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-700 transition">
                                     <td class="px-6 py-4">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4">{{ $order->description }}</td>
-                                    <td class="px-6 py-4">{{ $order->user->name ?? 'N/A' }}</td>
+                                    <td class="px-6 py-4">{{ $order->customer_name ?? 'N/A' }}</td>
                                     <td class="px-6 py-4 capitalize">
                             <span class="inline-flex px-2 py-1 rounded text-xs font-medium
                                 @class([
@@ -50,11 +49,6 @@
                             </span>
                                     </td>
                                     <td class="px-6 py-4">{{ $order->created_at->format('M d, Y') }}</td>
-                                    <td>
-                                        @if ($order->image_path)
-                                            <img height="40px" width="40px" src="{{ asset('storage/' . $order->image_path) }}" alt="Sample Image" class="w-20 h-20 object-cover rounded-md shadow">
-                                        @endif
-                                    </td>
 
                                     <td class="px-6 py-4">
                                         <a href="{{ route('orders.show', $order->uuid) }}"

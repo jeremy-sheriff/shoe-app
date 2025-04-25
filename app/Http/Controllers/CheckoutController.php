@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\ExternalLibraries\FormatPhoneNumberUtil;
+use App\Models\Item;
 use App\Models\Order;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -12,6 +14,7 @@ class CheckoutController extends Controller
 {
     public function confirm(Request $request)
     {
+
 
         $request->validate([
             'mpesa_number' => 'required|regex:/^07\d{8}$/',
@@ -26,8 +29,11 @@ class CheckoutController extends Controller
 
         $cartTotal = 0;
 
+        $cartItems = [];
+
         foreach ($cart as $item) {
             $cartTotal += $item['price'] * $item['quantity'];
+            array_push($cartItems, $item['product']->toArray()['id']);
         }
 
         if (empty($cart)) {
@@ -35,10 +41,8 @@ class CheckoutController extends Controller
         }
 
 
-        Order::query()->truncate();
-
-
-        Order::create([
+        $order = Order::create([
+            'uuid' => Str::uuid(),
             'tracking_number' => $trackingCode,
             'customer_name' => $request->customer_name,
             'town' => $request->town,
@@ -47,8 +51,23 @@ class CheckoutController extends Controller
             'status' => 'pending',
             'payment_status' => 'pending',
             'amount' => $cartTotal,
-            'product_id' => $request->product_id,
         ]);
+
+
+        $orderId = $order->id;
+
+
+        $items_data = [];
+        foreach ($cartItems as $item) {
+            $items_data['order_id'] = $orderId;
+            $items_data['product_id'] = $item;
+            $items_data['created_at'] = Carbon::now();
+            $items_data['updated_at'] = Carbon::now();
+        }
+
+
+        Item::insert($items_data);
+
 
         // Clear cart
 //        Session::forget('cart');

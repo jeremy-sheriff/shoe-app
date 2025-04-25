@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             // Customer details (optional if no auth)
+            $table->id()->primary();
+            $table->uuid();
             $table->string('customer_name')->nullable();
 
             // Payment & M-Pesa
@@ -23,13 +25,10 @@ return new class extends Migration
 
             //tracking details
             $table->text('tracking_number')->nullable();
-            $table->foreignId('product_id')->nullable()->constrained('products')->onDelete('cascade');
-
             // Address / Pickup info
             $table->string('town');
             $table->longText('description');
-            $table->enum('status', ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'])->default('pending');
-
+            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }
