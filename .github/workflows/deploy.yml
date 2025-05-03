@@ -1,12 +1,14 @@
 name: Deploy Laravel App to Lightsail
 
 on:
-  push:
+  pull_request:
+    types: [ closed ]
     branches: [main]
-  workflow_dispatch:
 
 jobs:
   deploy:
+    # Only run this job if the PR was merged (not just closed)
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: prod
 

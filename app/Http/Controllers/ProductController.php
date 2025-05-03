@@ -31,7 +31,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category' => 'required|exists:categories,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
@@ -47,7 +47,7 @@ class ProductController extends Controller
         }
 
         $product = new Product([
-            'category_id' => $request->category_id,
+            'category_id' => $request->category,
             'name' => $request->name,
             'description' => $request->description,
             'price' => $request->price,
