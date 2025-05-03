@@ -23,7 +23,7 @@ class OrderController extends Controller
         $order = Order::where('tracking_number', $tracking)->first();
 
         if (!$order) {
-            return redirect()->back()->with('error', 'Order not found.');
+            return redirect()->back()->with('error', 'Order not found, we could not find the tracking number ' . $tracking . '. Please try again or contact us for assistance.');
         }
 
         return redirect()->back()->with('order', $order);

@@ -59,10 +59,12 @@ class CheckoutController extends Controller
 
         $items_data = [];
         foreach ($cartItems as $item) {
-            $items_data['order_id'] = $orderId;
-            $items_data['product_id'] = $item;
-            $items_data['created_at'] = Carbon::now();
-            $items_data['updated_at'] = Carbon::now();
+            $items_data[] = [
+                'order_id' => $orderId,
+                'product_id' => $item,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
+            ];
         }
 
 
