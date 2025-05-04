@@ -57,16 +57,19 @@
                         <div class="flex items-center gap-4">
                             <label for="color"
                                    class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Color:</label>
+
                             <select name="color" id="color"
                                     class="px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
                                 <option value="">Select Color</option>
-                                <option value="black">Black</option>
-                                <option value="white">White</option>
-                                <option value="red">Red</option>
-                                <option value="blue">Blue</option>
-                                <option value="custom">Custom Mix</option>
+
+                                @if (!empty($product->colors) && is_array($product->colors))
+                                    @foreach ($product->colors as $color)
+                                        <option value="{{ strtolower($color) }}">{{ ucfirst($color) }}</option>
+                                    @endforeach
+                                @endif
                             </select>
                         </div>
+
 
                         <div class="mt-4 flex flex-wrap items-center gap-4">
                             <button type="submit"

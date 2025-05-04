@@ -8,7 +8,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <!-- Order Details Section -->
-                        <div class="rounded-lg border bg-gray-400 border-zinc-200 dark:border-zinc-700 p-4">
+                        <div class="rounded-lg border  border-zinc-200 dark:border-zinc-700 p-4">
                             <h2 class="text-lg font-semibold text-white mb-4">Order Info</h2>
                             <div class="space-y-2">
                                 <div class="overflow-x-auto">
@@ -69,7 +69,7 @@
 
         <div class="grid  auto-rows-min gap-4 md:grid-cols-2">
             <div
-                class="bg-gray-500 relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
+                class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
                 <div class="space-y-2 p-6">
                     <form action="{{ route('orders.updateStatus', $order->uuid) }}" method="POST"
                           class="mt-6 space-y-4">
@@ -80,7 +80,7 @@
                             <label for="status" class="block text-sm font-medium text-gray-700 dark:text-white">Order
                                 Status</label>
                             <select name="status" id="status" required
-                                    class="mt-1 block w-full rounded-md border-b-gray-800 dark:border-zinc-600 dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                                 <option value="">Select Status</option>
                                 @foreach(['pending', 'processing', 'completed', 'cancelled'] as $statusOption)
                                     <option
