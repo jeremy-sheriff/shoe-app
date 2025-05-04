@@ -40,7 +40,6 @@ jobs:
           npm install
           npm run build
 
-
       - name: Archive Laravel project
         run: |
           zip -r shoe-app.zip . -x "vendor/*" "node_modules/*" ".git/*" ".env"
@@ -81,9 +80,7 @@ jobs:
 
             cd $APP_DIR
 
-            #            # Ensure Laravel cache directories exist
-            #            mkdir -p storage/framework/{cache,sessions,views}
-            #            mkdir -p bootstrap/cache
+
 
             # Set permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
