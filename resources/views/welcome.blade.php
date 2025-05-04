@@ -69,7 +69,7 @@
             @auth
                 <a href="{{ url('/dashboard') }}" class="btn btn-outline">Dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="hover:text-primary">Login</a>
+{{--                <a href="{{ route('login') }}" class="hover:text-primary">Login</a>--}}
                 @if (Route::has('register'))
                     <a href="{{ route('register') }}" class="btn btn-primary">Cart</a>
                 @endif
