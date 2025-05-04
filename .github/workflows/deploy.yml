@@ -26,6 +26,11 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Ensure Laravel cache directories exist (for GitHub Actions)
+        run: |
+          mkdir -p bootstrap/cache
+          mkdir -p storage/framework/{cache,sessions,views}
+
       - name: Install PHP dependencies
         run: |
           composer install --no-dev --optimize-autoloader
@@ -76,9 +81,9 @@ jobs:
 
             cd $APP_DIR
 
-            # Ensure Laravel cache directories exist
-            mkdir -p storage/framework/{cache,sessions,views}
-            mkdir -p bootstrap/cache
+            #            # Ensure Laravel cache directories exist
+            #            mkdir -p storage/framework/{cache,sessions,views}
+            #            mkdir -p bootstrap/cache
 
             # Set permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
