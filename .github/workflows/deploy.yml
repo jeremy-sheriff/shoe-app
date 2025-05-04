@@ -7,7 +7,6 @@ on:
 
 jobs:
   deploy:
-    # Only run this job if the PR was merged (not just closed)
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: prod
@@ -19,21 +18,20 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: '8.2'
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
 
-      - name: Ensure Laravel cache directories exist (for GitHub Actions)
+      - name: Ensure Laravel cache directories (for GitHub build)
         run: |
           mkdir -p bootstrap/cache
           mkdir -p storage/framework/{cache,sessions,views}
 
       - name: Install PHP dependencies
-        run: |
-          composer install --no-dev --optimize-autoloader
+        run: composer install --no-dev --optimize-autoloader
 
       - name: Install Node dependencies and build assets
         run: |
@@ -62,36 +60,29 @@ jobs:
           script: |
             APP_DIR=/opt/bitnami/apache/htdocs/shoe-app
 
-            # Create the directory if it doesn't exist
             sudo mkdir -p $APP_DIR
 
-            # Temporarily back up .env if it exists
             if [ -f "$APP_DIR/.env" ]; then
               sudo mv $APP_DIR/.env /home/bitnami/.env.bak
             fi
 
-            # Unzip directly into the Laravel app directory
             sudo unzip -o /home/bitnami/shoe-app.zip -d $APP_DIR
 
-            # Restore the .env file
             if [ -f "/home/bitnami/.env.bak" ]; then
               sudo mv /home/bitnami/.env.bak $APP_DIR/.env
             fi
 
             cd $APP_DIR
 
+            mkdir -p storage/framework/{cache,sessions,views}
+            mkdir -p bootstrap/cache
 
-
-            # Set permissions
             sudo chown -R daemon:daemon storage bootstrap/cache
             sudo chmod -R 775 storage bootstrap/cache
 
-            # Install dependencies
             sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
 
-            # Laravel cache & config
             /opt/bitnami/php/bin/php artisan config:clear
             /opt/bitnami/php/bin/php artisan config:cache
 
-            # Restart Apache
             sudo /opt/bitnami/ctlscript.sh restart apache
