@@ -10,40 +10,71 @@
                       class="space-y-8">
                     @csrf
 
-                    <!-- Category -->
-                    <div class="space-y-2">
-                        <label for="category_id" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
-                        <select name="category_id" id="category_id" required
-                                class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
-                            <option value="">Select Category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
+                    <!-- Category and Shoe Name side by side -->
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Category -->
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <label for="category" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
+                            <select name="category" id="category" required
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                <option value="">Select Category</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <!-- Shoe Name -->
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-white">Shoe
+                                Name</label>
+                            <input name="name" id="name" required
+                                   class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                        </div>
                     </div>
 
-                    <!-- Name -->
-                    <div class="space-y-2">
-                        <label for="name" class="block text-sm font-medium text-gray-700 dark:text-white">Shoe
-                            Name</label>
-                        <input name="name" id="name" required
-                               class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Price -->
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
+                                (Ksh)</label>
+                            <input type="number" name="price" id="price" step="50" min="100" required
+                                   class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        </div>
+
+                        <!-- Available colors -->
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <label for="color" class="block text-sm font-medium text-gray-800 dark:text-white">Available
+                                colors</label>
+
+                            <div class="flex flex-wrap gap-4">
+                                @php
+                                    $colors = ['Black', 'White', 'Red', 'Blue'];
+                                @endphp
+
+                                @foreach ($colors as $color)
+                                    <label class="flex items-center space-x-2 text-sm text-gray-700 dark:text-white">
+                                        <input
+                                            type="checkbox"
+                                            name="colors[]"
+                                            value="{{ strtolower($color) }}"
+                                            class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                        >
+                                        <span>{{ $color }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Description -->
-                    <div class="space-y-2">
+                    <div class="w-full  space-y-2">
                         <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
                         <textarea name="description" id="description" rows="4" required
                                   class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                     </div>
 
-                    <!-- Price -->
-                    <div class="space-y-2">
-                        <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
-                            (Ksh)</label>
-                        <input type="number" name="price" id="price" step="0.01" required
-                               class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                    </div>
 
                     <!-- Image Uploads -->
                     <div class="space-y-2">
@@ -71,7 +102,7 @@
                     <!-- Submit Button -->
                     <div class="mt-6">
                         <button type="submit"
-                                class="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-black font-semibold rounded-md shadow-sm transition duration-200 ease-in-out">
+                                class="w-full sm:w-auto px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-sm transition duration-200 ease-in-out">
                             Add Product
                         </button>
                     </div>
@@ -95,7 +126,8 @@
 
             <div class="overflow-x-auto border border-zinc-200 dark:border-zinc-700 rounded-lg">
                 <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700 text-sm text-left">
-                    <thead class="bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 uppercase tracking-wide text-xs">
+                    <thead
+                        class="bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-200 uppercase tracking-wide text-xs">
                     <tr>
                         <th class="px-4 py-3">#</th>
                         <th class="px-4 py-3">Name</th>
@@ -121,7 +153,8 @@
                                     </span>
                             </td>
                             <td class="px-4 py-3">
-                                <a href="{{ route('products.create', $product) }}" class="text-blue-600 hover:underline">Edit</a>
+                                <a href="{{ route('products.create', $product) }}"
+                                   class="text-blue-600 hover:underline">Edit</a>
                             </td>
                         </tr>
                     @empty

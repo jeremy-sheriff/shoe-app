@@ -37,6 +37,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
         ]);
 
+
         $slug = Str::slug($request->name);
 
         // Ensure it's unique by appending a number if needed
@@ -52,6 +53,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'slug' => $slug,
+            'colors' => $request->colors, // auto-casts to JSON
         ]);
 
         $product->sku = 'SKU-' . strtoupper(Str::random(8));

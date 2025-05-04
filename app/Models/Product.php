@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
+    protected $casts = [
+        'colors' => 'array',
+    ];
     protected $fillable = [
         'name',
         'description',
@@ -16,7 +19,9 @@ class Product extends Model
         'sku',
         'image_path',
         'is_active',
-        'slug'
+        'slug',
+        'colors',
+        'category_id',
     ];
 
     public function images(): HasMany

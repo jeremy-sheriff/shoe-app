@@ -21,12 +21,13 @@
     <!-- Custom Styles -->
     <style>
         :root {
-            --primary: #FF6B6B;
-            --secondary: #4ECDC4;
-            --dark: #1a1a1a;
-            --light: #F7FFF7;
-            --accent: #FFE66D;
+            --primary: #4B0082; /* Indigo */
+            --secondary: #D4D4D8; /* Gold */
+            --accent: #D4AF37; /* Deeper Gold */
+            --light: #F5F5F5; /* Soft background */
+            --dark: #121212; /* Harsh on large sections */
         }
+
 
         body {
             font-family: 'Poppins', sans-serif;
@@ -99,7 +100,7 @@
             <!-- Full Width Order Tracking Form -->
             <form method="GET" action="{{ route('orders.track') }}" class="w-full">
                 <div class="flex flex-col sm:flex-row gap-2 items-stretch w-full max-w-full">
-                    <input value="TXHUPWKY1H"
+                    <input
                         type="text"
                         name="tracking_number"
                         placeholder="Enter your tracking number"
@@ -165,42 +166,46 @@
 
 <!-- Wavy Divider -->
 <div class="relative z-0 -mt-1">
-    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
-        <path fill="#f9fafb" fill-opacity="1"
-              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="var(--secondary)"
+              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>
     </svg>
 </div>
 
+
 <!-- Features Section -->
-<section class="py-24 px-6 md:px-20 bg-gray-50">
+<section class="py-24 px-6 md:px-20" style="background-color: var(--secondary); color: var(--dark);">
     <div class="text-center mb-16">
-        <h2 class="text-5xl font-bold mb-4">Why Choose Dr-MorchCrafts?</h2>
-        <p class="max-w-2xl mx-auto">Seamless experience from design to doorstep — quality, creativity, and quick
-            delivery in one place.</p>
+        <h2 class="text-5xl font-bold mb-4 text-secondary">Why Choose Dr-MorchCrafts?</h2>
+        <p class="max-w-2xl mx-auto text-accent">
+            Seamless experience from design to doorstep — quality, creativity, and quick delivery in one place.
+        </p>
     </div>
     <div class="grid gap-10 md:grid-cols-3">
         <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
             <div class="text-5xl mb-4 text-primary text-center">🎨</div>
-            <h3 class="text-2xl font-bold mb-3 text-center">Easy Design Tool</h3>
-            <p class="text-center">Visual drag-and-drop designer tailored for your imagination. No experience
+            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Easy Design Tool</h3>
+            <p class="text-center text-dark">Visual drag-and-drop designer tailored for your imagination. No experience
                 required.</p>
         </div>
         <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
             <div class="text-5xl mb-4 text-secondary text-center">👟</div>
-            <h3 class="text-2xl font-bold mb-3 text-center">Premium Materials</h3>
-            <p class="text-center">Only the finest — comfort, durability, and elegance in every pair we craft.</p>
+            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Premium Materials</h3>
+            <p class="text-center text-dark">Only the finest — comfort, durability, and elegance in every pair we
+                craft.</p>
         </div>
         <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
             <div class="text-5xl mb-4 text-primary text-center">🚀</div>
-            <h3 class="text-2xl font-bold mb-3 text-center">Fast Production</h3>
-            <p class="text-center">Your custom shoes, crafted and delivered in record time — as fast as 14 days!</p>
+            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Fast Production</h3>
+            <p class="text-center text-dark">Your custom shoes, crafted and delivered in record time — as fast as 14
+                days!</p>
         </div>
     </div>
 </section>
 
 
 <!-- Shopping Section -->
-<section class="bg-gray-100 dark:bg-zinc-900 py-24 px-6 md:px-20">
+<section class=" dark:bg-zinc-900 py-24 px-6 md:px-20">
     <div class="text-center mb-16">
         <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Custom Shoes</h2>
         <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">
