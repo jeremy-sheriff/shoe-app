@@ -19,12 +19,12 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4' # or whatever version you use
+          php-version: '8.4'
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # or match your local version
+          node-version: '18'
 
       - name: Install PHP dependencies
         run: |
