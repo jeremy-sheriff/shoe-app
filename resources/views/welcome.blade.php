@@ -68,17 +68,17 @@
             @auth
                 <a href="{{ url('/dashboard') }}" class="btn btn-outline">Dashboard</a>
             @else
-{{--                <a href="{{ route('login') }}" class="hover:text-primary">Login</a>--}}
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-primary">Cart</a>
-                @endif
+                <a href="{{ route('login') }}" class="hover:text-primary">Login</a>
+                {{--                @if (Route::has('register'))--}}
+                {{--                    <a href="{{ route('register') }}" class="btn btn-primary">Cart</a>--}}
+                {{--                @endif--}}
             @endauth
         </div>
     @endif
 </nav>
 
 <!-- Hero Section -->
-<section class="hero bg-gradient-to-br from-primary to-secondary text-black py-24 px-6 md:px-20">
+<section class="hero bg-gradient-to-br from-primary to-secondary text-black px-6 md:px-20">
     <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="hero-content text-center md:text-left md:w-1/2 w-full">
             <h1 class="text-6xl font-extrabold leading-tight mb-6">
@@ -154,7 +154,7 @@
 
         </div>
 
-        <div class="hero-image md:w-1/2 w-full">
+        <div class="hero-image md:w-1/2 w-full py-6">
             <img height="400px" width="600px"
                  src="https://images.unsplash.com/photo-1600269452121-4f2416e55c28?auto=format&fit=crop&w=800&q=80"
                  alt="Custom Shoes" class="rounded-3xl shadow-2xl w-full max-w-lg mx-auto">

@@ -9,7 +9,7 @@
 
                         <!-- Order Details Section -->
                         <div class="rounded-lg border  border-zinc-200 dark:border-zinc-700 p-4">
-                            <h2 class="text-lg font-semibold text-white mb-4">Order Info</h2>
+                            <h2 class="text-lg font-semibold text-black mb-4">Order Info</h2>
                             <div class="space-y-2">
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full divide-y divide-gray-200">
@@ -48,20 +48,6 @@
 
                             </div>
                         </div>
-
-                        <!-- Order Metadata or Placeholder Section -->
-                        <div
-                            class="rounded-lg border bg-blue-100 dark:bg-zinc-700 border-zinc-200 dark:border-zinc-600 p-4">
-                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Other Info</h2>
-                            <div class="space-y-2 text-gray-900 dark:text-gray-200">
-                                <div><strong>Status:</strong> {{ ucfirst($order->status) }}</div>
-                                <div><strong>Tracking ID:</strong> {{ $order->tracking_number }}</div>
-                                <div><strong>Placed By:</strong> {{ $order->customer_name ?? 'N/A' }}</div>
-                                <div><strong>Mpesa Number:</strong> {{ $order->mpesa_number ?? 'N/A' }}</div>
-                                <div><strong>Placed On:</strong> {{ $order->created_at->format('M d, Y') }}</div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -75,7 +61,6 @@
                           class="mt-6 space-y-4">
                         @csrf
                         @method('PATCH')
-
                         <div>
                             <label for="status" class="block text-sm font-medium text-gray-700 dark:text-white">Order
                                 Status</label>
@@ -100,11 +85,45 @@
                     </form>
 
                 </div>
+
+                <div class="space-y-4 p-6">
+                    @foreach ($order->items as $item)
+                        <div class="flex items-center gap-4 border p-4 rounded-md">
+                            {{-- Show product image --}}
+                            @if ($item->product && $item->product->image_path)
+                                <img src="{{ asset('storage/' . $item->product->image_path) }}"
+                                     alt="{{ $item->product->name }}"
+                                     class="w-20 h-20 object-cover rounded">
+                            @else
+                                <div
+                                    class="w-20 h-20 bg-gray-200 flex items-center justify-center text-gray-500 rounded">
+                                    No Image
+                                </div>
+                            @endif
+
+                            {{-- Show product info --}}
+                            <div>
+                                <h3 class="text-lg font-semibold">{{ $item->product->name }}</h3>
+                                <p class="text-sm text-gray-600">Price: KES {{ $item->product->price }}</p>
+                                <p class="text-sm text-gray-600">
+                                    Color: {{ implode(', ', $item->product->colors ?? []) }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+
             </div>
             <div
-                class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-                <x-placeholder-pattern
-                    class="absolute inset-0 size-full stroke-gray-900/20 dark:stroke-neutral-100/20"/>
+                class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 p-4 dark:border-neutral-700">
+
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Other Info</h2>
+                <div class="space-y-2 text-gray-900 dark:text-gray-200">
+                    <div><strong>Status:</strong> {{ ucfirst($order->status) }}</div>
+                    <div><strong>Tracking ID:</strong> {{ $order->tracking_number }}</div>
+                    <div><strong>Placed By:</strong> {{ $order->customer_name ?? 'N/A' }}</div>
+                    <div><strong>Mpesa Number:</strong> {{ $order->mpesa_number ?? 'N/A' }}</div>
+                    <div><strong>Placed On:</strong> {{ $order->created_at->format('M d, Y') }}</div>
+                </div>
             </div>
         </div>
 
