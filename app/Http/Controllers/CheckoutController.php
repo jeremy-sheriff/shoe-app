@@ -73,7 +73,7 @@ class CheckoutController extends Controller
 
         // Clear cart
 //        Session::forget('cart');
-//        $response = $this->initiateStkPush($request->mpesa_number, $cartTotal,$trackingCode);
+        $response = $this->initiateStkPush($request->mpesa_number, $cartTotal,$trackingCode);
 
         return redirect()->back()->with(
             'trackingNumber', $trackingCode);
@@ -148,8 +148,6 @@ class CheckoutController extends Controller
 
         $response = curl_exec($curl);
         curl_close($curl);
-
-        Log::info($response);
 
         return json_decode($response, true);
     }
