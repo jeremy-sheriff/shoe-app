@@ -96,6 +96,7 @@
                     Gallery</a>
             </div>
 
+
             <!-- Full Width Order Tracking Form -->
             <form method="GET" action="{{ route('orders.track') }}" class="w-full">
                 <div class="flex flex-col sm:flex-row gap-2 items-stretch w-full max-w-full">
@@ -164,7 +165,7 @@
 
 
 <!-- Wavy Divider -->
-<div class="relative z-0 -mt-1">
+<div class="relative z-0">
     <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
         <path fill="var(--secondary)"
               d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>

@@ -88,6 +88,8 @@
 
                 <div class="space-y-4 p-6">
                     @foreach ($order->items as $item)
+
+                        {{$item}}
                         <div class="flex items-center gap-4 border p-4 rounded-md">
                             {{-- Show product image --}}
                             @if ($item->product && $item->product->image_path)
