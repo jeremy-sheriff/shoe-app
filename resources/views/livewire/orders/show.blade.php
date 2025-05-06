@@ -2,13 +2,13 @@
     <div class="flex  w-full flex-1 flex-col gap-4 rounded-xl">
 
         <div
-            class="relative flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
-            <div class="flex w-full flex-1 flex-col gap-4 rounded-xl">
+            class="relative w-full overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700">
+            <div class="flex w-full flex-col gap-4 rounded-xl">
                 <div class="p-6 bg-white dark:bg-zinc-800 rounded-2xl shadow-md">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 gap-6">
 
                         <!-- Order Details Section -->
-                        <div class="rounded-lg border  border-zinc-200 dark:border-zinc-700 p-4">
+                        <div class="rounded-lg border border-zinc-200 dark:border-zinc-700 p-4">
                             <h2 class="text-lg font-semibold text-black mb-4">Order Info</h2>
                             <div class="space-y-2">
                                 <div class="overflow-x-auto">
@@ -45,13 +45,14 @@
                                         </tbody>
                                     </table>
                                 </div>
-
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="grid  auto-rows-min gap-4 md:grid-cols-2">
             <div
@@ -86,33 +87,18 @@
 
                 </div>
 
-                <div class="space-y-4 p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
                     @foreach ($order->items as $item)
-
-                        {{$item}}
-                        <div class="flex items-center gap-4 border p-4 rounded-md">
-                            {{-- Show product image --}}
-                            @if ($item->product && $item->product->image_path)
-                                <img src="{{ asset('storage/' . $item->product->image_path) }}"
+                        @foreach ($item->product->images as $image)
+                            <div class="flex items-center gap-4 border p-4 rounded-md bg-white shadow-sm">
+                                <img src="{{ asset('storage/' . $image->path) }}"
                                      alt="{{ $item->product->name }}"
                                      class="w-20 h-20 object-cover rounded">
-                            @else
-                                <div
-                                    class="w-20 h-20 bg-gray-200 flex items-center justify-center text-gray-500 rounded">
-                                    No Image
-                                </div>
-                            @endif
-
-                            {{-- Show product info --}}
-                            <div>
-                                <h3 class="text-lg font-semibold">{{ $item->product->name }}</h3>
-                                <p class="text-sm text-gray-600">Price: KES {{ $item->product->price }}</p>
-                                <p class="text-sm text-gray-600">
-                                    Color: {{ implode(', ', $item->product->colors ?? []) }}</p>
                             </div>
-                        </div>
+                        @endforeach
                     @endforeach
                 </div>
+
 
             </div>
             <div
