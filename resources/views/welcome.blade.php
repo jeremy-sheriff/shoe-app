@@ -163,47 +163,6 @@
     </div>
 </section>
 
-
-<!-- Wavy Divider -->
-<div class="relative z-0">
-    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <path fill="var(--secondary)"
-              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>
-    </svg>
-</div>
-
-
-<!-- Features Section -->
-<section class="py-24 px-6 md:px-20" style="background-color: var(--secondary); color: var(--dark);">
-    <div class="text-center mb-16">
-        <h2 class="text-5xl font-bold mb-4 text-secondary">Why Choose Dr-MorchCrafts?</h2>
-        <p class="max-w-2xl mx-auto text-accent">
-            Seamless experience from design to doorstep — quality, creativity, and quick delivery in one place.
-        </p>
-    </div>
-    <div class="grid gap-10 md:grid-cols-3">
-        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
-            <div class="text-5xl mb-4 text-primary text-center">🎨</div>
-            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Easy Design Tool</h3>
-            <p class="text-center text-dark">Visual drag-and-drop designer tailored for your imagination. No experience
-                required.</p>
-        </div>
-        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
-            <div class="text-5xl mb-4 text-secondary text-center">👟</div>
-            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Premium Materials</h3>
-            <p class="text-center text-dark">Only the finest — comfort, durability, and elegance in every pair we
-                craft.</p>
-        </div>
-        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
-            <div class="text-5xl mb-4 text-primary text-center">🚀</div>
-            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Fast Production</h3>
-            <p class="text-center text-dark">Your custom shoes, crafted and delivered in record time — as fast as 14
-                days!</p>
-        </div>
-    </div>
-</section>
-
-
 <!-- Shopping Section -->
 <section class=" dark:bg-zinc-900 py-24 px-6 md:px-20">
     <div class="text-center mb-16">
@@ -246,6 +205,49 @@
         @endforeach
     </div>
 </section>
+
+
+<!-- Wavy Divider -->
+<div class="relative z-0">
+    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="var(--secondary)"
+              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>
+    </svg>
+</div>
+
+
+<!-- Features Section -->
+<section class="py-24 px-6 md:px-20" style="background-color: var(--secondary); color: var(--dark);">
+    <div class="text-center mb-16">
+        <h2 class="text-5xl font-bold mb-4 text-secondary">Why Choose Dr-MorchCrafts?</h2>
+        <p class="max-w-2xl mx-auto text-accent">
+            Seamless experience from design to doorstep — quality, creativity, and quick delivery in one place.
+        </p>
+    </div>
+    <div class="grid gap-10 md:grid-cols-3">
+        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
+            <div class="text-5xl mb-4 text-primary text-center">🎨</div>
+            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Easy Design Tool</h3>
+            <p class="text-center text-dark">Visual drag-and-drop designer tailored for your imagination. No experience
+                required.</p>
+        </div>
+        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
+            <div class="text-5xl mb-4 text-secondary text-center">👟</div>
+            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Premium Materials</h3>
+            <p class="text-center text-dark">Only the finest — comfort, durability, and elegance in every pair we
+                craft.</p>
+        </div>
+        <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition">
+            <div class="text-5xl mb-4 text-primary text-center">🚀</div>
+            <h3 class="text-2xl font-bold mb-3 text-center text-dark">Fast Production</h3>
+            <p class="text-center text-dark">Your custom shoes, crafted and delivered in record time — as fast as 14
+                days!</p>
+        </div>
+    </div>
+</section>
+
+
+
 
 
 <section class="bg-white dark:bg-dark text-dark dark:text-white py-24 text-center transition-all duration-300">
