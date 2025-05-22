@@ -28,6 +28,7 @@ class ProductController extends Controller
         return view('livewire.products.create', compact('categories'));
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
