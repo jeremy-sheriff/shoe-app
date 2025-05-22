@@ -110,6 +110,7 @@
 
             </div>
 
+
             {{-- Right: Empty Section --}}
             <div
                 class="md:col-span-1 rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 flex items-center justify-center">
