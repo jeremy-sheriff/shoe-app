@@ -171,7 +171,7 @@
 <!-- Shopping Section -->
 <section class=" dark:bg-zinc-900 py-24 px-6 md:px-20">
     <div class="text-center mb-16">
-        <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Custom Shoes</h2>
+        <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop for Custom Shoes</h2>
         <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">
             Browse our collection of unique, handcrafted shoes created by our talented community of designers.
         </p>
