@@ -252,7 +252,6 @@
 </section>
 
 
-
 <section class="bg-white dark:bg-dark text-dark dark:text-white py-24 text-center transition-all duration-300">
     <h2 class="text-4xl md:text-5xl font-bold mb-6">Step Into Your Story</h2>
     <p class="mb-10 text-lg">From vision to reality — start creating shoes that reflect you.</p>
