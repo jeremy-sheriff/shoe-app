@@ -113,7 +113,9 @@
             {{-- Right: Empty Section --}}
             <div
                 class="md:col-span-1 rounded-xl border border-dashed border-neutral-300 dark:border-neutral-700 p-6 bg-white dark:bg-zinc-800 flex items-center justify-center">
-                <span class="text-zinc-400 dark:text-zinc-500">Empty space spacer space !!! – for preview, image, stats, etc.</span>
+                <span class="text-zinc-400 dark:text-zinc-500">
+                    Here
+                </span>
             </div>
         </div>
 
@@ -153,8 +155,12 @@
                                     </span>
                             </td>
                             <td class="px-4 py-3">
-                                <a href="{{ route('products.create', $product) }}"
-                                   class="text-blue-600 hover:underline">Edit</a>
+                                <a href="{{ route('products.edit', $product->id) }}"
+                                   class="text-blue-600 hover:underline mr-1">Edit</a>
+                                <button class="mt-3 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md shadow-sm transition duration-150 ease-in-out">
+                                    Delete
+                                </button>
+
                             </td>
                         </tr>
                     @empty
