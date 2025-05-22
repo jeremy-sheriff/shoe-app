@@ -81,19 +81,23 @@
                         <label class="block text-sm font-medium text-gray-700 dark:text-black mb-2">Upload
                             Images</label>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
                             <!-- Image 1 -->
                             <div class="slim border-2 border-dashed rounded-lg p-4" data-label="Drop your image here"
-                                 data-size="240,240" data-ratio="1:1">
+                                 data-size="640,640"
+                                 data-ratio="16:9">
                                 <input type="file" name="slim[]" required/>
                             </div>
                             <!-- Image 2 -->
-                            <div class="slim border-2 border-dashed rounded-lg p-4" data-size="240,240"
-                                 data-ratio="1:1">
+                            <div class="slim border-2 border-dashed rounded-lg p-4"
+                                 data-size="640,640"
+                                 data-ratio="16:9">
                                 <input type="file" name="slim[]"/>
                             </div>
                             <!-- Image 3 -->
-                            <div class="slim border-2 border-dashed rounded-lg p-4" data-size="240,240"
-                                 data-ratio="1:1">
+                            <div class="slim border-2 border-dashed rounded-lg p-4"
+                                 data-size="640,640"
+                                 data-ratio="16:9">
                                 <input type="file" name="slim[]"/>
                             </div>
                         </div>

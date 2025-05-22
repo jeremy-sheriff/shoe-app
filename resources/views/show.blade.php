@@ -7,10 +7,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/css/splide.min.css"/>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+@vite('resources/js/app.js')
+@vite('resources/css/app.css')
 <body class="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white min-h-screen">
 
 <section class="py-16 px-6 md:px-20">
-    <div class="max-w-7xl mx-auto grid md:grid-cols-10 gap-8">
+    <div
+        class="max-w-7xl mx-auto grid md:grid-cols-10 gap-8 border border-zinc-200 dark:border-zinc-700 rounded-xl shadow">
+
+
         <!-- Left: Product Carousel + Add to Cart Form + Cart -->
         <div class="md:col-span-7 space-y-12">
             <div class="grid md:grid-cols-2 gap-8">
@@ -81,6 +86,24 @@
                                class="inline-block px-6 py-3 text-sm font-semibold text-white bg-gray-700 hover:bg-gray-800 rounded-md transition">
                                 ← Continue Shopping
                             </a>
+
+                            @php
+                                $firstImage = $product->images->first();
+                                $imageUrl = $firstImage ? asset('storage/' . $firstImage->path) : '';
+                            @endphp
+
+                            <a
+                                href="https://wa.me/254712419949?text={{ urlencode('Hi, I\'m interested in ' . $product->name . '. Here is the image: ' . $imageUrl) }}"
+                                target="_blank"
+                                class="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg shadow hover:bg-green-600 transition"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="currentColor"
+                                     viewBox="0 0 24 24">
+                                    <path d="..."/> <!-- Replace with actual WhatsApp icon path -->
+                                </svg>
+                                WhatsApp
+                            </a>
+
                         </div>
                     </form>
                 </div>
@@ -92,8 +115,8 @@
                 $cartTotal = 0;
             @endphp
 
-            <div>
-                <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
+            <div class="p-8 shadow rounded mb-4 w-full">
+                <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart.</h2>
                 <table
                     class="w-full text-left border border-zinc-200 dark:border-zinc-700 shadow rounded-xl overflow-hidden">
                     <thead class="bg-zinc-100 dark:bg-zinc-800 text-sm uppercase">

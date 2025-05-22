@@ -56,6 +56,9 @@
         }
     </style>
 </head>
+
+@vite('resources/js/app.js')
+@vite('resources/css/app.css')
 <body class="antialiased">
 <!-- Navigation -->
 <nav class="py-6 px-6 md:px-12 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
@@ -85,7 +88,7 @@
                 Design Your Dream <span class="text-accent">Shoe</span>
             </h1>
             <p class="text-lg mb-8">
-                Craft personalized footwear that speaks your vibe, built with top-tier materials and unmatched care.
+                Crafts personalized footwear that speaks your vibe, built with top-tier materials and unmatched care.
             </p>
 
             <div class="flex justify-center md:justify-start gap-4 mb-6 flex-wrap">
@@ -207,7 +210,7 @@
 <!-- Shopping Section -->
 <section class=" dark:bg-zinc-900 py-24 px-6 md:px-20">
     <div class="text-center mb-16">
-        <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Updated UI Custom Shoes</h2>
+        <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Custom Shoes</h2>
         <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">
             Browse our collection of unique, handcrafted shoes created by our talented community of designers.
         </p>
