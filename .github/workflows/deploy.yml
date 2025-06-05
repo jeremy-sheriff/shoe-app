@@ -67,4 +67,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /public_html/shoe-app/
-          exclude: "vendor/*"  # Skip vendor as we already uploaded
+          exclude: "vendor/*"  # Skip vendor as we already uploaded it
