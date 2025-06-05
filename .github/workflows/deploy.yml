@@ -41,11 +41,13 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
-      - name: Clear caches
+      - name: Clear caches without database
         run: |
           php artisan config:clear
           php artisan view:clear
-          php artisan cache:clear
+          # Clear file cache instead of database cache
+          rm -f bootstrap/cache/*.php
+          rm -rf storage/framework/cache/*
 
       - name: Prepare deployment
         run: |
