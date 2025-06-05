@@ -45,6 +45,7 @@ jobs:
           rm -f .env
           rm -f shoe-app.zip
 
+
       - name: Archive project
         run: zip -r shoe-app.zip . -x "vendor/*"
 
