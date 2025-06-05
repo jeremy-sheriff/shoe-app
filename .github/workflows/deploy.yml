@@ -51,10 +51,10 @@ jobs:
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST }}  # e.g., da7.host-ww.net:21
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          local-dir: ./     # Use ./ or set to `dist/` if applicable
-          server-dir: /public_html/shoe-app/  # Adjust to your public directory path
+          protocol: ftp  # Use sftp for SFTP connections
+          port: 21  # Default FTP port (use 22 for SFTP)
+          local-dir: ./  # Adjust as needed (e.g., `./dist` or `./build`)
+          server-dir: /public_html/shoe-app/  # Target directory on your server
