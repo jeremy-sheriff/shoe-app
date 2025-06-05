@@ -54,8 +54,8 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./vendor
-          server-dir: /public_html/shoe-app/vendor
+          local-dir: ./vendor/
+          server-dir: /public_html/shoe-app/vendor/
           exclude: "*tests*"
           dangerous-clean-slate: true  # Cleans target directory before upload
 
