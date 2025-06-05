@@ -12,52 +12,52 @@ jobs:
     environment: prod
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up PHP
+#        uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: '8.4'
+#
+#      - name: Set up Node.js
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: '18'
+#
+#      - name: Ensure Laravel cache directories
+#        run: |
+#          mkdir -p bootstrap/cache
+#          mkdir -p storage/framework/{cache,sessions,views}
+#
+#      - name: Install PHP dependencies
+#        run: composer install --no-dev --optimize-autoloader
+#
+#      - name: Install Node dependencies and build assets
+#        run: |
+#          npm install
+#          npm run build
+#
+#      - name: Remove unnecessary files
+#        run: |
+#          rm -rf node_modules
+#          rm -rf .git
+#          rm -f .env
+#          rm -f shoe-app.zip
+#
+#      - name: Archive project
+#        run: zip -r shoe-app.zip . -x "vendor/*"
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Ensure Laravel cache directories
-        run: |
-          mkdir -p bootstrap/cache
-          mkdir -p storage/framework/{cache,sessions,views}
-
-      - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader
-
-      - name: Install Node dependencies and build assets
-        run: |
-          npm install
-          npm run build
-
-      - name: Remove unnecessary files
-        run: |
-          rm -rf node_modules
-          rm -rf .git
-          rm -f .env
-          rm -f shoe-app.zip
-
-      - name: Archive project
-        run: zip -r shoe-app.zip . -x "vendor/*"
-
-      - name: Upload vendor directory first
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./vendor/
-          server-dir: /public_html/shoe-app/vendor/
-          exclude: "*tests*"
-          dangerous-clean-slate: true  # Cleans target directory before upload
+#      - name: Upload vendor directory first
+#        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+#        with:
+#          server: ${{ secrets.FTP_HOST }}
+#          username: ${{ secrets.FTP_USERNAME }}
+#          password: ${{ secrets.FTP_PASSWORD }}
+#          local-dir: ./vendor/
+#          server-dir: /public_html/shoe-app/vendor/
+#          exclude: "*tests*"
+#          dangerous-clean-slate: true  # Cleans target directory before upload
 
       - name: Upload the rest of the application
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -67,4 +67,3 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /public_html/shoe-app/
-          exclude: "vendor/*"  # Skip vendor as we already uploaded it
