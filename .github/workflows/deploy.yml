@@ -1,4 +1,4 @@
-name: Deploy Laravel App to Lightsail
+name: Deploy Laravel App to Shared Hosting via FTP
 
 on:
   pull_request:
@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Ensure Laravel cache directories (for GitHub build)
+      - name: Ensure Laravel cache directories
         run: |
           mkdir -p bootstrap/cache
           mkdir -p storage/framework/{cache,sessions,views}
@@ -38,51 +38,23 @@ jobs:
           npm install
           npm run build
 
-      - name: Archive Laravel project
+      - name: Remove unnecessary files
         run: |
-          zip -r shoe-app.zip . -x "vendor/*" "node_modules/*" ".git/*" ".env"
+          rm -rf node_modules
+          rm -rf .git
+          rm -f .env
+          rm -f shoe-app.zip
 
-      - name: Upload zip to server
-        uses: appleboy/scp-action@v0.1.4
+      - name: Archive project
+        run: zip -r shoe-app.zip . -x "vendor/*"
+
+      - name: Upload to FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
-          username: bitnami
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "shoe-app.zip"
-          target: "/home/bitnami/"
-
-      - name: SSH deploy
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.LIGHTSAIL_INSTANCE_IP }}
-          username: bitnami
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            APP_DIR=/opt/bitnami/apache/htdocs/shoe-app
-
-            sudo mkdir -p $APP_DIR
-
-            if [ -f "$APP_DIR/.env" ]; then
-              sudo mv $APP_DIR/.env /home/bitnami/.env.bak
-            fi
-
-            sudo unzip -o /home/bitnami/shoe-app.zip -d $APP_DIR
-
-            if [ -f "/home/bitnami/.env.bak" ]; then
-              sudo mv /home/bitnami/.env.bak $APP_DIR/.env
-            fi
-
-            cd $APP_DIR
-
-            mkdir -p storage/framework/{cache,sessions,views}
-            mkdir -p bootstrap/cache
-
-            sudo chown -R daemon:daemon storage bootstrap/cache
-            sudo chmod -R 775 storage bootstrap/cache
-
-            sudo COMPOSER_ALLOW_SUPERUSER=1 /opt/bitnami/php/bin/composer install --no-dev --optimize-autoloader
-
-            /opt/bitnami/php/bin/php artisan config:clear
-            /opt/bitnami/php/bin/php artisan config:cache
-
-            sudo /opt/bitnami/ctlscript.sh restart apache
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./     # Use ./ or set to `dist/` if applicable
+          server-dir: /public_html/shoe-app/  # Adjust to your public directory path
