@@ -1,65 +1,38 @@
-name: Deploy Laravel App to Shared Hosting via FTP
+name: Deploy Laravel App to Shared Hosting
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
-    environment: prod
+    environment: production
 
     steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Set up PHP
-#        uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: '8.4'
-#
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: '18'
-#
-#      - name: Ensure Laravel cache directories
-#        run: |
-#          mkdir -p bootstrap/cache
-#          mkdir -p storage/framework/{cache,sessions,views}
-#
-#      - name: Install PHP dependencies
-#        run: composer install --no-dev --optimize-autoloader
-#
-#      - name: Install Node dependencies and build assets
-#        run: |
-#          npm install
-#          npm run build
-#
-#      - name: Remove unnecessary files
-#        run: |
-#          rm -rf node_modules
-#          rm -rf .git
-#          rm -f .env
-#          rm -f shoe-app.zip
-#
-#      - name: Archive project
-#        run: zip -r shoe-app.zip . -x "vendor/*"
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-#      - name: Upload vendor directory first
-#        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
-#        with:
-#          server: ${{ secrets.FTP_HOST }}
-#          username: ${{ secrets.FTP_USERNAME }}
-#          password: ${{ secrets.FTP_PASSWORD }}
-#          local-dir: ./vendor/
-#          server-dir: /public_html/shoe-app/vendor/
-#          exclude: "*tests*"
-#          dangerous-clean-slate: true  # Cleans target directory before upload
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, ctype, fileinfo, openssl, pdo, tokenizer, xml
+          coverage: none
 
-      - name: Upload the rest of the application
+      - name: Install dependencies
+        run: |
+          composer install --no-dev --optimize-autoloader --no-interaction
+          npm ci --no-audit
+          npm run build
+
+      - name: Prepare deployment
+        run: |
+          rm -rf node_modules/ .git/ .github/ tests/
+          mkdir -p storage/framework/{cache,sessions,views}
+          mkdir -p bootstrap/cache
+
+      - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -67,3 +40,12 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
           server-dir: /public_html/shoe-app/
+          exclude: |
+            .env
+            .git/
+            .github/
+            node_modules/
+            tests/
+            *.md
+          server-ftp-timeout: 300
+          ftp-sync: true
