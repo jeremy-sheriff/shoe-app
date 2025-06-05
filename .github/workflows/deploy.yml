@@ -48,13 +48,23 @@ jobs:
       - name: Archive project
         run: zip -r shoe-app.zip . -x "vendor/*"
 
-      - name: Upload to FTP
+      - name: Upload vendor directory first
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}  # e.g.
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
-          port: 21
-          local-dir: ./  # Adjust as needed
-          server-dir: /public_html/shoe-app/  # Adjust target directory
+          local-dir: ./vendor
+          server-dir: /public_html/shoe-app/vendor
+          exclude: "*tests*"
+          dangerous-clean-slate: true  # Cleans target directory before upload
+
+      - name: Upload the rest of the application
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./
+          server-dir: /public_html/shoe-app/
+          exclude: "vendor/*"  # Skip vendor as we already uploaded it
