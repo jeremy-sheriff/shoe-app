@@ -25,31 +25,31 @@ jobs:
           mkdir -p bootstrap/cache
           mkdir -p storage/framework/{cache,sessions,views}
           mkdir -p storage/app/public
-          touch database/database.sqlite
-          chmod -R 777 storage bootstrap/cache database
+          chmod -R 777 storage bootstrap/cache
 
-      - name: Configure environment
-        run: |
-          cp .env.example .env
-          echo "DB_CONNECTION=sqlite" >> .env
-          echo "DB_DATABASE=/home/runner/work/shoe-app/shoe-app/database/database.sqlite" >> .env
-          php artisan key:generate
+      - name: Copy environment file
+        run: cp .env.example .env
 
-      - name: Install dependencies
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Install Node dependencies
         run: |
-          composer install --no-dev --optimize-autoloader --no-interaction
           npm ci --no-audit
           npm run build
 
-      - name: Clear caches safely
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Clear caches
         run: |
-          php artisan cache:clear --no-interaction
           php artisan config:clear
           php artisan view:clear
+          php artisan cache:clear
 
       - name: Prepare deployment
         run: |
-          rm -rf node_modules/ .git/ .github/ tests/ database.sqlite
+          rm -rf node_modules/ .git/ .github/ tests/
           rm -f .env
 
       - name: Deploy via FTP
