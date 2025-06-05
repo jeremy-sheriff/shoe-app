@@ -47,7 +47,6 @@ jobs:
 
       - name: Archive project
         run: zip -r shoe-app.zip . -x "vendor/*"
-
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
