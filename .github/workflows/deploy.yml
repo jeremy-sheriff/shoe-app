@@ -18,13 +18,22 @@ jobs:
         with:
           php-version: '8.2'
           extensions: mbstring, ctype, fileinfo, openssl, pdo, tokenizer, xml
+          coverage: none
 
-      - name: Create Laravel cache directories
+      - name: Create Laravel directories
         run: |
           mkdir -p bootstrap/cache
           mkdir -p storage/framework/{cache,sessions,views}
           mkdir -p storage/app/public
-          chmod -R 777 storage bootstrap/cache
+          touch database/database.sqlite
+          chmod -R 777 storage bootstrap/cache database
+
+      - name: Configure environment
+        run: |
+          cp .env.example .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=/home/runner/work/shoe-app/shoe-app/database/database.sqlite" >> .env
+          php artisan key:generate
 
       - name: Install dependencies
         run: |
@@ -32,17 +41,16 @@ jobs:
           npm ci --no-audit
           npm run build
 
-      - name: Fix PSR-4 autoloading
+      - name: Clear caches safely
         run: |
-          composer dump-autoload
-          php artisan clear-compiled
-          php artisan optimize:clear
+          php artisan cache:clear --no-interaction
+          php artisan config:clear
+          php artisan view:clear
 
       - name: Prepare deployment
         run: |
-          rm -rf node_modules/ .git/ .github/ tests/
-          cp .env.example .env
-          php artisan key:generate
+          rm -rf node_modules/ .git/ .github/ tests/ database.sqlite
+          rm -f .env
 
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -59,3 +67,4 @@ jobs:
             node_modules/
             tests/
             *.md
+            database/
