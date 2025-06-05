@@ -1,4 +1,4 @@
-name: Deploy Laravel App
+name: Deploy Laravel App to Shared Hosting via FTP
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: production
+    environment: prod  # Matches your secrets environment
 
     steps:
       - name: Checkout code
@@ -18,34 +18,23 @@ jobs:
         with:
           php-version: '8.2'
           extensions: mbstring, ctype, fileinfo, openssl, pdo, tokenizer, xml
-          coverage: none
 
       - name: Create Laravel directories
         run: |
           mkdir -p bootstrap/cache
           mkdir -p storage/framework/{cache,sessions,views}
-          mkdir -p storage/app/public
           chmod -R 777 storage bootstrap/cache
 
-      - name: Copy environment file
-        run: cp .env.example .env
-
-      - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader --no-interaction
-
-      - name: Install Node dependencies
+      - name: Install dependencies
         run: |
+          composer install --no-dev --optimize-autoloader --no-interaction
           npm ci --no-audit
           npm run build
 
-      - name: Generate application key
-        run: php artisan key:generate
-
-      - name: Clear caches without database
+      - name: Clear caches safely
         run: |
           php artisan config:clear
           php artisan view:clear
-          # Clear file cache instead of database cache
           rm -f bootstrap/cache/*.php
           rm -rf storage/framework/cache/*
 
@@ -57,7 +46,7 @@ jobs:
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST }}  # Matches your secret name
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./
@@ -70,3 +59,5 @@ jobs:
             tests/
             *.md
             database/
+          server-ftp-timeout: 300
+          ftp-sync: true
