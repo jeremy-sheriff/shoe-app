@@ -2,7 +2,7 @@ name: Deploy Laravel App to Shared Hosting via FTP
 
 on:
   pull_request:
-    types: [ closed ]
+    types: [closed]
     branches: [main]
 
 jobs:
@@ -51,10 +51,10 @@ jobs:
       - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          server: ${{ secrets.FTP_HOST }}  # e.g., da7.host-ww.net:21
+          server: ${{ secrets.FTP_HOST }}  # e.g., da7.host-ww.net:2222
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp  # Use sftp for SFTP connections
-          port: 21  # Default FTP port (use 22 for SFTP)
-          local-dir: ./  # Adjust as needed (e.g., `./dist` or `./build`)
-          server-dir: /public_html/shoe-app/  # Target directory on your server
+          protocol: ftps  # Use ftp for FTP connections
+          port: 2222  # Correct port for FTPS or 21 for FTP
+          local-dir: ./  # Adjust as needed
+          server-dir: /public_html/shoe-app/  # Adjust target directory
