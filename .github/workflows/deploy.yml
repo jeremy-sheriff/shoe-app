@@ -34,8 +34,8 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: "102.218.215.123"
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          username: "drmorch1"
+          password: "qTeN!83Oh8J@f0"
           protocol: ftp
           port: 2222
           server-dir: /home/drmorch1/domains/drmorchcrafts.co.ke/
