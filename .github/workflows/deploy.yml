@@ -38,4 +38,4 @@ jobs:
           password: "qTeN!83Oh8J@f0"
           protocol: ftp
           port: 21
-          server-dir: home/drmorch1/domains/drmorchcrafts.co.ke/
+          server-dir: domains/drmorchcrafts.co.ke/
