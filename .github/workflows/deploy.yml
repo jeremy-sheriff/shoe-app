@@ -12,27 +12,25 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, ctype, fileinfo, openssl, pdo, tokenizer, xml
-
-      - name: Install Composer dependencies (no dev)
-        run: composer install --no-dev --optimize-autoloader --no-interaction
-
-      - name: Build frontend assets
+      - name: Zip project contents (excluding unnecessary files)
         run: |
-          npm ci --no-audit
-          npm run build
+          zip -r app.zip . -x \
+            "vendor/**" \
+            "public/**" \
+            "node_modules/**" \
+            ".git/**" \
+            ".github/**" \
+            "tests/**" \
+            "*.md" \
+            "database/**" \
+            ".env"
 
-      - name: Prepare project
+      - name: Unzip contents to a directory for FTP
         run: |
-          php artisan config:clear
-          php artisan view:clear
-          rm -rf .git .github node_modules tests .env vendor
+          mkdir upload
+          unzip app.zip -d upload
 
-      - name: Sync files
+      - name: Upload zipped contents via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
@@ -40,12 +38,4 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
           server-dir: /home/drmorch1/domains/drmorchcrafts.co.ke/
-          local-dir: ./
-          exclude: |
-            **/vendor/**
-            **/.env
-            **/.git*
-            **/node_modules/**
-            **/tests/**
-            **/*.md
-            database/**
+          local-dir: upload/
