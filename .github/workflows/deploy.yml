@@ -32,8 +32,8 @@ jobs:
           php artisan view:clear
           rm -rf .git .github node_modules tests .env vendor
 
-      - name: Upload files to FTP server (excluding vendor folder)
-        uses: SamKirkland/FTP-Deploy-Action@v4
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
