@@ -33,9 +33,10 @@ jobs:
       - name: Upload zipped contents via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_HOST }}
+          server: "102.218.215.123"
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftp
+          port: 2222
           server-dir: /home/drmorch1/domains/drmorchcrafts.co.ke/
           local-dir: upload/
