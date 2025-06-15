@@ -1,0 +1,3 @@
+[sftp_target]
+102.218.215.123 ansible_user=drmorch1 ansible_ssh_pass=qTeN!83Oh8J@f0 ansible_port=2222
+
