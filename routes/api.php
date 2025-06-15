@@ -11,4 +11,4 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('/checkout', [CheckoutController::class, 'stkPush'])->name('checkout.stk-push');
-Route::post('/sms/send', [SmsController::class, 'sendSMS2'])->name('sms.send');
+Route::post('/sms/send', [SmsController::class, 'sendSms'])->name('sms.send');
