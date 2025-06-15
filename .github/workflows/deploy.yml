@@ -7,7 +7,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: prod  # Matches your secrets environment
 
     steps:
       - name: Checkout code
@@ -19,45 +18,34 @@ jobs:
           php-version: '8.2'
           extensions: mbstring, ctype, fileinfo, openssl, pdo, tokenizer, xml
 
-      - name: Create Laravel directories
-        run: |
-          mkdir -p bootstrap/cache
-          mkdir -p storage/framework/{cache,sessions,views}
-          chmod -R 777 storage bootstrap/cache
+      - name: Install Composer dependencies (no dev)
+        run: composer install --no-dev --optimize-autoloader --no-interaction
 
-      - name: Install dependencies
+      - name: Build frontend assets
         run: |
-          composer install --no-dev --optimize-autoloader --no-interaction
           npm ci --no-audit
           npm run build
 
-      - name: Clear caches safely
+      - name: Prepare project
         run: |
           php artisan config:clear
           php artisan view:clear
-          rm -f bootstrap/cache/*.php
-          rm -rf storage/framework/cache/*
+          rm -rf .git .github node_modules tests .env vendor
 
-      - name: Prepare deployment
-        run: |
-          rm -rf node_modules/ .git/ .github/ tests/
-          rm -f .env
-
-      - name: Deploy via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Upload files to FTP server (excluding vendor folder)
+        uses: SamKirkland/FTP-Deploy-Action@v4
         with:
-          server: ${{ secrets.FTP_HOST }}  # Matches your secret name
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          server-dir: /home/drmorch1/domains/drmorchcrafts.co.ke/
           local-dir: ./
-          server-dir: /public_html/
           exclude: |
-            .env
-            .git/
-            .github/
-            node_modules/
-            tests/
-            *.md
-            database/
-          server-ftp-timeout: 300
-          ftp-sync: true
+            **/vendor/**
+            **/.env
+            **/.git*
+            **/node_modules/**
+            **/tests/**
+            **/*.md
+            database/**
