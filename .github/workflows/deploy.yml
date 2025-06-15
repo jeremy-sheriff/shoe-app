@@ -25,11 +25,6 @@ jobs:
             "database/**" \
             ".env"
 
-      - name: Unzip contents to a directory for FTP
-        run: |
-          mkdir upload
-          unzip app.zip -d upload
-
       - name: Upload zipped contents via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
