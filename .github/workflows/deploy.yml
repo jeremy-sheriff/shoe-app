@@ -36,7 +36,7 @@ jobs:
           server: "102.218.215.123"
           username: "drmorch1"
           password: "qTeN!83Oh8J@f0"
-          protocol: ftps
-          port: 2222
+          protocol: ftp
+          port: 21
           server-dir: /home/drmorch1/domains/drmorchcrafts.co.ke/
           local-dir: upload/
