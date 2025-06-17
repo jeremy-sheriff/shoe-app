@@ -1,4 +1,4 @@
-name: Deploy Laravel App to Shared Hosting via FTP
+name: Deploy Shoe App to Prod
 
 on:
   push:
