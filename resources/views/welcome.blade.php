@@ -270,6 +270,14 @@
         <div>
             <h3 class="text-2xl font-bold mb-4 text-primary">Dr-MorchCrafts</h3>
             <p>Footwear redefined by you. Designed with love. Built with pride.</p>
+
+            <footer class="py-16 text-center text-sm text-black dark:text-white/70">
+                @env(['staging', 'production'])
+                    <a href="{{ config('version.changelog') }}">{{ config('version.label') }}</a>
+                    @else
+                        Laravel {{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
+                        @endenv
+            </footer>
         </div>
         <div>
             <h4 class="text-lg font-semibold mb-3">Explore</h4>
