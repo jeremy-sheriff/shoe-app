@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Services\SmsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -101,6 +102,13 @@ class OrderController extends Controller
 
         $order->status = $request->status;
         $order->save();
+
+        if($order->status == 'completed'){
+            $smsService = new SmsService();
+            $smsService->to("0712419949");
+            $smsService->message("Hollay!!, your order has been completed and is ready for delivery.");
+            $smsService->send();
+        }
 
         return redirect()->back()->with('success', 'Order status updated successfully.');
     }

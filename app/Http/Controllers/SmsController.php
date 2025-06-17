@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 use App\Classes\AfricasTalkingGatewayException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Services\SmsService;
 
 class SmsController
 {
+
     public function sendSms(Request $request): void
     {
         // Validate incoming request
@@ -52,5 +54,11 @@ class SmsController
         } else {
             response()->json(json_decode($response), 200)->send();
         }
+    }
+
+
+    public function sendSmsToOwner(Request $request): void
+    {
+
     }
 }

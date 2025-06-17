@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\ExternalLibraries\FormatPhoneNumberUtil;
 use App\Models\Item;
 use App\Models\Order;
+use App\Services\SmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,8 +16,6 @@ class CheckoutController extends Controller
 {
     public function confirm(Request $request)
     {
-
-
         $request->validate([
             'mpesa_number' => 'required|regex:/^07\d{8}$/',
             'customer_name' => 'required|string|max:100',
@@ -70,6 +69,12 @@ class CheckoutController extends Controller
 
 
         Item::insert($items_data);
+
+        //Send an SMS to the owner
+        $smsService = new SmsService();
+        $smsService->to("0700801438");
+        $smsService->message("An order has been placed from the website");
+        $smsService->send();
 
 
         // Clear cart
