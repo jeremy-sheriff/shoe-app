@@ -298,6 +298,8 @@
     </div>
     <div class="text-center text-sm mt-16 border-t pt-6 border-gray-700">
         &copy; 2025 Dr-MorchCrafts. Designed with flair, coded with care.
+
+        <i><span>{{ config('version.string') }}</span></i>
     </div>
 </footer>
 

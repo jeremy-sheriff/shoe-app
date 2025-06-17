@@ -75,15 +75,6 @@ class OrderController extends Controller
         return redirect()->back()->with('success', 'Your order has been placed!');
     }
 
-
-
-
-
-
-    public function create(){
-
-    }
-
     public function show($uuid)
     {
         return view('livewire.orders.show', [
