@@ -87,7 +87,7 @@
     <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="hero-content text-center md:text-left md:w-1/2 w-full">
             <h1 class="text-6xl font-extrabold leading-tight mb-6">
-                Design!! Your Dream <span class="text-accent">Shoe</span>
+                Design Your Dream <span class="text-accent">Shoe</span>
             </h1>
             <p class="text-lg mb-8">
                 Craft personalized footwear that speaks your vibe, built with top-tier materials and unmatched care.
