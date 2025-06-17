@@ -72,7 +72,7 @@ class CheckoutController extends Controller
 
 
         // Clear cart
-//        Session::forget('cart');
+        Session::forget('cart');
         $response = $this->initiateStkPush($request->mpesa_number, $cartTotal,$trackingCode);
 
         return redirect()->back()->with(
