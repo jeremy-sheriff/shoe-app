@@ -223,7 +223,7 @@
     <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
         <section class="py-12 px-6 md:px-20">
-            <h4 class="text-3xl font-bold mb-6">Browse by Category</h4>
+            <h4 class="text-2xl font-bold mb-6">Browse by Category</h4>
             <div class="flex flex-wrap gap-4">
                 {{-- Show All button --}}
                 <a href="{{ url('/') }}"
