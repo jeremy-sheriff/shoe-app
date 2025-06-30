@@ -225,9 +225,17 @@
         <section class="py-12 px-6 md:px-20">
             <h2 class="text-3xl font-bold mb-6">Browse by Category</h2>
             <div class="flex flex-wrap gap-4">
+                {{-- Show All button --}}
+                <a href="{{ url('/') }}"
+                   class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition">
+                    Show All
+                </a>
+
+                {{-- Category buttons --}}
                 @foreach ($categories as $category)
                     <a href="{{ url('/?category=' . $category->id) }}"
-                       class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition">
+                       class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition
+                   {{ request('category') == $category->id ? 'bg-black text-white' : '' }}">
                         {{ $category->name }} ({{ $category->products_count }})
                     </a>
                 @endforeach
