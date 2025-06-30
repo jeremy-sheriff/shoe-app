@@ -21,6 +21,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
+Route::get('/category/{id}', [CategoriesController::class, 'showPub'])->name('category.show');
+
+
 
 Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
 Route::post('/cart/increase/{id}', [CartController::class, 'increase'])->name('cart.increase');

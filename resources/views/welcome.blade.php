@@ -221,6 +221,18 @@
     </div>
 
     <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+
+        <section class="py-12 px-6 md:px-20">
+            <h2 class="text-3xl font-bold mb-6">Browse by Category</h2>
+            <div class="flex flex-wrap gap-4">
+                @foreach ($categories as $category)
+                    <a href="{{ route('category.show', $category->id) }}"
+                       class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition">
+                        {{ $category->name }} ({{ $category->products_count }})
+                    </a>
+                @endforeach
+            </div>
+        </section>
         @foreach ($products as $index => $product)
             <div class="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow hover:shadow-lg transition">
                 {{-- Splide Carousel --}}

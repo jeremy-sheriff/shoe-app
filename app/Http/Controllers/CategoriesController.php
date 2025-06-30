@@ -55,6 +55,16 @@ class CategoriesController extends Controller
         ]);
     }
 
+    public function showPub($id)
+    {
+        $category = Category::with('products')->findOrFail($id);
+
+        return view('category.show', [
+            'category' => $category,
+            'products' => $category->products,
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
