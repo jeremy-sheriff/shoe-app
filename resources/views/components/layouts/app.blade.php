@@ -3,3 +3,4 @@
         {{ $slot }}
     </flux:main>
 </x-layouts.app.sidebar>
+<script src="{{ asset('js/slim.kickstart.min.js') }}"></script>
