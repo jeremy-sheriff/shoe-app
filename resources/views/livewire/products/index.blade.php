@@ -39,7 +39,7 @@
                         <div class="w-full md:w-1/2 space-y-2">
                             <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
                                 (Ksh)</label>
-                            <input type="number" name="price" id="price" step="50" min="100" required
+                            <input type="number" name="price" id="price" required
                                    class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         </div>
 
