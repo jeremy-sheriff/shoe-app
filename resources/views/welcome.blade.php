@@ -226,7 +226,7 @@
             <h2 class="text-3xl font-bold mb-6">Browse by Category</h2>
             <div class="flex flex-wrap gap-4">
                 @foreach ($categories as $category)
-                    <a href="{{ route('category.show', $category->id) }}"
+                    <a href="{{ url('/?category=' . $category->id) }}"
                        class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition">
                         {{ $category->name }} ({{ $category->products_count }})
                     </a>

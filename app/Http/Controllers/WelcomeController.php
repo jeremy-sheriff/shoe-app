@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Support\Str;
 
 class WelcomeController extends Controller
 {
     public function index()
     {
+        $categories = Category::withCount('products')
+            ->having('products_count', '>', 0)
+            ->get();
 
-        $categories = Category::query()->withCount('products')->having('products_count', '>', 0)->get();
+        $query = Product::query();
 
-        $products = Product::all()->map(function ($product) {
-            $product->description = Str::words($product->description, 15, '...');
+        // If ?category=ID is present, filter products
+        if (request()->has('category')) {
+            $categoryId = request()->get('category');
+            $query->where('category_id', $categoryId);
+        }
+
+        $products = $query->get()->map(function ($product) {
+            $product->description = \Illuminate\Support\Str::words($product->description, 15, '...');
             return $product;
         });
 
@@ -23,6 +31,7 @@ class WelcomeController extends Controller
             'categories' => $categories,
         ]);
     }
+
 
     public function show($slug)
     {
