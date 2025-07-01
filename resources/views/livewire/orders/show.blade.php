@@ -86,7 +86,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 p-6">
                     @foreach ($order->items as $item)
                         @foreach ($item->product->images as $image)
-                            <div class="flex items-center gap-4 border p-4 rounded-md bg-white shadow-sm">
+                            <div class="flex items-center gap-4 border p-1 rounded-md bg-white shadow-sm">
                                 <img src="{{ asset('storage/' . $image->path) }}"
                                      alt="{{ $item->product->name }}"
                                      class="w-120 h-120 object-cover rounded">
