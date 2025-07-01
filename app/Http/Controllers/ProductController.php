@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\ExternalLibraries\Slim;
 use App\Models\Category;
 use App\Models\Product;
+use App\Rules\HasThreeImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-
 
 class ProductController extends Controller
 {
@@ -36,6 +36,7 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
+            'slim' => ['required', new HasThreeImages()],
         ]);
 
 

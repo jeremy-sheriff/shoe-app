@@ -1,6 +1,18 @@
 <x-layouts.app :title="__('Dashboard')">
     <div class="flex flex-col gap-6 h-full w-full">
 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <strong>There were some problems with your input:</strong>
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+
         {{-- Top Section with Form and Empty Right Side --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             {{-- Left: Product Form --}}
@@ -16,12 +28,18 @@
                         <div class="w-full md:w-1/2 space-y-2">
                             <label for="category" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
                             <select name="category" id="category" required
-                                    class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border @error('category') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    <option
+                                        value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('category')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Shoe Name -->
@@ -29,10 +47,13 @@
                             <label for="name" class="block text-sm font-medium text-gray-700 dark:text-white">Shoe
                                 Name</label>
                             <input name="name" id="name" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                   value="{{ old('name') }}"
+                                   class="mt-1 block w-full px-4 py-3 rounded-md border @error('name') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                            @error('name')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
-
 
                     <div class="flex flex-col md:flex-row gap-4">
                         <!-- Price -->
@@ -40,46 +61,57 @@
                             <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
                                 (Ksh)</label>
                             <input type="number" name="price" id="price" required
-                                   class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                   value="{{ old('price') }}"
+                                   class="mt-1 block w-full px-4 py-3 rounded-md border @error('price') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            @error('price')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <!-- Available colors -->
                         <div class="w-full md:w-1/2 space-y-2">
                             <label for="color" class="block text-sm font-medium text-gray-800 dark:text-white">Available
                                 colors</label>
-
                             <div class="flex flex-wrap gap-4">
                                 @php
                                     $colors = ['Black', 'White', 'Red', 'Blue'];
                                 @endphp
-
                                 @foreach ($colors as $color)
                                     <label class="flex items-center space-x-2 text-sm text-gray-700 dark:text-white">
                                         <input
                                             type="checkbox"
                                             name="colors[]"
                                             value="{{ strtolower($color) }}"
+                                            {{ is_array(old('colors')) && in_array(strtolower($color), old('colors')) ? 'checked' : '' }}
                                             class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
                                         >
                                         <span>{{ $color }}</span>
                                     </label>
                                 @endforeach
                             </div>
+                            @error('colors')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
                     <!-- Description -->
-                    <div class="w-full  space-y-2">
+                    <div class="w-full space-y-2">
                         <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
                         <textarea name="description" id="description" rows="4" required
-                                  class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                                  class="mt-1 block w-full px-4 py-3 rounded-md border @error('description') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
+                        @error('description')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-
 
                     <!-- Image Uploads -->
                     <div class="space-y-2">
                         <label class="block text-sm font-medium text-gray-700 dark:text-black mb-2">Upload
                             Images</label>
+                        @error('slim')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Image 1 -->
                             <div class="slim border-2 border-dashed rounded-lg p-4" data-label="Drop your image here"
