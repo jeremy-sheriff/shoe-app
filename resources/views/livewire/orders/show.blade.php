@@ -102,7 +102,7 @@
 
             </div>
             <div
-                class="relative aspect-video overflow-hidden rounded-xl border border-neutral-200 p-4 dark:border-neutral-700">
+                class="relative aspect-video rounded-xl border border-neutral-200 p-4 dark:border-neutral-700">
 
                 <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Other Info</h2>
                 <div class="space-y-2 text-gray-900 dark:text-gray-200">
