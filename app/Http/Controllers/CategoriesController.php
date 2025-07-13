@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view('livewire.categories.index', [
@@ -17,9 +14,13 @@ class CategoriesController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create()
+    {
+        return view('livewire.categories.create', [
+            'categories' => Category::all(),
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,25 +34,12 @@ class CategoriesController extends Controller
             ->with('success', 'Category created successfully.');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('livewire.categories.create', [
-            'categories' => Category::all(), // For selecting parent category
-        ]);
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $category = Category::with('children')->findOrFail($id);
 
         return view('livewire.categories.show', [
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
@@ -65,22 +53,16 @@ class CategoriesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $category = Category::findOrFail($id);
 
         return view('livewire.categories.edit', [
             'category' => $category,
-            'categories' => Category::where('id', '!=', $id)->get(), // Exclude self as parent
+            'categories' => Category::where('id', '!=', $id)->get(),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $category = Category::findOrFail($id);
@@ -96,14 +78,10 @@ class CategoriesController extends Controller
             ->with('success', 'Category updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
 
-        // Optional: Check if it has subcategories and prevent deletion
         if ($category->children()->count() > 0) {
             return redirect()->route('categories.index')
                 ->with('error', 'Cannot delete category with subcategories.');

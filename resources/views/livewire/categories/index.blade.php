@@ -39,6 +39,7 @@
                     <th scope="col" class="px-6 py-3">Name</th>
                     <th scope="col" class="px-6 py-3">Parent</th>
                     <th scope="col" class="px-6 py-3">Type</th>
+                    <th scope="col" class="px-6 py-3 text-right">Actions</th>
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-zinc-700">
@@ -48,21 +49,40 @@
                         <td class="px-6 py-3 font-medium text-gray-900 dark:text-white">{{ $category->name }}</td>
                         <td class="px-6 py-3">{{ $category->parent?->name ?? '—' }}</td>
                         <td class="px-6 py-3">
-                    <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold
-                        {{ $category->parent_id ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' }}">
-                        {{ $category->parent_id ? 'Subcategory' : 'Parent Category' }}
-                    </span>
+                <span class="inline-flex items-center rounded-full px-2 py-0.5 text-xs font-semibold
+                    {{ $category->parent_id ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' }}">
+                    {{ $category->parent_id ? 'Subcategory' : 'Parent Category' }}
+                </span>
+                        </td>
+                        <td class="px-6 py-3 flex justify-end gap-2">
+                            {{-- Edit --}}
+                            <a href="{{ route('categories.edit', $category) }}"
+                               class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition">
+                                Edit
+                            </a>
+
+                            {{-- Delete --}}
+                            <form method="POST" action="{{ route('categories.destroy', $category) }}"
+                                  onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-md text-white bg-red-600 hover:bg-red-700 transition">
+                                    Delete
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="px-6 py-6 text-center text-gray-500 dark:text-gray-400">
+                        <td colspan="5" class="px-6 py-6 text-center text-gray-500 dark:text-gray-400">
                             No categories found.
                         </td>
                     </tr>
                 @endforelse
                 </tbody>
             </table>
+
 
         </div>
     </div>

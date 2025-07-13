@@ -18,10 +18,12 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required|integer|min:1',
             'color' => 'required|in:black,white,red,blue,custom',
+            'size' => 'required|integers|min:1|max:50',
         ]);
 
         $product = Product::with('images')->findOrFail($id);
         $quantity = $request->input('quantity', 1);
+        $size = $request->input('size', 1);
 
         $cart = session()->get('cart', []);
 
@@ -36,6 +38,7 @@ class CartController extends Controller
                 'quantity' => $quantity,
                 'color' => $request->input('color'),
                 'product' => $product,
+                'size' => $size,
             ];
         }
 

@@ -66,6 +66,31 @@
                             @error('price')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
+
+                            <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Available
+                                in sizes
+                                (Ksh)</label>
+                            <input type="number" name="price" id="price" required
+                                   value="{{ old('price') }}"
+                                   class="mt-1 block w-full px-4 py-3 rounded-md border @error('price') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+
+
+                            <!-- Shoe Sizes Dropdown -->
+                            <div class="w-full">
+                                <label for="shoe_size" class="text-sm text-gray-700 dark:text-white">Select Shoe
+                                    Size</label>
+                                <select
+                                    name="shoe_size"
+                                    id="shoe_size"
+                                    class="mt-1 block w-full h-10 px-4 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-gray-700 dark:text-white"
+                                >
+                                    <option value="">Select a size</option>
+                                    @foreach ($shoe_sizes as $size)
+                                        <option
+                                            value="{{ $size }}" {{ old('shoe_size') == $size ? 'selected' : '' }}>{{ $size }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Available colors -->
