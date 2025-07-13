@@ -37,6 +37,13 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'slim' => ['required', new HasThreeImages()],
+//
+//            // Colors validation: ensure it's an array and each item is a valid color
+//            'colors' => 'required|array',  // Ensure 'colors' is an array
+//            'colors.*' => 'string|in:white,red,blue,green,yellow',  // Add more valid colors as needed
+
+            // Sizes validation: ensure it's an array and each item is a valid size
+            'sizes' => 'required|array',  // Ensure 'sizes' is an array
         ]);
 
 
@@ -56,6 +63,7 @@ class ProductController extends Controller
             'price' => $request->price,
             'slug' => $slug,
             'colors' => $request->colors, // auto-casts to JSON
+            'sizes' => $request->sizes, // auto-casts to JSON
         ]);
 
         $product->sku = 'SKU-' . strtoupper(Str::random(8));

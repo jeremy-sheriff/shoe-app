@@ -10,6 +10,7 @@ class Product extends Model
 {
     protected $casts = [
         'colors' => 'array',
+        'sizes' => 'array'
     ];
     protected $fillable = [
         'name',
@@ -21,6 +22,7 @@ class Product extends Model
         'is_active',
         'slug',
         'colors',
+        'sizes',
         'category_id',
     ];
 

@@ -68,6 +68,22 @@
                                     @endforeach
                                 @endif
                             </select>
+
+
+                            <div class="form-group">
+                                <select
+                                    name="sizes"
+                                    id="sizes"
+                                    class="form-control"
+                                    required
+                                >
+                                    <option value="">Select a size</option>
+                                    @foreach ($product->sizes as $size)
+                                        <option
+                                            value="{{ $size }}" {{ old('sizes') == $size ? 'selected' : '' }}>{{ $size }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
 

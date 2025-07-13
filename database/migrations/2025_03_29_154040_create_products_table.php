@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('sku')->unique();
             $table->string('slug')->unique(); // Add this
             $table->json('colors')->nullable();
+            $table->json('sizes')->nullable();
             $table->string('image_path')->nullable();
             $table->boolean('is_active')->default(true);
             $table->enum('status', ['draft', 'active', 'archived'])->default('active'); // ← added

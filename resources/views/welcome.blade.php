@@ -223,18 +223,18 @@
     <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 
         <section class="py-12 px-6 md:px-20">
-            <h4 class="text-2xl font-bold mb-6">Browse by Category</h4>
+            <h4 class="text-2xl font-bold mb-6 dark:text-white">Browse by Category</h4>
             <div class="flex flex-wrap gap-4">
                 {{-- Show All button --}}
                 <a href="{{ url('/') }}"
-                   class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition">
+                   class="px-4 py-2 border dark:text-white border-black text-black rounded hover:bg-black hover:text-white transition">
                     Show All
                 </a>
 
                 {{-- Category buttons --}}
                 @foreach ($categories as $category)
                     <a href="{{ url('/?category=' . $category->id) }}"
-                       class="px-4 py-2 border border-black text-black rounded hover:bg-black hover:text-white transition
+                       class="px-4 py-2 border border-black text-black rounded hover:bg-black dark:text-white hover:text-white transition
                    {{ request('category') == $category->id ? 'bg-black text-white' : '' }}">
                         {{ $category->name }} ({{ $category->products_count }})
                     </a>
@@ -266,8 +266,9 @@
                 <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2">{{ $product->name }}</h3>
                 <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
                 <div class="flex items-center justify-between">
-                    <span class="text-lg font-bold text-primary">KSh {{ number_format($product->price, 2) }}</span>
-                    <a href="{{ route('item.show', $product->slug) }}" class="btn btn-outline text-sm">View</a>
+                    <span
+                        class="text-lg font-bold text-primary dark:text-white">KSh {{ number_format($product->price, 2) }}</span>
+                    <a href="{{ route('item.show', $product->slug) }}" class="btn btn-outline text-sm dark:text-white">View</a>
                 </div>
             </div>
         @endforeach

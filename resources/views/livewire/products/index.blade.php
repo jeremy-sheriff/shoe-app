@@ -28,7 +28,7 @@
                         <div class="w-full md:w-1/2 space-y-2">
                             <label for="category" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
                             <select name="category" id="category" required
-                                    class="mt-1 block w-full px-4 py-3 rounded-md border @error('category') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                    class="mt-1 block w-full px-4 py-5 rounded-md border @error('category') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
                                     <option
@@ -66,35 +66,6 @@
                             @error('price')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
-
-                            <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Available
-                                in sizes
-                                (Ksh)</label>
-                            <input type="number" name="price" id="price" required
-                                   value="{{ old('price') }}"
-                                   class="mt-1 block w-full px-4 py-3 rounded-md border @error('price') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-
-
-                            <!-- Shoe Sizes Dropdown -->
-                            <div class="w-full">
-                                <label for="shoe_size" class="text-sm text-gray-700 dark:text-white">Select Shoe
-                                    Size</label>
-                                <select
-                                    name="shoe_size"
-                                    id="shoe_size"
-                                    class="mt-1 block w-full h-10 px-4 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-gray-700 dark:text-white"
-                                >
-                                    @php
-                                        $shoe_sizes = range(20, 45);  // Array of shoe sizes
-                                    @endphp
-
-                                    <option value="">Select a size</option>
-                                    @foreach ($shoe_sizes as $size)
-                                        <option
-                                            value="{{ $size }}" {{ old('shoe_size') == $size ? 'selected' : '' }}>{{ $size }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
                         </div>
 
                         <!-- Available colors -->
@@ -124,19 +95,57 @@
                         </div>
                     </div>
 
-                    <!-- Description -->
-                    <div class="w-full space-y-2">
-                        <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
-                        <textarea name="description" id="description" rows="4" required
-                                  class="mt-1 block w-full px-4 py-3 rounded-md border @error('description') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
-                        @error('description')
-                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
-                        @enderror
+
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Shoe Sizes Dropdown -->
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <label for="shoe_size" class="text-sm text-gray-700 dark:text-white">Select Shoe Size
+                                Available</label>
+
+                            <br>
+                            <br>
+                            @php
+                                $shoe_sizes = range(30, 45);  // Array of shoe sizes
+                                $chunks = array_chunk($shoe_sizes, 4);  // Split into chunks of 5 sizes
+                            @endphp
+
+                            <div class="flex flex-row gap-4">
+                                @foreach ($chunks as $chunk)
+                                    <div class="w-1/2">
+                                        @foreach ($chunk as $size)
+                                            <label
+                                                class="flex items-center space-x-2 text-sm text-gray-700 dark:text-white">
+                                                <input
+                                                    type="checkbox"
+                                                    name="sizes[]"
+                                                    value="{{ $size }}"
+                                                    {{ is_array(old('sizes')) && in_array($size, old('sizes')) ? 'checked' : '' }}
+                                                    class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                                >
+                                                <span>{{ $size }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        <div class="w-full md:w-1/2 space-y-2">
+                            <!-- Description -->
+                            <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
+                            <textarea name="description" id="description" rows="4" required
+                                      class="mt-1 block w-full px-4 py-3 rounded-md border @error('description') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
+                            @error('description')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+
                     </div>
 
                     <!-- Image Uploads -->
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700 dark:text-black mb-2">Upload
+                        <label class="block text-sm font-medium text-gray-700 dark:text-white mb-2">Upload
                             Images</label>
                         @error('slim')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -144,17 +153,17 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <!-- Image 1 -->
                             <div class="slim border-2 border-dashed rounded-lg p-4" data-label="Drop your image here"
-                                 data-size="240,240" data-ratio="1:1">
+                                 data-size="240,240" data-ratio="16:10">
                                 <input type="file" name="slim[]" required/>
                             </div>
                             <!-- Image 2 -->
                             <div class="slim border-2 border-dashed rounded-lg p-4" data-size="240,240"
-                                 data-ratio="1:1">
+                                 data-ratio="16:10">
                                 <input type="file" name="slim[]"/>
                             </div>
                             <!-- Image 3 -->
                             <div class="slim border-2 border-dashed rounded-lg p-4" data-size="240,240"
-                                 data-ratio="1:1">
+                                 data-ratio="16:10">
                                 <input type="file" name="slim[]"/>
                             </div>
                         </div>
