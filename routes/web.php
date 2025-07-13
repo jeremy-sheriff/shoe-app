@@ -40,6 +40,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index')->middleware(['auth', 'can:access-admin-dashboard']);
     Route::get('/categories/edit', [CategoriesController::class, 'edit'])->name('categories.edit')->middleware(['auth', 'can:access-admin-dashboard']);
+    Route::get('/categories/edit', [CategoriesController::class, 'destroy'])->name('categories.destroy')->middleware(['auth', 'can:access-admin-dashboard']);
     Route::get('/categories/create', [CategoriesController::class, 'create'])->name('categories.create')->middleware(['auth', 'can:access-admin-dashboard']);
     Route::post('/categories/store', [CategoriesController::class, 'store'])->name('categories.store')->middleware(['auth', 'can:access-admin-dashboard']);
 });
