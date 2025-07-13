@@ -84,6 +84,10 @@
                                     id="shoe_size"
                                     class="mt-1 block w-full h-10 px-4 border border-gray-300 rounded-md focus:ring-primary focus:border-primary text-gray-700 dark:text-white"
                                 >
+                                    @php
+                                        $shoe_sizes = range(20, 45);  // Array of shoe sizes
+                                    @endphp
+
                                     <option value="">Select a size</option>
                                     @foreach ($shoe_sizes as $size)
                                         <option
