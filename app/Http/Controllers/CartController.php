@@ -18,7 +18,7 @@ class CartController extends Controller
         $request->validate([
             'quantity' => 'required|integer|min:1',
             'color' => 'required|in:black,white,red,blue,custom',
-            'size' => 'required',
+            'sizes' => 'required',
         ]);
 
         $product = Product::with('images')->findOrFail($id);
