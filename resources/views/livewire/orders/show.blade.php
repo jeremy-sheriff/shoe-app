@@ -9,7 +9,7 @@
 
                         <!-- Order Details Section -->
                         <div class="rounded-lg border border-zinc-200 dark:border-zinc-700 p-4">
-                            <h2 class="text-lg font-semibold text-black mb-4">Order Info</h2>
+                            <h2 class="text-lg font-semibold text-black mb-4 dark:text-white">Order Info</h2>
                             <div class="space-y-2">
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full divide-y divide-gray-200">
@@ -20,6 +20,10 @@
                                             </th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Product Name
+                                            </th>
+
+                                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Product Size
                                             </th>
                                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                 Price (KSh)
@@ -34,6 +38,7 @@
                                             <tr>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->product->name ?? '-' }}</td>
+                                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->product->sizes ?? '-' }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ number_format($item->product->price ?? 0, 2) }}</td>
                                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $item->created_at->format('d M Y') }}</td>
                                             </tr>

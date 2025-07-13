@@ -78,7 +78,10 @@ class OrderController extends Controller
     public function show($uuid)
     {
         return view('livewire.orders.show', [
-            'order' => Order::query()->where('uuid', $uuid)->with('items')->firstOrFail(),
+            'order' => Order::query()
+                ->where('uuid', $uuid)
+                ->with('items')
+                ->firstOrFail(),
         ]);
     }
 
