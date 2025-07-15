@@ -340,7 +340,7 @@
         new Splide('#splide-{{ $index }}', {
             type: 'loop',
             perPage: 1,
-            height: '14rem',
+            height: '13rem',
             arrows: true,
             pagination: true,
             autoplay: false,
