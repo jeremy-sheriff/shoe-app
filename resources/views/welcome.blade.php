@@ -62,6 +62,8 @@
     @vite('resources/css/app.css')
 </head>
 <body class="antialiased">
+
+
 <!-- Navigation -->
 <nav class="py-6 px-6 md:px-12 flex justify-between items-center bg-white shadow-sm sticky top-0 z-50">
     <div class="text-2xl font-bold">
@@ -82,8 +84,81 @@
     @endif
 </nav>
 
+
+<nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center py-4">
+
+            <!-- Left spacer or logo -->
+            <div class="hidden md:flex w-1/3"></div>
+
+            <!-- Main Categories - Centered -->
+
+            <div class="hidden md:flex justify-center space-x-8 w-full md:w-auto">
+                <a href="/" class="font-medium hover:text-primary">
+                    All
+                </a>
+                @foreach ($categories as $category)
+                    <a href="{{ url('/?category=' . $category->id) }}" class="font-medium hover:text-primary">
+                        {{ $category->name }}
+                    </a>
+                @endforeach
+
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Shopping Section -->
+<section class=" dark:bg-zinc-900 py-3 px-6 md:px-20">
+
+    <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @foreach ($products as $index => $product)
+            <div class="bg-white dark:bg-zinc-800 p-2 rounded-xl shadow hover:shadow-lg transition">
+                {{-- Splide Carousel --}}
+                @if($product->images->count())
+                    <div id="splide-{{ $index }}" class="splide mb-2">
+                        <div class="splide__track">
+                            <ul class="splide__list">
+                                @foreach ($product->images as $image)
+                                    <li class="splide__slide">
+                                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}"
+                                             class="w-full h-56 object-cover rounded-lg">
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @else
+                    <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image"
+                         class="w-full h-56 object-cover rounded-lg mb-4">
+                @endif
+
+                {{-- Product Info --}}
+                <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2">{{ $product->name }}</h3>
+                <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
+                <div class="flex items-center justify-between">
+                    <span
+                        class="text-lg font-bold text-primary dark:text-white">KSh {{ number_format($product->price, 2) }}</span>
+                    <a href="{{ route('item.show', $product->slug) }}" class="btn btn-outline text-sm dark:text-white">View</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
+</section>
+
+
+<!-- Wavy Divider -->
+<div class="relative z-0">
+    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path fill="var(--secondary)"
+              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>
+    </svg>
+</div>
+
 <!-- Hero Section -->
-<section class="hero bg-gradient-to-br from-primary to-secondary text-black px-6 md:px-20">
+<section style="background-color: var(--secondary); color: var(--dark);"
+         class="hero bg-gradient-to-br from-primary to-secondary text-black px-6 md:px-20">
     <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="hero-content text-center md:text-left md:w-1/2 w-full">
             <h1 class="text-6xl font-extrabold leading-tight mb-6">
@@ -109,7 +184,7 @@
                         type="text"
                         name="tracking_number"
                         placeholder="Enter your tracking number"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
+                        class="w-full px-4 py-3 border border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-black"
                         required
                     >
                     <button
@@ -171,17 +246,10 @@
 
 
 
-<!-- Wavy Divider -->
-<div class="relative z-0">
-    <svg class="block w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-        <path fill="var(--secondary)"
-              d="M0,160L80,165.3C160,171,320,181,480,170.7C640,160,800,128,960,122.7C1120,117,1280,139,1360,149.3L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"/>
-    </svg>
-</div>
 
 
 <!-- Features Section -->
-<section class="py-24 px-6 md:px-20" style="background-color: var(--secondary); color: var(--dark);">
+<section class="py-24 bg-white px-6 md:px-20">
     <div class="text-center mb-16">
         <h2 class="text-5xl font-bold mb-4 text-secondary">Why Choose Dr-MorchCrafts?</h2>
         <p class="max-w-2xl mx-auto text-accent">
@@ -211,69 +279,7 @@
 </section>
 
 
-<!-- Shopping Section -->
-<section class=" dark:bg-zinc-900 py-24 px-6 md:px-20">
-    <div class="text-center mb-16">
-        <h2 class="text-5xl font-bold mb-4 text-zinc-800 dark:text-white">Shop Custom Shoes</h2>
-        <p class="max-w-2xl mx-auto text-zinc-600 dark:text-zinc-300">
-            Browse our collection of unique, handcrafted shoes created by our talented community of designers.
-        </p>
-    </div>
 
-    <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-        <section class="py-12 px-6 md:px-20">
-            <h4 class="text-2xl font-bold mb-6 dark:text-white">Browse by Category</h4>
-            <div class="flex flex-wrap gap-4">
-                {{-- Show All button --}}
-                <a href="{{ url('/') }}"
-                   class="px-4 py-2 border dark:text-white border-black text-black rounded hover:bg-black hover:text-white transition">
-                    Show All
-                </a>
-
-                {{-- Category buttons --}}
-                @foreach ($categories as $category)
-                    <a href="{{ url('/?category=' . $category->id) }}"
-                       class="px-4 py-2 border border-black text-black rounded hover:bg-black dark:text-white hover:text-white transition
-                   {{ request('category') == $category->id ? 'bg-black text-white' : '' }}">
-                        {{ $category->name }} ({{ $category->products_count }})
-                    </a>
-                @endforeach
-            </div>
-        </section>
-        @foreach ($products as $index => $product)
-            <div class="bg-white dark:bg-zinc-800 p-6 rounded-xl shadow hover:shadow-lg transition">
-                {{-- Splide Carousel --}}
-                @if($product->images->count())
-                    <div id="splide-{{ $index }}" class="splide mb-4">
-                        <div class="splide__track">
-                            <ul class="splide__list">
-                                @foreach ($product->images as $image)
-                                    <li class="splide__slide">
-                                        <img src="{{ asset('storage/' . $image->path) }}" alt="{{ $product->name }}"
-                                             class="w-full h-56 object-cover rounded-lg">
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                @else
-                    <img src="https://via.placeholder.com/300x200?text=No+Image" alt="No Image"
-                         class="w-full h-56 object-cover rounded-lg mb-4">
-                @endif
-
-                {{-- Product Info --}}
-                <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2">{{ $product->name }}</h3>
-                <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
-                <div class="flex items-center justify-between">
-                    <span
-                        class="text-lg font-bold text-primary dark:text-white">KSh {{ number_format($product->price, 2) }}</span>
-                    <a href="{{ route('item.show', $product->slug) }}" class="btn btn-outline text-sm dark:text-white">View</a>
-                </div>
-            </div>
-        @endforeach
-    </div>
-</section>
 
 
 
@@ -335,7 +341,7 @@
             height: '14rem',
             arrows: true,
             pagination: true,
-            autoplay: true,
+            autoplay: false,
         }).mount();
         @endforeach
     });
