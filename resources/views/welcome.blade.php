@@ -114,7 +114,7 @@
 
     <div class="grid gap-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         @foreach ($products as $index => $product)
-            <div class="bg-white dark:bg-zinc-800 p-2 rounded-xl shadow hover:shadow-lg transition">
+            <div class="bg-white dark:bg-zinc-800 p-1 rounded-xl shadow hover:shadow-lg transition">
                 {{-- Splide Carousel --}}
                 @if($product->images->count())
                     <div id="splide-{{ $index }}" class="splide mb-2">
@@ -135,12 +135,14 @@
                 @endif
 
                 {{-- Product Info --}}
-                <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2">{{ $product->name }}</h3>
-                <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4">{{ $product->description }}</p>
-                <div class="flex items-center justify-between">
+                <h3 class="text-xl font-semibold text-zinc-800 dark:text-white mb-2 p-4">{{ $product->name }}</h3>
+                <p class="text-zinc-600 dark:text-zinc-300 text-sm mb-4 p-4">{{ $product->description }}</p>
+                <div class="flex items-center justify-between p-6">
                     <span
                         class="text-lg font-bold text-primary dark:text-white">KSh {{ number_format($product->price, 2) }}</span>
-                    <a href="{{ route('item.show', $product->slug) }}" class="btn btn-outline text-sm dark:text-white">View</a>
+                    <a href="{{ route('item.show', $product->slug) }}"
+                       class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+                    >View</a>
                 </div>
             </div>
         @endforeach
