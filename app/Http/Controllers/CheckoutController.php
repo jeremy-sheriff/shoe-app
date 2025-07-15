@@ -15,6 +15,8 @@ class CheckoutController extends Controller
 {
     public function confirm(Request $request)
     {
+
+
         $request->validate([
             'mpesa_number' => 'required|regex:/^07\d{8}$/',
             'customer_name' => 'required|string|max:100',
@@ -32,7 +34,13 @@ class CheckoutController extends Controller
 
         foreach ($cart as $item) {
             $cartTotal += $item['price'] * $item['quantity'];
-            array_push($cartItems, $item['product']->toArray()['id']);
+            $cartItems[] = [
+                'product_id' => $item['product']->id,
+                'size' => $item['sizes'],
+                'color' => $item['color'] ?? null, // optionally add color if exists
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+            ];
         }
 
         if (empty($cart)) {
@@ -57,12 +65,13 @@ class CheckoutController extends Controller
 
 
         $items_data = [];
+
         foreach ($cartItems as $item) {
             $items_data[] = [
                 'order_id' => $orderId,
-                'product_id' => $item,
-                'size' => $cart->sizes,
-                'color' => $cart->color,
+                'product_id' => $item['product_id'],
+                'size' => $item['size'],
+                'color' => $item['color'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
