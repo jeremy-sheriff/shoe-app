@@ -23,7 +23,7 @@ class CartController extends Controller
 
         $product = Product::with('images')->findOrFail($id);
         $quantity = $request->input('quantity', 1);
-        $size = $request->input('size', 1);
+        $size = $request->input('sizes', 1);
 
         $cart = session()->get('cart', []);
 

@@ -8,9 +8,8 @@ use App\Models\Order;
 use App\Services\SmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class CheckoutController extends Controller
 {
@@ -62,6 +61,8 @@ class CheckoutController extends Controller
             $items_data[] = [
                 'order_id' => $orderId,
                 'product_id' => $item,
+                'size' => $cart->size,
+                'color' => $cart->color,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
