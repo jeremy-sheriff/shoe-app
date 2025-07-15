@@ -38,7 +38,7 @@ class CartController extends Controller
                 'quantity' => $quantity,
                 'color' => $request->input('color'),
                 'product' => $product,
-                'size' => $size,
+                'sizes' => $size,
             ];
         }
 

@@ -61,7 +61,7 @@ class CheckoutController extends Controller
             $items_data[] = [
                 'order_id' => $orderId,
                 'product_id' => $item,
-                'size' => $cart->size,
+                'size' => $cart->sizes,
                 'color' => $cart->color,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
