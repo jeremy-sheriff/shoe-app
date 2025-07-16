@@ -28,7 +28,7 @@
                         <div class="w-full md:w-1/2 space-y-2">
                             <label for="category" class="block text-sm font-medium text-gray-800 dark:text-white">Category</label>
                             <select name="category" id="category" required
-                                    class="mt-1 block w-full px-4 py-5 rounded-md border @error('category') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
+                                    class="mt-1 block w-full px-4 py-3 rounded-md border @error('category') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                                 <option value="">Select Category</option>
                                 @foreach ($categories as $category)
                                     <option
@@ -60,7 +60,7 @@
                         <div class="w-full md:w-1/2 space-y-2">
                             <label for="price" class="block text-sm font-medium text-gray-800 dark:text-white">Price
                                 (Ksh)</label>
-                            <input type="number" name="price" id="price" required
+                            <input placeholder="KSH 1,700" type="number" name="price" id="price" required
                                    value="{{ old('price') }}"
                                    class="mt-1 block w-full px-4 py-3 rounded-md border @error('price') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                             @error('price')
@@ -68,28 +68,15 @@
                             @enderror
                         </div>
 
+
                         <!-- Available colors -->
                         <div class="w-full md:w-1/2 space-y-2">
-                            <label for="color" class="block text-sm font-medium text-gray-800 dark:text-white">Available
-                                colors</label>
-                            <div class="flex flex-wrap gap-4">
-                                @php
-                                    $colors = ['Black', 'White', 'Red', 'Blue'];
-                                @endphp
-                                @foreach ($colors as $color)
-                                    <label class="flex items-center space-x-2 text-sm text-gray-700 dark:text-white">
-                                        <input
-                                            type="checkbox"
-                                            name="colors[]"
-                                            value="{{ strtolower($color) }}"
-                                            {{ is_array(old('colors')) && in_array(strtolower($color), old('colors')) ? 'checked' : '' }}
-                                            class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
-                                        >
-                                        <span>{{ $color }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
-                            @error('colors')
+
+                            <!-- Description -->
+                            <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
+                            <textarea name="description" id="description" rows="4" required
+                                      class="mt-1 block w-full px-4 py-3 rounded-md border @error('description') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
+                            @error('description')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
@@ -131,11 +118,41 @@
                         </div>
 
                         <div class="w-full md:w-1/2 space-y-2">
-                            <!-- Description -->
-                            <label for="description" class="block text-sm font-medium text-gray-800 dark:text-white">Description</label>
-                            <textarea name="description" id="description" rows="4" required
-                                      class="mt-1 block w-full px-4 py-3 rounded-md border @error('description') border-red-500 @else border-gray-300 dark:border-zinc-600 @enderror bg-white dark:bg-zinc-700 text-gray-900 dark:text-white shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('description') }}</textarea>
-                            @error('description')
+                            <label for="color" class="block text-sm font-medium text-gray-800 dark:text-white">Available
+                                colors</label>
+                            <br>
+                            <div class="flex flex-wrap gap-4">
+                                @php
+                                    $colors = [
+                                        'Black', 'Brown', 'Red', 'Blue', 'Yellow', 'White', 'Green', 'Orange',
+                                        'Grey', 'Beige', 'Tan', 'Pink', 'Purple', 'Maroon', 'Navy', 'Olive',
+                                        'Gold', 'Silver', 'Burgundy', 'Turquoise'
+                                    ];
+                                    $colorChunks = array_chunk($colors, 4); // Group 5 colors per column
+                                @endphp
+
+                                <div class="flex flex-row gap-6">
+                                    @foreach ($colorChunks as $chunk)
+                                        <div class="flex flex-col space-y-2">
+                                            @foreach ($chunk as $color)
+                                                <label
+                                                    class="flex items-center space-x-2 text-sm text-gray-700 dark:text-white">
+                                                    <input
+                                                        type="checkbox"
+                                                        name="colors[]"
+                                                        value="{{ strtolower($color) }}"
+                                                        {{ is_array(old('colors')) && in_array(strtolower($color), old('colors')) ? 'checked' : '' }}
+                                                        class="h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary"
+                                                    >
+                                                    <span>{{ $color }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            @error('colors')
                             <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
