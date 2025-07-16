@@ -43,6 +43,7 @@ class OrderTrackingComponent extends Component
             return;
         }
 
+
         // Set the order data
         $this->order = [
             'tracking_number' => $order->tracking_number,
