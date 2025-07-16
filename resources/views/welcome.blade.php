@@ -90,34 +90,100 @@
         <div class="flex justify-between items-center py-4">
 
             <!-- Track Order Button - Left Side -->
-            <div class="flex items-center w-1/3">
+            <div class="flex items-center">
                 <button
                     onclick="document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' })"
-                    class="bg-black text-white font-semibold px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                    class="bg-black text-white font-semibold px-3 py-2 md:px-6 md:py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
                 >
-                    Track your Order
+                    <span class="hidden sm:inline">Track your Order</span>
+                    <span class="sm:hidden">Track</span>
                 </button>
             </div>
 
-            <!-- Main Categories - Centered -->
+            <!-- Mobile Menu Button -->
+            <button
+                id="mobile-menu-button"
+                class="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                onclick="toggleMobileMenu()"
+            >
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+
+            <!-- Desktop Categories - Centered -->
             <div class="hidden md:flex justify-center space-x-8 w-full md:w-auto">
-                <a href="/" class="font-medium hover:text-primary">
+                <a href="/"
+                   class="font-medium text-gray-700 hover:text-primary hover:underline transition-all duration-300 ease-in-out relative py-2 px-3 rounded-md hover:bg-gray-50 hover:shadow-sm transform hover:scale-105">
                     All
                 </a>
                 @foreach ($categories as $category)
-                    <a href="{{ url('/?category=' . $category->id) }}" class="font-medium hover:text-primary">
+                    <a href="{{ url('/?category=' . $category->id) }}"
+                       class="font-medium text-gray-700 hover:text-primary hover:underline transition-all duration-300 ease-in-out relative py-2 px-3 rounded-md hover:bg-gray-50 hover:shadow-sm transform hover:scale-105">
                         {{ $category->name }}
                     </a>
                 @endforeach
             </div>
+        </div>
 
-            {{--            <!-- Right spacer to maintain balance -->--}}
-            {{--            <div class="hidden md:flex w-1/3">--}}
-            {{--                Hello--}}
-            {{--            </div>--}}
+        <!-- Mobile Menu - Hidden by default -->
+        <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200 mt-4 pt-4 pb-4">
+            <div class="flex flex-col space-y-3">
+                <a href="/"
+                   class="font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-all duration-300 ease-in-out py-3 px-4 rounded-lg">
+                    All
+                </a>
+                @foreach ($categories as $category)
+                    <a href="{{ url('/?category=' . $category->id) }}"
+                       class="font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-all duration-300 ease-in-out py-3 px-4 rounded-lg">
+                        {{ $category->name }}
+                    </a>
+                @endforeach
+            </div>
         </div>
     </div>
 </nav>
+
+<script>
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuButton = document.getElementById('mobile-menu-button');
+
+        if (mobileMenu.classList.contains('hidden')) {
+            mobileMenu.classList.remove('hidden');
+            // Change hamburger to X icon
+            menuButton.innerHTML = `
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        `;
+        } else {
+            mobileMenu.classList.add('hidden');
+            // Change back to hamburger icon
+            menuButton.innerHTML = `
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        `;
+        }
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function (event) {
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuButton = document.getElementById('mobile-menu-button');
+
+        if (!mobileMenu.contains(event.target) && !menuButton.contains(event.target)) {
+            mobileMenu.classList.add('hidden');
+            menuButton.innerHTML = `
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        `;
+        }
+    });
+</script>
 
 <!-- Shopping Section -->
 <section class=" dark:bg-zinc-900 py-3 px-6 md:px-20">
