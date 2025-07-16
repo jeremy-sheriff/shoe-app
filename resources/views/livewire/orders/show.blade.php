@@ -121,6 +121,7 @@
                     <div><strong>Placed By:</strong> {{ $order->customer_name ?? 'N/A' }}</div>
                     <div><strong>Mpesa Number:</strong> {{ $order->mpesa_number ?? 'N/A' }}</div>
                     <div><strong>Placed On:</strong> {{ $order->created_at->format('M d, Y') }}</div>
+                    <div><strong>Description :</strong> {{ $order->description }}</div>
                 </div>
             </div>
         </div>
