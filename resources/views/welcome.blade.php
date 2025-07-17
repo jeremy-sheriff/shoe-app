@@ -344,8 +344,10 @@
     </div>
     <div class="text-center text-sm mt-16 border-t pt-6 border-gray-700">
         &copy; 2025 Dr-MorchCrafts. Designed with care, coded with love.
+        <p>V <?php echo config('app.version') ?></p>
 
     </div>
+
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide/dist/js/splide.min.js"></script>
