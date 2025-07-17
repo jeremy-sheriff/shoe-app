@@ -135,7 +135,7 @@
                                 <input type="checkbox" name="use_as_contact" id="use_as_contact-mobile"
                                        class="mt-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
                                 <label for="use_as_contact-mobile" class="text-sm text-zinc-700 dark:text-zinc-300">
-                                    <i>Use this number as my contact number</i>
+                                    <i>Use this as my contact number</i>
                                 </label>
                             </div>
                             <input name="product" value="{{$product->id}}" hidden>
