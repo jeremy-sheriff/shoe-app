@@ -128,7 +128,7 @@
                                         'Grey', 'Beige', 'Tan', 'Pink', 'Purple', 'Maroon', 'Navy', 'Olive',
                                         'Gold', 'Silver', 'Burgundy', 'Turquoise'
                                     ];
-                                    $colorChunks = array_chunk($colors, 4); // Group 5 colors per column
+                                    $colorChunks = array_chunk($colors, 5); // Group 5 colors per column
                                 @endphp
 
                                 <div class="flex flex-row gap-6">
