@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Services\SmsService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -24,6 +25,10 @@ class CheckoutComponent extends Component
     public array $cart = [];
     public int $cartTotal = 0;
     public int $cartCount = 0;
+
+    protected $listeners = [
+        'cart-updated' => 'loadCart',
+    ];
 
     // Form validation rules
     protected $rules = [
@@ -51,6 +56,7 @@ class CheckoutComponent extends Component
 
     public function loadCart()
     {
+        Log::info("The cart has been updated");
         $this->cart = session('cart', []);
         $this->calculateCartTotal();
         $this->cartCount = count($this->cart);

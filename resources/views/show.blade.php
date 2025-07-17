@@ -231,7 +231,6 @@
                 @endphp
 
                 <div>
-                    <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
                     <div class="overflow-x-auto">
                         <livewire:cart.cart-table/>
                     </div>
@@ -267,65 +266,6 @@
             <div class="lg:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">
                 <livewire:checkouts.checkout-component/>
             </div>
-
-            <!-- Right: Checkout Form -->
-            {{--            <div class="lg:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">--}}
-            {{--                <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>--}}
-            {{--                @if(count($cart))--}}
-            {{--                    <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-4">--}}
-            {{--                        @csrf--}}
-            {{--                        <div>--}}
-            {{--                            <label for="mpesa_number"--}}
-            {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">--}}
-            {{--                                M-Pesa Number--}}
-            {{--                            </label>--}}
-            {{--                            <input type="text" name="mpesa_number" id="mpesa_number" required--}}
-            {{--                                   placeholder="e.g. 0712345678"--}}
-            {{--                                   class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-
-            {{--                            <div class="mt-2 flex items-center gap-2">--}}
-            {{--                                <input type="checkbox" name="use_as_contact" id="use_as_contact"--}}
-            {{--                                       class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">--}}
-            {{--                                <label for="use_as_contact" class="text-sm text-zinc-700 dark:text-zinc-300">--}}
-            {{--                                    <i>Use this number as my contact number</i>--}}
-            {{--                                </label>--}}
-            {{--                            </div>--}}
-            {{--                            <input name="product" value="{{$product->id}}" hidden>--}}
-            {{--                        </div>--}}
-
-            {{--                        <div>--}}
-            {{--                            <label for="customer_name"--}}
-            {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">--}}
-            {{--                                Full Names--}}
-            {{--                            </label>--}}
-            {{--                            <input type="text" name="customer_name" id="customer_name" required--}}
-            {{--                                   placeholder="e.g. John Doe"--}}
-            {{--                                   class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-            {{--                        </div>--}}
-
-            {{--                        <div>--}}
-            {{--                            <label for="town" class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Town</label>--}}
-            {{--                            <input type="text" name="town" id="town" required placeholder="e.g. Westlands"--}}
-            {{--                                   class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-            {{--                        </div>--}}
-
-            {{--                        <div>--}}
-            {{--                            <label for="description"--}}
-            {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">Description</label>--}}
-            {{--                            <textarea name="description" id="description" rows="4" required--}}
-            {{--                                      class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-            {{--                        </textarea>--}}
-            {{--                        </div>--}}
-
-            {{--                        <div class="pt-4">--}}
-            {{--                            <button type="submit"--}}
-            {{--                                    class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">--}}
-            {{--                                Confirm Order--}}
-            {{--                            </button>--}}
-            {{--                        </div>--}}
-            {{--                    </form>--}}
-            {{--                @endif--}}
-            {{--            </div>--}}
         </div>
 
         <!-- Mobile Cart Table -->
