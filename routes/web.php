@@ -38,15 +38,17 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/orders', [OrderController::class, 'customerOrders'])->name('orders.index.users')->middleware(['auth']);
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store')->middleware(['auth']);
 
-    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index')->middleware(['auth', 'can:access-admin-dashboard']);
-    Route::get('/categories/edit', [CategoriesController::class, 'edit'])->name('categories.edit')->middleware(['auth', 'can:access-admin-dashboard']);
-    Route::get('/categories/edit', [CategoriesController::class, 'destroy'])->name('categories.destroy')->middleware(['auth', 'can:access-admin-dashboard']);
-    Route::get('/categories/create', [CategoriesController::class, 'create'])->name('categories.create')->middleware(['auth', 'can:access-admin-dashboard']);
-    Route::post('/categories/store', [CategoriesController::class, 'store'])->name('categories.store')->middleware(['auth', 'can:access-admin-dashboard']);
+    // Categories routes
+    Route::get('/categories', [CategoriesController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create', [CategoriesController::class, 'create'])->name('categories.create');
+    Route::post('/categories/store', [CategoriesController::class, 'store'])->name('categories.store');
+    Route::get('/categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('orders', [OrderController::class, 'index'])->name('orders.index')->middleware(['auth', 'can:access-admin-dashboard']);
+    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::get('orders/show/{uuid}', [OrderController::class, 'show'])->name('orders.show');
     Route::patch('orders/{uuid}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
