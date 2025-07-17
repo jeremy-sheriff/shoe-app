@@ -20,7 +20,7 @@
 
     @if(count($errors) > 0)
         <div class="mt-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            <strong class="font-bold">Please fix the following errors:</strong>
+            <strong class="font-bold">Error!!</strong>
             <ul class="mt-2 list-disc list-inside text-sm">
                 @foreach ($errors as $error)
                     <li>{{ $error }}</li>
