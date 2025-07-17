@@ -6,6 +6,7 @@ use App\ExternalLibraries\FormatPhoneNumberUtil;
 use App\Models\Item;
 use App\Models\Order;
 use App\Services\SmsService;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -171,10 +172,8 @@ class CheckoutComponent extends Component
                 'product_id' => $item['product_id'],
                 'size' => $item['size'],
                 'color' => $item['color'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price'],
-                'created_at' => \Carbon\Carbon::now(),
-                'updated_at' => \Carbon\Carbon::now()
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now()
             ];
         }
 
