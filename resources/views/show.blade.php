@@ -263,7 +263,7 @@
                 @endif
             </div>
 
-            <div class="lg:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">
+            <div class="lg:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl">
                 <livewire:checkouts.checkout-component/>
             </div>
         </div>

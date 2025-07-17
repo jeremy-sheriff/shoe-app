@@ -39,7 +39,7 @@ class CheckoutComponent extends Component
     ];
 
     protected array $messages = [
-        'mpesa_number.required' => 'M-Pesa number is required.',
+        'mpesa_number.required' => 'M-Pesa number is xrequired.',
         'mpesa_number.regex' => 'M-Pesa number must be in format 07XXXXXXXX.',
         'customer_name.required' => 'Full name is required.',
         'customer_name.max' => 'Full name must not exceed 100 characters.',
