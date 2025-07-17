@@ -7,7 +7,6 @@ use App\Models\Item;
 use App\Models\Order;
 use App\Services\SmsService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -15,10 +14,10 @@ use Livewire\Component;
 class CheckoutComponent extends Component
 {
     public string $product = "";
-    public string $mpesa_number = "";
-    public string $customer_name = "";
-    public string $town = "";
-    public string $description = "";
+    public string $mpesa_number = "0712419949";
+    public string $customer_name = "Jeremy";
+    public string $town = "Nyeri";
+    public string $description = "Desc";
     public bool $use_as_contact = false;
 
     // Cart related properties
@@ -56,7 +55,6 @@ class CheckoutComponent extends Component
 
     public function loadCart()
     {
-        Log::info("The cart has been updated");
         $this->cart = session('cart', []);
         $this->calculateCartTotal();
         $this->cartCount = count($this->cart);
@@ -147,10 +145,11 @@ class CheckoutComponent extends Component
         $cartTotal = $this->cartTotal;
         $cartItems = [];
 
+
         foreach ($this->cart as $item) {
             $cartItems[] = [
-                'product_id' => $item['product']->id,
-                'size' => $item['sizes'],
+                'product_id' => $item['product_id'],
+                'size' => $item['size'],
                 'color' => $item['color'] ?? null,
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
