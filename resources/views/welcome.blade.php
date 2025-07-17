@@ -85,15 +85,16 @@
 </nav>
 
 
-<nav class="bg-white shadow-sm sticky top-0 z-50">
+<nav class="bg-white shadow-sm sticky top-0 z-50" id="second-nav">
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center py-4">
 
             <!-- Track Order Button - Left Side -->
             <div class="flex items-center">
-                <button
+                <button id="track-order-button"
                     onclick="document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' })"
-                    class="bg-black text-white font-semibold px-3 py-2 md:px-6 md:py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md text-sm md:text-base"
+                        class="bg-black  text-white font-semibold px-3 py-2 md:px-6 md:py-3
+                    rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md text-sm md:text-base"
                 >
                     <span class="hidden sm:inline">Track your Order</span>
                     <span class="sm:hidden">Track</span>
@@ -119,8 +120,8 @@
                     All
                 </a>
                 @foreach ($categories as $category)
-                    <a href="{{ url('/?category=' . $category->id) }}"
-                       class="font-medium text-gray-700 hover:text-primary hover:underline transition-all duration-300 ease-in-out relative py-2 px-3 rounded-md hover:bg-gray-50 hover:shadow-sm transform hover:scale-105">
+                    <a id="categories" href="{{ url('/?category=' . $category->id) }}"
+                       class="font-medium dark:text-gray-700 text-gray-700 hover:text-primary hover:underline transition-all duration-300 ease-in-out relative py-2 px-3 rounded-md hover:bg-gray-50 hover:shadow-sm transform hover:scale-105">
                         {{ $category->name }}
                     </a>
                 @endforeach
@@ -355,12 +356,41 @@
         new Splide('#splide-{{ $index }}', {
             type: 'loop',
             perPage: 1,
-            height: '13rem',
+            height: '15rem',
             arrows: true,
-            pagination: true,
+            pagination: false,
             autoplay: false,
         }).mount();
         @endforeach
+    });
+
+
+    // Scroll effect for second navigation
+    window.addEventListener('scroll', function () {
+        const secondNav = document.getElementById('second-nav');
+        const trackOrderButton = document.getElementById('track-order-button');
+        const categories = document.getElementById('categories');
+        const scrollPosition = window.scrollY;
+
+
+        // Add 'scrolled' class when user scrolls down more than 100px
+        if (scrollPosition > 60) {
+            secondNav.classList.add('bg-black');
+            secondNav.classList.remove('bg-white');
+
+            categories.classList.add('dark:text-white');
+
+            trackOrderButton.classList.remove('bg-black');
+            trackOrderButton.classList.add('border-2');
+            trackOrderButton.classList.add('border-white');
+        } else {
+            secondNav.classList.remove('bg-black');
+            secondNav.classList.add('bg-white');
+
+            trackOrderButton.classList.add('bg-black');
+            trackOrderButton.classList.remove('border-white');
+            categories.classList.remove('text-white');
+        }
     });
 </script>
 </body>
