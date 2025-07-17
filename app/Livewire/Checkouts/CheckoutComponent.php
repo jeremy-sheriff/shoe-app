@@ -208,7 +208,7 @@ class CheckoutComponent extends Component
         }
 
         // Redirect to success page
-        return redirect()->route('order.success');
+//        return redirect()->route('order.success');
     }
 
     private function initiateStkPush($mpesa_number, $amount, $order_id)
