@@ -93,7 +93,7 @@
             <div class="flex items-center">
                 <button
                     onclick="document.getElementById('hero-section').scrollIntoView({ behavior: 'smooth' })"
-                    class="bg-black text-white font-semibold px-3 py-2 md:px-6 md:py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:scale-105 text-sm md:text-base"
+                    class="bg-black text-white font-semibold px-3 py-2 md:px-6 md:py-3 rounded-lg hover:bg-gray-800 transition-colors duration-200 shadow-md text-sm md:text-base"
                 >
                     <span class="hidden sm:inline">Track your Order</span>
                     <span class="sm:hidden">Track</span>
@@ -236,7 +236,7 @@
 
 <!-- Hero Section -->
 <section id="hero-section" style="background-color: var(--secondary); color: var(--dark);"
-         class="hero bg-gradient-to-br from-primary to-secondary text-black px-6 md:px-20">
+         class="hero bg-gradient-to-br from-primary to-secondary text-black  md:px-20 min-h-screen">
     <div class="flex flex-col md:flex-row items-center gap-12">
         <div class="hero-content text-center md:text-left md:w-1/2 w-full">
             <h1 class="text-6xl font-extrabold leading-tight mb-6">
@@ -246,17 +246,9 @@
                 Craft personalized footwear that speaks your vibe, built with top-tier materials and unmatched care.
             </p>
 
-            <div class="flex justify-center md:justify-start gap-4 mb-6 flex-wrap">
-                <a href="#" class="px-6 py-2 bg-red-500 text-white font-semibold rounded hover:bg-red-600 transition">Start
-                    Designing</a>
-                <a href="#"
-                   class="px-6 py-2 border border-black text-black font-semibold rounded hover:bg-black hover:text-white transition">View
-                    Gallery</a>
-            </div>
-
 
             <div id="order-tracking" class="flex flex-col gap-4">
-                <livewire:order-tracking-component/>
+                <livewire:orders.tracking/>
             </div>
         </div>
 

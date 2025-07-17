@@ -2,22 +2,27 @@
 
 namespace App\Livewire\Checkouts;
 
+use App\ExternalLibraries\FormatPhoneNumberUtil;
+use App\Models\Item;
+use App\Models\Order;
+use App\Services\SmsService;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CheckoutComponent extends Component
 {
-    public $product = "";
-    public $mpesa_number = "";
-    public $customer_name = "";
-    public $town = "";
-    public $description = "";
-    public $use_as_contact = false;
+    public string $product = "";
+    public string $mpesa_number = "";
+    public string $customer_name = "";
+    public string $town = "";
+    public string $description = "";
+    public bool $use_as_contact = false;
 
     // Cart related properties
-    public $cart = [];
-    public $cartTotal = 0;
-    public $cartCount = 0;
+    public array $cart = [];
+    public int $cartTotal = 0;
+    public int $cartCount = 0;
 
     // Form validation rules
     protected $rules = [
@@ -27,7 +32,7 @@ class CheckoutComponent extends Component
         'description' => 'required|string|max:150',
     ];
 
-    protected $messages = [
+    protected array $messages = [
         'mpesa_number.required' => 'M-Pesa number is required.',
         'mpesa_number.regex' => 'M-Pesa number must be in format 07XXXXXXXX.',
         'customer_name.required' => 'Full name is required.',
@@ -50,7 +55,7 @@ class CheckoutComponent extends Component
         $this->cartCount = count($this->cart);
     }
 
-    public function calculateCartTotal()
+    public function calculateCartTotal(): void
     {
         $this->cartTotal = 0;
         foreach ($this->cart as $item) {
@@ -58,7 +63,7 @@ class CheckoutComponent extends Component
         }
     }
 
-    public function updateQuantity($index, $quantity)
+    public function updateQuantity($index, $quantity): void
     {
         if ($quantity > 0) {
             $this->cart[$index]['quantity'] = $quantity;
@@ -131,7 +136,7 @@ class CheckoutComponent extends Component
         }
 
         // Process the order directly in Livewire
-        $trackingCode = strtoupper(\Illuminate\Support\Str::random(10));
+        $trackingCode = strtoupper(Str::random(10));
         $cartTotal = $this->cartTotal;
         $cartItems = [];
 
@@ -146,8 +151,8 @@ class CheckoutComponent extends Component
         }
 
         // Create the order
-        $order = \App\Models\Order::create([
-            'uuid' => \Illuminate\Support\Str::uuid(),
+        $order = Order::query()->create([
+            'uuid' => Str::uuid(),
             'tracking_number' => $trackingCode,
             'customer_name' => $this->customer_name,
             'town' => $this->town,
@@ -173,24 +178,24 @@ class CheckoutComponent extends Component
             ];
         }
 
-        \App\Models\Item::insert($items_data);
+        Item::query()->insert($items_data);
 
         // Send SMS notification
         try {
-            $smsService = new \App\Services\SmsService();
+            $smsService = new SmsService();
             $smsService->to("0700801438");
             $smsService->message("New order #{$trackingCode} placed. Amount: KSh " . number_format($cartTotal, 2) . " from {$this->customer_name}");
             $smsService->send();
         } catch (\Exception $e) {
             // Log SMS error but don't fail the order
-            \Log::error('SMS notification failed: ' . $e->getMessage());
+//            Log::error('SMS notification failed: ' . $e->getMessage());
         }
 
         // Clear cart
         $this->cart = [];
         $this->cartTotal = 0;
         $this->cartCount = 0;
-        \Illuminate\Support\Facades\Session::forget('cart');
+        Session::forget('cart');
 
         // Initiate STK Push
         $response = $this->initiateStkPush($this->mpesa_number, $cartTotal, $trackingCode);
@@ -209,7 +214,7 @@ class CheckoutComponent extends Component
 
     private function initiateStkPush($mpesa_number, $amount, $order_id)
     {
-        $phoneFormat = new \App\ExternalLibraries\FormatPhoneNumberUtil();
+        $phoneFormat = new FormatPhoneNumberUtil();
         $phone_paying = $phoneFormat::formatPhoneNumber($mpesa_number);
 
         if ($this->startsWith($phone_paying, "07")) {

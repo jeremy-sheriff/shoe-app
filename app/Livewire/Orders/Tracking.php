@@ -1,30 +1,31 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Orders;
 
 use App\Models\Order;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
-// Adjust this to your actual Order model
-
-class OrderTrackingComponent extends Component
+class Tracking extends Component
 {
-    public $tracking_number = '';
+    public string $tracking_number = '';
     public $order = null;
-    public $errors = [];
+    public array $errors = [];
 
-    protected $rules = [
+    protected array $rules = [
         'tracking_number' => 'required|string|min:3'
     ];
 
-    protected $messages = [
+    protected array $messages = [
         'tracking_number.required' => 'Please enter a tracking number',
         'tracking_number.min' => 'Tracking number must be at least 3 characters long'
     ];
 
-    public function trackOrder()
+    public function trackOrder(): void
     {
+
+        Log::info("tracking number: $this->tracking_number");
         $this->errors = [];
 
         // Validate the input
@@ -36,7 +37,7 @@ class OrderTrackingComponent extends Component
         }
 
         // Find the order by tracking number
-        $order = Order::where('tracking_number', $this->tracking_number)->first();
+        $order = Order::query()->where('tracking_number', $this->tracking_number)->first();
 
         if (!$order) {
             $this->errors = ['Order not found. Please check your tracking number and try again.'];
@@ -57,8 +58,9 @@ class OrderTrackingComponent extends Component
         ];
     }
 
+
     public function render()
     {
-        return view('livewire.order-tracking-component');
+        return view('livewire.orders.tracking');
     }
 }

@@ -10,10 +10,15 @@ class Order extends Model
 {
     protected $guarded = [];
 
+    public static function create(array $array)
+    {
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
+
 
     public function items(): HasMany
     {
