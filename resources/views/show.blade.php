@@ -185,6 +185,8 @@
         <div class="hidden lg:grid lg:grid-cols-10 gap-8">
             <!-- Left: Product Carousel + Add to Cart Form + Cart -->
             <div class="lg:col-span-7 space-y-12">
+
+
                 <div class="grid md:grid-cols-2 gap-8">
                     <!-- Product Image Carousel -->
                     <div>
@@ -218,54 +220,7 @@
                         <p class="text-3xl font-extrabold text-indigo-600 mb-8">
                             KSh {{ number_format($product->price, 2) }}</p>
 
-                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="space-y-4">
-                            @csrf
-                            <div class="flex items-center gap-4">
-                                <label for="quantity"
-                                       class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Quantity:</label>
-                                <input type="number" name="quantity" id="quantity" min="1" value="1"
-                                       class="w-20 px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
-                            </div>
-
-                            <div class="flex items-center gap-4">
-                                <label for="color"
-                                       class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Color:</label>
-
-                                <select name="color" id="color"
-                                        class="px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white">
-                                    <option value="">Select Color</option>
-                                    @if (!empty($product->colors) && is_array($product->colors))
-                                        @foreach ($product->colors as $color)
-                                            <option value="{{ strtolower($color) }}">{{ ucfirst($color) }}</option>
-                                        @endforeach
-                                    @endif
-                                </select>
-
-                                <div class="form-group">
-                                    <select name="sizes" id="sizes"
-                                            class="px-3 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white"
-                                            required>
-                                        <option value="">Select a size</option>
-                                        @foreach ($product->sizes as $size)
-                                            <option
-                                                value="{{ $size }}" {{ old('sizes') == $size ? 'selected' : '' }}>{{ $size }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 flex flex-wrap items-center gap-4">
-                                <button type="submit"
-                                        class="inline-flex items-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">
-                                    <i class="fa fa-cart-plus mr-2"></i> Add to Cart
-                                </button>
-
-                                <a href="{{ route('home') }}"
-                                   class="inline-block px-6 py-3 text-sm font-semibold text-white bg-gray-700 hover:bg-gray-800 rounded-md transition">
-                                    ← Continue Shopping
-                                </a>
-                            </div>
-                        </form>
+                        <livewire:cart.add-to-cart :product="$product"/>
                     </div>
                 </div>
 
@@ -278,78 +233,12 @@
                 <div>
                     <h2 class="text-2xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
                     <div class="overflow-x-auto">
-                        <table
-                            class="w-full text-left border border-zinc-200 dark:border-zinc-700 shadow rounded-xl overflow-hidden">
-                            <thead class="bg-zinc-100 dark:bg-zinc-800 text-sm uppercase">
-                            <tr>
-                                <th class="p-3">Image</th>
-                                <th class="p-3">Product</th>
-                                <th class="p-3">Price</th>
-                                <th class="p-3">Color</th>
-                                <th class="p-3">Qty</th>
-                                <th class="p-3">Subtotal</th>
-                                <th class="p-3">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody class="divide-y divide-zinc-200 dark:divide-zinc-700">
-                            @forelse($cart as $id => $item)
-                                @php $subtotal = $item['price'] * $item['quantity']; $cartTotal += $subtotal; @endphp
-                                <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800">
-                                    <td class="p-3">
-                                        <img src="{{ asset('storage/' . $item['image']) }}"
-                                             class="w-16 h-16 object-cover rounded" alt="{{ $item['name'] }}">
-                                    </td>
-                                    <td class="p-3 font-medium">{{ $item['name'] }}</td>
-                                    <td class="p-3">KSh {{ number_format($item['price'], 2) }}</td>
-                                    <td class="p-3 capitalize">{{ $item['color'] ?? 'N/A' }}</td>
-                                    <td class="p-3">
-                                        <div class="flex items-center gap-2">
-                                            <form action="{{ route('cart.decrease', $id) }}" method="POST"
-                                                  class="inline-block">
-                                                @csrf
-                                                <button type="submit"
-                                                        class="px-2 py-1 bg-gray-200 dark:bg-zinc-700 rounded">-
-                                                </button>
-                                            </form>
-                                            <span>{{ $item['quantity'] }}</span>
-                                            <form action="{{ route('cart.increase', $id) }}" method="POST"
-                                                  class="inline-block">
-                                                @csrf
-                                                <button type="submit"
-                                                        class="px-2 py-1 bg-gray-200 dark:bg-zinc-700 rounded">+
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <td class="p-3 font-semibold">KSh {{ number_format($subtotal, 2) }}</td>
-                                    <td class="p-3">
-                                        <form action="{{ route('cart.remove', $id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="text-red-500 hover:underline text-sm">Remove
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="7" class="p-6 text-center text-zinc-500 dark:text-zinc-400">Your cart
-                                        is empty.
-                                    </td>
-                                </tr>
-                            @endforelse
-
-                            @if(count($cart))
-                                <tr class="bg-zinc-100 dark:bg-zinc-800 font-bold">
-                                    <td colspan="5" class="p-3 text-right">Total</td>
-                                    <td class="p-3">KSh {{ number_format($cartTotal, 2) }}</td>
-                                    <td></td>
-                                </tr>
-                            @endif
-                            </tbody>
-                        </table>
+                        <livewire:cart.cart-table/>
                     </div>
                 </div>
 
+
+                <h1>Order details below</h1>
                 @if(session('trackingNumber'))
                     <div class="bg-white dark:bg-zinc-800 p-4 shadow rounded mb-4">
                         <h2 class="text-lg font-bold">Order Details</h2>
