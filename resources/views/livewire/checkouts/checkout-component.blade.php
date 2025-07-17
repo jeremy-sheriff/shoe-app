@@ -1,7 +1,7 @@
 <div>
     <!-- Checkout Form Section -->
     <div class="lg:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl shadow h-fit">
-        <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>
+        <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout.</h2>
 
         <!-- Display Messages -->
         @if (session()->has('message'))
