@@ -236,8 +236,6 @@
                     </div>
                 </div>
 
-
-                <h1>Order details below</h1>
                 @if(session('trackingNumber'))
                     <div class="bg-white dark:bg-zinc-800 p-4 shadow rounded mb-4">
                         <h2 class="text-lg font-bold">Order Details</h2>
