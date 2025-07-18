@@ -23,10 +23,8 @@ class Counter extends Component
 
     function updateCart()
     {
-        $this->cart = Session::get('cart');
+        $this->cart = Session::get('cart', []);
         $this->totalItems = count($this->cart);
-
-
     }
 
     public function render()
