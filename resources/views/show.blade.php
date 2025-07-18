@@ -265,6 +265,8 @@
                         </p>
                     </div>
                 @endif
+
+                <livewire:orders.generate-tracking-number/>
             </div>
 
             <div class="lg:col-span-3 bg-white dark:bg-zinc-800 p-6 rounded-xl">

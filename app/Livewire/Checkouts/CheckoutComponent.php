@@ -212,6 +212,8 @@ class CheckoutComponent extends Component
             session()->flash('trackingNumber', $trackingCode);
         }
 
+        // Reset form fields
+        $this->reset(['mpesa_number', 'customer_name', 'town', 'description', 'use_as_contact']);
         $this->dispatch("sent-mpesa-stk-push");
     }
 
