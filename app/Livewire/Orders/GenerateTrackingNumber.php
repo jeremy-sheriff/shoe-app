@@ -17,7 +17,7 @@ class GenerateTrackingNumber extends Component
         return view('livewire.orders.generate-tracking-number');
     }
 
-    protected function generateTrackingNumber(): string
+    public function generateTrackingNumber(): void
     {
         // Option 1: Year + Month + Day + Hour + Minute + Second + Random (e.g., TRK240718143025A1B2)
         $timestamp = now()->format('ymdHis'); // 240718143025
