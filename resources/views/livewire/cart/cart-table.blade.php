@@ -36,7 +36,7 @@
                         <td class="p-3 font-medium">{{ $item['name'] }}</td>
                         <td class="p-3">KSh {{ number_format($item['price'], 2) }}</td>
                         <td class="p-3 capitalize">{{ $item['color'] ?: 'N/A' }}</td>
-                        <td class="p-3">{{ $item['sizes'] ?: 'N/A' }}</td>
+                        <td class="p-3">{{ $item['size'] ?: 'N/A' }}</td>
                         <td class="p-3">
                             <div class="flex items-center gap-2">
                                 <button
