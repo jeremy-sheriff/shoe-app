@@ -85,6 +85,7 @@
         </div>
     </div>
 
+
     <!-- Mobile Cart Display -->
     <div class="block lg:hidden">
         <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Your Cart</h2>
@@ -108,10 +109,10 @@
                                 <h3 class="font-medium text-zinc-900 dark:text-white truncate">{{ $item['name'] }}</h3>
                                 <p class="text-sm text-zinc-500 dark:text-zinc-400">
                                     KSh {{ number_format($item['price'], 2) }}
-                                    @if($item['color'])
+                                    @if($item['color'] ?? null)
                                         • {{ ucfirst($item['color']) }}
                                     @endif
-                                    @if($item['size'])
+                                    @if($item['size'] ?? null)
                                         • {{ $item['size'] }}
                                     @endif
                                 </p>
