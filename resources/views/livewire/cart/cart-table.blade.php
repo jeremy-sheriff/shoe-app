@@ -112,7 +112,7 @@
                                     @if($item['color'] ?? null)
                                         • {{ ucfirst($item['color']) }}
                                     @endif
-                                    @if($item['size'] ?? null)
+                                    @if(isset($item['size']) && $item['size'])
                                         • {{ $item['size'] }}
                                     @endif
                                 </p>
