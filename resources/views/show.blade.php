@@ -232,7 +232,9 @@
 
                 <div>
                     <div class="overflow-x-auto">
-                        <livewire:cart.cart-table/>
+                        @if(count(\Illuminate\Support\Facades\Session::get('cart')))
+                            <livewire:cart.cart-table/>
+                        @endif
                     </div>
                 </div>
 
