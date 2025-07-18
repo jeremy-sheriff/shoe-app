@@ -13,12 +13,21 @@ class CartTable extends Component
 
     protected $listeners = [
         'cart-updated' => 'updateCart',
-        'action-happened' => 'handleAction'
+        'action-happened' => 'handleAction',
+        'sent-mpesa-stk-push' => "clearCart"
     ];
 
     public function mount()
     {
         $this->updateCart();
+    }
+
+    public function clearCart()
+    {
+        Session::forget('cart');
+        $this->cart = [];
+        $this->cartTotal = 0;
+        $this->dispatch('cart-updated');
     }
 
     public function updateCart()

@@ -23,6 +23,7 @@ class CartComponent extends Component
         $this->calculateTotal();
     }
 
+
     public function calculateTotal()
     {
         $this->cartTotal = 0;

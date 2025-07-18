@@ -212,8 +212,7 @@ class CheckoutComponent extends Component
             session()->flash('trackingNumber', $trackingCode);
         }
 
-        // Redirect to success page
-//        return redirect()->route('order.success');
+        $this->dispatch("sent-mpesa-stk-push");
     }
 
     private function initiateStkPush($mpesa_number, $amount, $order_id)
