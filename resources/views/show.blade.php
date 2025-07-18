@@ -120,6 +120,7 @@
             @if(count($cart))
                 <div class="bg-white dark:bg-zinc-800 p-4 rounded-xl shadow">
                     <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>
+
                     {{--                    <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-4">--}}
                     {{--                        @csrf--}}
                     {{--                        <div>--}}
