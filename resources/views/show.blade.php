@@ -236,9 +236,9 @@
 
                 <div>
                     <div class="overflow-x-auto">
-                        @if(count(\Illuminate\Support\Facades\Session::get('cart')))
+                        {{--                        @if(count(\Illuminate\Support\Facades\Session::get('cart')))--}}
                             <livewire:cart.cart-table/>
-                        @endif
+                        {{--                        @endif--}}
                     </div>
                 </div>
 
