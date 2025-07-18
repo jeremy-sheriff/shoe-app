@@ -36,7 +36,7 @@ class CartTable extends Component
         $this->calculateTotal();
     }
 
-    public function calculateTotal()
+    public function calculateTotal(): void
     {
         $this->cartTotal = 0;
         foreach ($this->cart as $item) {
@@ -44,12 +44,12 @@ class CartTable extends Component
         }
     }
 
-    public function handleAction()
+    public function handleAction(): void
     {
         Log::info("Action happened");
     }
 
-    public function increaseQuantity($cartKey)
+    public function increaseQuantity($cartKey): void
     {
         $cart = Session::get('cart', []);
         if (isset($cart[$cartKey])) {
@@ -60,7 +60,7 @@ class CartTable extends Component
         }
     }
 
-    public function decreaseQuantity($cartKey)
+    public function decreaseQuantity($cartKey): void
     {
         $cart = Session::get('cart', []);
         if (isset($cart[$cartKey])) {
@@ -75,7 +75,7 @@ class CartTable extends Component
         }
     }
 
-    public function removeItem($cartKey)
+    public function removeItem($cartKey): void
     {
         $cart = Session::get('cart', []);
         if (isset($cart[$cartKey])) {
