@@ -2,11 +2,12 @@
 
 namespace App\Livewire\Checkouts;
 
-use App\ExternalLibraries\FormatPhoneNumberUtil;
+use App\Contracts\PaymentServiceInterface;
 use App\Models\Item;
 use App\Models\Order;
 use App\Services\SmsService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -14,16 +15,18 @@ use Livewire\Component;
 class CheckoutComponent extends Component
 {
     public string $product = "";
-    public string $mpesa_number = "";
-    public string $customer_name = "";
-    public string $town = "";
-    public string $description = "";
+    public string $mpesa_number = "0712419949";
+    public string $customer_name = "muhoho";
+    public string $town = "Nyeri";
+    public string $description = "Desc";
     public bool $use_as_contact = false;
 
     // Cart related properties
     public array $cart = [];
     public int $cartTotal = 0;
     public int $cartCount = 0;
+
+    protected PaymentServiceInterface $paymentService;
 
     protected $listeners = [
         'cart-updated' => 'loadCart',
@@ -38,7 +41,7 @@ class CheckoutComponent extends Component
     ];
 
     protected array $messages = [
-        'mpesa_number.required' => 'M-Pesa number is xrequired.',
+        'mpesa_number.required' => 'M-Pesa number is required.',
         'mpesa_number.regex' => 'M-Pesa number must be in format 07XXXXXXXX.',
         'customer_name.required' => 'Full name is required.',
         'customer_name.max' => 'Full name must not exceed 100 characters.',
@@ -47,6 +50,11 @@ class CheckoutComponent extends Component
         'description.required' => 'Description is required.',
         'description.max' => 'Description must not exceed 150 characters.',
     ];
+
+    public function boot(PaymentServiceInterface $paymentService)
+    {
+        $this->paymentService = $paymentService;
+    }
 
     public function mount()
     {
@@ -140,168 +148,159 @@ class CheckoutComponent extends Component
             return;
         }
 
-        // Process the order directly in Livewire
-        $trackingCode = strtoupper(Str::random(10));
-        $cartTotal = $this->cartTotal;
-        $cartItems = [];
+        try {
+            // Create the order
+            $order = $this->createOrder();
 
+            // Save order items
+            $this->createOrderItems($order);
+
+            // Send SMS notification
+            $this->sendOrderNotification($order);
+
+            // Clear cart
+            $this->clearCartSession();
+
+            // Initiate payment
+            $this->initiatePayment($order);
+
+        } catch (\Exception $e) {
+            Log::error('Order submission failed', [
+                'error' => $e->getMessage(),
+                'customer' => $this->customer_name,
+                'amount' => $this->cartTotal
+            ]);
+
+            session()->flash('error', 'Failed to process your order. Please try again.');
+        }
+    }
+
+    private function generateTrackingCode()
+    {
+        $this->showTrackingNumber = true;
+        // Option 1: Year + Month + Day + Hour + Minute + Second + Random (e.g., TRK240718143025A1B2)
+        $timestamp = now()->format('ymdHis'); // 240718143025
+        $random = strtoupper(Str::random(4)); // A1B2
+        return $this->tracking_number = $timestamp . $random;
+    }
+
+    public function createOrder(): Order
+    {
+        try {
+            $trackingCode = $this->generateTrackingCode();
+
+            $payload = [
+                'uuid' => Str::uuid()->toString(),
+                'tracking_number' => $trackingCode,
+                'customer_name' => $this->customer_name,
+                'town' => $this->town,
+                'description' => $this->description,
+                'mpesa_number' => $this->mpesa_number,
+                'mpesa_code' => "324242342",
+                'status' => 'pending',
+                'payment_status' => 'pending',
+                'amount' => $this->cartTotal,
+            ];
+
+//            dd($payload);
+            $order = Order::create($payload);
+
+            if (!$order) {
+                throw new \Exception('Failed to create order');
+            }
+
+            $this->dispatch("sent-mpesa-stk-push", ['tracking_number' => $order->tracking_number]);
+            return $order;
+
+        } catch (\Exception $e) {
+            Log::error('Order creation exception: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+
+    private function createOrderItems(Order $order): void
+    {
+        $items_data = [];
 
         foreach ($this->cart as $item) {
-            $cartItems[] = [
+            $items_data[] = [
+                'order_id' => $order->id,
                 'product_id' => $item['product_id'],
                 'size' => $item['size'],
                 'color' => $item['color'] ?? null,
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
-            ];
-        }
-
-        // Create the order
-        $order = Order::query()->create([
-            'uuid' => Str::uuid(),
-            'tracking_number' => $trackingCode,
-            'customer_name' => $this->customer_name,
-            'town' => $this->town,
-            'description' => $this->description,
-            'mpesa_number' => $this->mpesa_number,
-            'status' => 'pending',
-            'payment_status' => 'pending',
-            'amount' => $cartTotal,
-        ]);
-
-        // Save order items
-        $items_data = [];
-        foreach ($cartItems as $item) {
-            $items_data[] = [
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'size' => $item['size'],
-                'color' => $item['color'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             ];
         }
 
-        Item::query()->insert($items_data);
+        Item::insert($items_data);
+    }
 
-        // Send SMS notification
+    private function sendOrderNotification(Order $order): void
+    {
         try {
             $smsService = new SmsService();
             $smsService->to("0700801438");
-            $smsService->message("New order #{$trackingCode} placed. Amount: KSh " . number_format($cartTotal, 2) . " from {$this->customer_name}");
+            $smsService->message(
+                "New order #{$order->tracking_number} placed. Amount: KSh " .
+                number_format($order->amount, 2) . " from {$order->customer_name}"
+            );
             $smsService->send();
         } catch (\Exception $e) {
-            // Log SMS error but don't fail the order
-//            Log::error('SMS notification failed: ' . $e->getMessage());
+            \Log::error('SMS notification failed', [
+                'order_id' => $order->id,
+                'error' => $e->getMessage()
+            ]);
         }
+    }
 
-        // Clear cart
+    private function clearCartSession(): void
+    {
         $this->cart = [];
         $this->cartTotal = 0;
         $this->cartCount = 0;
         Session::forget('cart');
+    }
 
-        // Initiate STK Push
-        $response = $this->initiateStkPush($this->mpesa_number, $cartTotal, $trackingCode);
+    private function initiatePayment(Order $order): void
+    {
+        $response = $this->paymentService->initiatePayment(
+            phoneNumber: $this->mpesa_number,
+            amount: $order->amount,
+            reference: $order->tracking_number,
+            description: "Payment for Order #{$order->tracking_number}"
+        );
 
-        if (isset($response['ResponseCode']) && $response['ResponseCode'] == '0') {
+        if ($this->paymentService->isPaymentSuccessful($response)) {
+            // Store payment reference for tracking
+            $order->update([
+                'payment_reference' => $response['checkout_request_id'] ?? null,
+                'merchant_request_id' => $response['merchant_request_id'] ?? null,
+            ]);
+
             session()->flash('success', 'Order placed successfully! Please complete payment on your phone.');
-            session()->flash('trackingNumber', $trackingCode);
+            session()->flash('trackingNumber', $order->tracking_number);
         } else {
             session()->flash('warning', 'Order placed successfully, but payment initiation failed. Please contact support.');
-            session()->flash('trackingNumber', $trackingCode);
+            session()->flash('trackingNumber', $order->tracking_number);
+
+            Log::warning('Payment initiation failed', [
+                'order_id' => $order->id,
+                'response' => $response
+            ]);
         }
 
         // Reset form fields
         $this->reset(['mpesa_number', 'customer_name', 'town', 'description', 'use_as_contact']);
-        $this->dispatch("sent-mpesa-stk-push");
+
+        $this->dispatch("sent-mpesa-stk-push", ['tracking_number' => $order->tracking_number]);
+
     }
 
-    private function initiateStkPush($mpesa_number, $amount, $order_id)
-    {
-        $phoneFormat = new FormatPhoneNumberUtil();
-        $phone_paying = $phoneFormat::formatPhoneNumber($mpesa_number);
-
-        if ($this->startsWith($phone_paying, "07")) {
-            $phone_paying = str_replace("07", "2547", $phone_paying);
-        }
-
-        $merchant_id = env('MPESA_SHORTCODE');
-        $passkey = env('MPESA_PASSKEY');
-        $timestamp = date("YmdHis");
-        $password = base64_encode($merchant_id . $passkey . $timestamp);
-        $access_token = $this->getAccessToken();
-
-        if (!$access_token) {
-            return ['ResponseCode' => '1', 'ResponseDescription' => 'Failed to get access token'];
-        }
-
-        $payload = [
-            'BusinessShortCode' => $merchant_id,
-            'Password' => $password,
-            'Timestamp' => $timestamp,
-            'TransactionType' => 'CustomerPayBillOnline',
-            'Amount' => $amount,
-            'PartyA' => $phone_paying,
-            'PartyB' => $merchant_id,
-            'PhoneNumber' => $phone_paying,
-            'CallBackURL' => url('/api/mpesa/callback'),
-            'AccountReference' => $order_id,
-            'TransactionDesc' => 'Payment for Order #' . $order_id,
-        ];
-
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest');
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Content-Type:application/json',
-            'Authorization:Bearer ' . $access_token
-        ]);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload));
-
-        $response = curl_exec($curl);
-
-        if (curl_error($curl)) {
-            \Log::error('CURL Error: ' . curl_error($curl));
-            curl_close($curl);
-            return ['ResponseCode' => '1', 'ResponseDescription' => 'Network error'];
-        }
-
-        curl_close($curl);
-
-        return json_decode($response, true);
-    }
-
-    private function startsWith($haystack, $needle)
-    {
-        $length = strlen($needle);
-        return (substr($haystack, 0, $length) === $needle);
-    }
-
-    private function getAccessToken()
-    {
-        $consumer_key = env('MPESA_CONSUMER_KEY');
-        $consumer_secret = env('MPESA_SECRET_KEY');
-
-        $url = 'https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials';
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        $credentials = base64_encode($consumer_key . ":" . $consumer_secret);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Authorization: Basic ' . $credentials));
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-        $curl_response = curl_exec($curl);
-        $access_token = json_decode($curl_response);
-
-        curl_close($curl);
-
-        return $access_token->access_token ?? null;
-    }
-
-    public function formatCurrency($amount)
+    public function formatCurrency($amount): string
     {
         return 'KSh ' . number_format($amount, 2);
     }

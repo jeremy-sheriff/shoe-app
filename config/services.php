@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+
+    'mpesa' => [
+        'consumer_key' => env('MPESA_CONSUMER_KEY'),
+        'consumer_secret' => env('MPESA_SECRET_KEY'),
+        'shortcode' => env('MPESA_SHORTCODE'),
+        'passkey' => env('MPESA_PASSKEY'),
+        'base_url' => env('MPESA_BASE_URL', 'https://api.safaricom.co.ke'),
+        'callback_url' => env('MPESA_CALLBACK_URL', '/api/mpesa/callback'), // Will use url('/api/mpesa/callback') if null
+        'environment' => env('MPESA_ENVIRONMENT', 'sandbox'), // sandbox or live
+    ],
+
 ];

@@ -121,64 +121,6 @@
                 <div class="bg-white dark:bg-zinc-800 p-4 rounded-xl shadow">
                     <h2 class="text-xl font-bold mb-4 text-zinc-800 dark:text-white">Checkout</h2>
 
-                    {{--                    <form action="{{ route('checkout.confirm') }}" method="POST" class="space-y-4">--}}
-                    {{--                        @csrf--}}
-                    {{--                        <div>--}}
-                    {{--                            <label for="mpesa_number-mobile"--}}
-                    {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">--}}
-                    {{--                                M-Pesa Number--}}
-                    {{--                            </label>--}}
-                    {{--                            <input type="text" name="mpesa_number" id="mpesa_number-mobile" required--}}
-                    {{--                                   placeholder="e.g. 0712345678"--}}
-                    {{--                                   class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-
-                    {{--                            <div class="mt-2 flex items-start gap-2">--}}
-                    {{--                                <input type="checkbox" name="use_as_contact" id="use_as_contact-mobile"--}}
-                    {{--                                       class="mt-1 rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">--}}
-                    {{--                                <label for="use_as_contact-mobile" class="text-sm text-zinc-700 dark:text-zinc-300">--}}
-                    {{--                                    <i>Use this as my contact number</i>--}}
-                    {{--                                </label>--}}
-                    {{--                            </div>--}}
-                    {{--                            <input name="product" value="{{$product->id}}" hidden>--}}
-                    {{--                        </div>--}}
-
-                    {{--                        <div>--}}
-                    {{--                            <label for="customer_name-mobile"--}}
-                    {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">--}}
-                    {{--                                Full Names--}}
-                    {{--                            </label>--}}
-                    {{--                            <input type="text" name="customer_name" id="customer_name-mobile" required--}}
-                    {{--                                   placeholder="e.g. John Doe"--}}
-                    {{--                                   class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-                    {{--                        </div>--}}
-
-                    {{--                        <div>--}}
-                    {{--                            <label for="town-mobile"--}}
-                    {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">--}}
-                    {{--                                Town--}}
-                    {{--                            </label>--}}
-                    {{--                            <input type="text" name="town" id="town-mobile" required placeholder="e.g. Westlands"--}}
-                    {{--                                   class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-                    {{--                        </div>--}}
-
-                    {{--                        <div>--}}
-                    {{--                            <label for="description-mobile"--}}
-                    {{--                                   class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">--}}
-                    {{--                                Description--}}
-                    {{--                            </label>--}}
-                    {{--                            <textarea name="description" id="description-mobile" rows="3" required--}}
-                    {{--                                      class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white">--}}
-                    {{--                            </textarea>--}}
-                    {{--                        </div>--}}
-
-                    {{--                        <div class="pt-2">--}}
-                    {{--                            <button type="submit"--}}
-                    {{--                                    class="w-full px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-md shadow-md transition duration-150">--}}
-                    {{--                                Confirm Order (KSh {{ number_format($cartTotal, 2) }})--}}
-                    {{--                            </button>--}}
-                    {{--                        </div>--}}
-                    {{--                    </form>--}}
-
 
                     <livewire:checkouts.checkout-component/>
                 </div>

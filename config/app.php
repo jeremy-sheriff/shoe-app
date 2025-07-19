@@ -16,6 +16,7 @@ return [
     'name' => env('APP_NAME', 'Laravel'),
 
     'version' => '1.0.0',
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -67,6 +68,11 @@ return [
     */
 
     'timezone' => 'UTC',
+
+//    'providers' => [
+//        // ... other providers
+//        App\Providers\PaymentServiceProvider::class,
+//    ],
 
     /*
     |--------------------------------------------------------------------------

@@ -10,9 +10,12 @@ class Order extends Model
 {
     protected $guarded = [];
 
-    public static function create(array $array)
-    {
-    }
+    protected $casts = [
+        'amount' => 'decimal:2',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
 
     public function user(): BelongsTo
     {

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             // Customer details (optional if no auth)
             $table->id()->primary();
-            $table->uuid();
+            $table->uuid('uuid')->unique();
             $table->string('customer_name')->nullable();
 
             // Payment & M-Pesa

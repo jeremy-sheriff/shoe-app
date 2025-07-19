@@ -2,14 +2,16 @@
 
 namespace App\Livewire\Orders;
 
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class GenerateTrackingNumber extends Component
 {
+
+    public bool $showTrackingNumber = false;
+
     public string $tracking_number = '';
     protected $listeners = [
-        'sent-mpesa-stk-push' => 'generateTrackingNumber'
+        'sent-mpesa-stk-push' => 'displayTrackingNumber'
     ];
 
     public function render()
@@ -17,11 +19,9 @@ class GenerateTrackingNumber extends Component
         return view('livewire.orders.generate-tracking-number');
     }
 
-    public function generateTrackingNumber(): void
+    public function displayTrackingNumber($data): void
     {
-        // Option 1: Year + Month + Day + Hour + Minute + Second + Random (e.g., TRK240718143025A1B2)
-        $timestamp = now()->format('ymdHis'); // 240718143025
-        $random = strtoupper(Str::random(4)); // A1B2
-        $this->tracking_number = $timestamp . $random;
+        $this->tracking_number = $data['tracking_number'] ?? '';
+        $this->showTrackingNumber = true;
     }
 }
