@@ -15,10 +15,10 @@ use Livewire\Component;
 class CheckoutComponent extends Component
 {
     public string $product = "";
-    public string $mpesa_number = "0712419949";
-    public string $customer_name = "muhoho";
-    public string $town = "Nyeri";
-    public string $description = "Desc";
+    public string $mpesa_number = "";
+    public string $customer_name = "";
+    public string $town = "";
+    public string $description = "";
     public bool $use_as_contact = false;
 
     // Cart related properties
