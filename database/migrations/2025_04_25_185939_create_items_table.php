@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('price')->nullable();
             $table->string('quantity')->nullable();
             $table->timestamps();
+            //
         });
     }
 
