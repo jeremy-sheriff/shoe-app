@@ -20,7 +20,7 @@
             <div>
                 <label for="mpesa_number"
                        class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                    M-Pesa Number
+                    M-Pesa payment number
                 </label>
                 <input type="text"
                        wire:model.lazy="mpesa_number"

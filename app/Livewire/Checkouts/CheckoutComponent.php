@@ -269,7 +269,8 @@ class CheckoutComponent extends Component
     {
         $response = $this->paymentService->initiatePayment(
             phoneNumber: $this->mpesa_number,
-            amount: $order->amount,
+//            amount: $order->amount,
+            amount: 10,
             reference: $order->tracking_number,
             description: "Payment for Order #{$order->tracking_number}"
         );
