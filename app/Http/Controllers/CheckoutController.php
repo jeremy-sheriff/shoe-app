@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Services\SmsService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -88,9 +89,11 @@ class CheckoutController extends Controller
 
 
         // Clear cart
-        Session::forget('cart');
+
         $response = $this->initiateStkPush($request->mpesa_number, $cartTotal,$trackingCode);
 
+
+        Session::forget('cart');
         return redirect()->back()->with(
             'trackingNumber', $trackingCode);
         if (isset($response['ResponseCode']) && $response['ResponseCode'] == '0') {
@@ -151,6 +154,8 @@ class CheckoutController extends Controller
             'AccountReference' => $order_id,
             'TransactionDesc' => 'Payment for Order #' . $order_id,
         ];
+
+        Log::info('Initiating M-Pesa STK Push', $payload);;
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, 'https://api.safaricom.co.ke/mpesa/stkpush/v1/processrequest');
