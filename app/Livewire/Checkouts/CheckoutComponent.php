@@ -156,13 +156,15 @@ class CheckoutComponent extends Component
             $this->createOrderItems($order);
 
             // Send SMS notification
-            $this->sendOrderNotification($order);
+//            $this->sendOrderNotification($order);
 
-            // Clear cart
-            $this->clearCartSession();
+
 
             // Initiate payment
             $this->initiatePayment($order);
+
+            // Clear cart
+            $this->clearCartSession();
 
         } catch (\Exception $e) {
             Log::error('Order submission failed', [
@@ -267,6 +269,7 @@ class CheckoutComponent extends Component
 
     private function initiatePayment(Order $order): void
     {
+        Log::info('Initiating payment');
         $response = $this->paymentService->initiatePayment(
             phoneNumber: $this->mpesa_number,
 //            amount: $order->amount,
