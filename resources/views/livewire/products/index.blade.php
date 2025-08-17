@@ -64,28 +64,16 @@
                                                 class="slim group relative bg-gray-50 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-600 transition-all duration-200"
                                                 data-label="Drop your image here" data-size="500,500" data-ratio="1:1">
                                                 <div class="text-center">
-
-                                                    <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600">
-                                                        Upload Image</p>
                                                 </div>
                                                 <input type="file" name="slim[]" required
-                                                       class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
+                                                       class="absolute inset-0 w-full opacity-0 cursor-pointer"/>
                                             </div>
                                             <!-- Image 2 -->
                                             <div
                                                 class="slim group relative bg-gray-50 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-600 transition-all duration-200"
                                                 data-size="500,500" data-ratio="1:1">
                                                 <div class="text-center">
-                                                    <svg
-                                                        class="mx-auto h-12 w-12 text-gray-400 group-hover:text-indigo-500 transition-colors duration-200"
-                                                        stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                                        <path
-                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                            stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"/>
-                                                    </svg>
-                                                    <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600">
-                                                        Upload Image</p>
+
                                                 </div>
                                                 <input type="file" name="slim[]"
                                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
@@ -95,16 +83,6 @@
                                                 class="slim group relative bg-gray-50 dark:bg-gray-700 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl p-6 hover:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-600 transition-all duration-200"
                                                 data-size="500,500" data-ratio="1:1">
                                                 <div class="text-center">
-                                                    <svg
-                                                        class="mx-auto h-12 w-12 text-gray-400 group-hover:text-indigo-500 transition-colors duration-200"
-                                                        stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                                                        <path
-                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                            stroke-width="2" stroke-linecap="round"
-                                                            stroke-linejoin="round"/>
-                                                    </svg>
-                                                    <p class="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400 group-hover:text-indigo-600">
-                                                        Upload Image</p>
                                                 </div>
                                                 <input type="file" name="slim[]"
                                                        class="absolute inset-0 w-full h-full opacity-0 cursor-pointer"/>
@@ -203,62 +181,55 @@
                                         </div>
                                     </div>
 
+
                                     {{-- Sizes and Colors Row --}}
-                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                                        <!-- Shoe Sizes -->
-                                        <div class="space-y-4">
+                                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                        <!-- Available Sizes -->
+                                        <div class="space-y-3">
                                             <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Available
                                                 Sizes</h3>
                                             @php
                                                 $shoe_sizes = range(30, 45);
-                                                $chunks = array_chunk($shoe_sizes, 4);
                                             @endphp
-                                            <div class="grid grid-cols-2 gap-4">
-                                                @foreach ($chunks as $chunk)
-                                                    <div class="space-y-3">
-                                                        @foreach ($chunk as $size)
-                                                            <label
-                                                                class="flex items-center space-x-3 cursor-pointer group">
-                                                                <input type="checkbox" name="sizes[]"
-                                                                       value="{{ $size }}"
-                                                                       {{ is_array(old('sizes')) && in_array($size, old('sizes')) ? 'checked' : '' }}
-                                                                       class="w-5 h-5 text-indigo-600 border-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:ring-2 focus:ring-offset-0 transition-all duration-200">
-                                                                <span
-                                                                    class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 transition-colors duration-200">Size {{ $size }}</span>
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
+                                            <div class="grid grid-cols-4 gap-2">
+                                                @foreach ($shoe_sizes as $size)
+                                                    <label
+                                                        class="flex items-center justify-center cursor-pointer group">
+                                                        <input type="checkbox" name="sizes[]" value="{{ $size }}"
+                                                               {{ is_array(old('sizes')) && in_array($size, old('sizes')) ? 'checked' : '' }}
+                                                               class="sr-only peer">
+                                                        <div
+                                                            class="w-full px-2 py-1.5 text-xs font-medium text-center border-2 border-gray-300 rounded-md peer-checked:border-indigo-500 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 dark:border-gray-600 dark:peer-checked:border-indigo-400 dark:peer-checked:bg-indigo-900/50 dark:peer-checked:text-indigo-300 hover:border-indigo-300 transition-all duration-200">
+                                                            {{ $size }}
+                                                        </div>
+                                                    </label>
                                                 @endforeach
                                             </div>
                                         </div>
 
                                         <!-- Available Colors -->
-                                        <div class="space-y-4">
+                                        <div class="space-y-3">
                                             <h3 class="text-sm font-semibold text-gray-700 dark:text-gray-300">Available
                                                 Colors</h3>
                                             @php
                                                 $colors = [
-                                                    'Black', 'Brown', 'Red', 'Blue', 'Yellow', 'White', 'Green', 'Orange',
-                                                    'Grey', 'Beige', 'Tan', 'Pink', 'Purple', 'Maroon', 'Navy', 'Olive',
-                                                    'Gold', 'Silver', 'Burgundy', 'Turquoise'
+                                                    'Black', 'Brown', 'Red', 'Blue', 'Yellow', 'White',
+                                                    'Green', 'Orange', 'Grey', 'Beige', 'Tan', 'Pink', 'Maroon'
                                                 ];
-                                                $colorChunks = array_chunk($colors, 5);
                                             @endphp
-                                            <div class="grid grid-cols-2 gap-4 max-h-48 overflow-y-auto pr-2">
-                                                @foreach ($colorChunks as $chunk)
-                                                    <div class="space-y-3">
-                                                        @foreach ($chunk as $color)
-                                                            <label
-                                                                class="flex items-center space-x-3 cursor-pointer group">
-                                                                <input type="checkbox" name="colors[]"
-                                                                       value="{{ strtolower($color) }}"
-                                                                       {{ is_array(old('colors')) && in_array(strtolower($color), old('colors')) ? 'checked' : '' }}
-                                                                       class="w-5 h-5 text-indigo-600 border-2 border-gray-300 rounded-md focus:ring-indigo-500 focus:ring-2 focus:ring-offset-0 transition-all duration-200">
-                                                                <span
-                                                                    class="text-sm font-medium text-gray-700 dark:text-gray-300 group-hover:text-indigo-600 transition-colors duration-200">{{ $color }}</span>
-                                                            </label>
-                                                        @endforeach
-                                                    </div>
+                                            <div class="grid grid-cols-3 gap-2">
+                                                @foreach ($colors as $color)
+                                                    <label
+                                                        class="flex items-center justify-center cursor-pointer group">
+                                                        <input type="checkbox" name="colors[]"
+                                                               value="{{ strtolower($color) }}"
+                                                               {{ is_array(old('colors')) && in_array(strtolower($color), old('colors')) ? 'checked' : '' }}
+                                                               class="sr-only peer">
+                                                        <div
+                                                            class="w-full px-2 py-1.5 text-xs font-medium text-center border-2 border-gray-300 rounded-md peer-checked:border-indigo-500 peer-checked:bg-indigo-50 peer-checked:text-indigo-700 dark:border-gray-600 dark:peer-checked:border-indigo-400 dark:peer-checked:bg-indigo-900/50 dark:peer-checked:text-indigo-300 hover:border-indigo-300 transition-all duration-200">
+                                                            {{ $color }}
+                                                        </div>
+                                                    </label>
                                                 @endforeach
                                             </div>
                                             @error('colors')
@@ -267,6 +238,8 @@
                                         </div>
                                     </div>
 
+
+                                    {{--                                    </div>--}}
 
 
                                     <!-- Submit Button -->
@@ -286,7 +259,7 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
             </flux:modal>
 
 
