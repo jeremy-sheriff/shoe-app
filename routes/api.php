@@ -11,4 +11,5 @@ Route::get('/user', function (Request $request) {
 
 
 Route::post('/checkout', [CheckoutController::class, 'stkPush'])->name('checkout.stk-push');
+Route::post('/mpesa/callback', [CheckoutController::class, 'callback'])->name('mpesa.callback');
 Route::post('/sms/send', [SmsController::class, 'sendSms'])->name('sms.send');

@@ -180,5 +180,10 @@ class CheckoutController extends Controller
         return (substr($haystack, 0, $length) === $needle);
     }
 
+    public function callback(Request $request)
+    {
+        Log::info('Received callback from M-Pesa', $request->all());
+    }
+
 }
 
