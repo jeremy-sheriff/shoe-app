@@ -35,3 +35,15 @@ jobs:
           protocol: ftp
           port: 21
           server-dir: /domains/drmorchcrafts.co.ke/
+
+      - name: Move assets to public_html directory
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: 22
+          script: |
+            mkdir -p /domains/drmorchcrafts.co.ke/public_html/build/assets
+            cp -r /domains/drmorchcrafts.co.ke/public/build/assets/* /domains/drmorchcrafts.co.ke/public_html/build/assets/
+            echo "Assets moved successfully"
