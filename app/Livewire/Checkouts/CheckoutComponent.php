@@ -245,7 +245,8 @@ class CheckoutComponent extends Component
     {
         try {
             $smsService = new SmsService();
-            $smsService->to("0700801438");
+            $mobile_phone_nunber = env('MOBILE_NUMBER');
+            $smsService->to("");
             $smsService->message(
                 "New order #{$order->tracking_number} placed. Amount: KSh " .
                 number_format($order->amount, 2) . " from {$order->customer_name}"
@@ -272,8 +273,7 @@ class CheckoutComponent extends Component
         Log::info('Initiating payment');
         $response = $this->paymentService->initiatePayment(
             phoneNumber: $this->mpesa_number,
-//            amount: $order->amount,
-            amount: 10,
+            amount: $order->amount,
             reference: $order->tracking_number,
             description: "Payment for Order #{$order->tracking_number}"
         );
