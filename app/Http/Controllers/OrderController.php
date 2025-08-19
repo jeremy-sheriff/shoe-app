@@ -31,11 +31,11 @@ class OrderController extends Controller
     }
 
 
-    public function index(){
-        return view('livewire.orders.index', [
-            'orders' => Order::query()->latest()->paginate(10),
-        ]);
-    }
+//    public function index(){
+//        return view('livewire.orders.index', [
+//            'orders' => Order::query()->latest()->paginate(10),
+//        ]);
+//    }
 
 
     public function customerOrders(){
@@ -85,7 +85,7 @@ class OrderController extends Controller
     public function updateStatus(Request $request, $uuid)
     {
         $request->validate([
-            'status' => 'required|string|in:pending,processing,completed,cancelled',
+            'status' => 'required|string|in:pending,processing,review,completed,cancelled',
         ]);
 
         $order = Order::where('uuid', $uuid)->firstOrFail();

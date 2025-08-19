@@ -78,7 +78,7 @@
                             <select name="status" id="status" required
                                     class="mt-1 block w-full px-4 py-3 rounded-md border border-gray-300 dark:border-zinc-600 bg-white dark:bg-zinc-700 text-gray-900 dark:text-white">
                                 <option value="">Select Status</option>
-                                @foreach(['pending', 'processing', 'completed', 'cancelled'] as $statusOption)
+                                @foreach(['pending', 'processing', 'review', 'completed', 'cancelled'] as $statusOption)
                                     <option
                                         value="{{ $statusOption }}" {{ $order->status === $statusOption ? 'selected' : '' }}>
                                         {{ ucfirst($statusOption) }}

@@ -35,7 +35,7 @@ Route::get('/track-order', [OrderController::class, 'track'])->name('orders.trac
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
 
-    Route::get('/orders', [OrderController::class, 'customerOrders'])->name('orders.index.users')->middleware(['auth']);
+//    Route::get('/orders', [OrderController::class, 'customerOrders'])->name('orders.index.users')->middleware(['auth']);
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store')->middleware(['auth']);
 
     // Categories routes
@@ -48,7 +48,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {
-    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+//    Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+    Volt::route('orders', 'orders.index')->name('orders.index');
     Route::get('orders/create', [OrderController::class, 'create'])->name('orders.create');
     Route::get('orders/show/{uuid}', [OrderController::class, 'show'])->name('orders.show');
     Route::patch('orders/{uuid}/status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
