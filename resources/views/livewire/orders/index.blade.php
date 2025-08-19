@@ -73,19 +73,19 @@
                         </div>
                     </div>
 
-                    <!-- Drop Zone -->
+                    <!-- Drop Zone - FULL HEIGHT -->
                     <div
-                        class="flex-1 bg-white dark:bg-slate-800 rounded-b-2xl border-t border-slate-200 dark:border-slate-700 shadow-xl"
+                        class="flex-1 bg-white dark:bg-slate-800 rounded-b-2xl border-t border-slate-200 dark:border-slate-700 shadow-xl min-h-[500px] flex flex-col"
                         x-bind:class="{
                              'ring-4 {{ $ringClass }} ring-opacity-50': dragOverColumn === '{{ $status }}'
-                         }">
+                         }"
+                        data-status="{{ $status }}"
+                        x-on:dragover.prevent="handleDragOver('{{ $status }}')"
+                        x-on:dragleave="handleDragLeave()"
+                        x-on:drop.prevent="handleDrop($event, '{{ $status }}')">
 
-                        <div class="p-6 min-h-[500px] space-y-4"
-                             data-status="{{ $status }}"
-                             x-on:dragover.prevent="handleDragOver('{{ $status }}')"
-                             x-on:dragleave="handleDragLeave()"
-                             x-on:drop.prevent="handleDrop($event, '{{ $status }}')">
-
+                        <!-- Orders Container -->
+                        <div class="p-6 flex-1 space-y-4">
                             @forelse($orders[$status] as $order)
                                 <!-- Order Card -->
                                 <div
@@ -200,8 +200,8 @@
                                         class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-200 bg-white dark:bg-slate-600 rounded-lg p-2 shadow-md">
                                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor"
                                              viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M4 8h16M4 16h16"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                  stroke-width="2" d="M4 8h16M4 16h16"/>
                                         </svg>
                                     </div>
                                 </div>
@@ -333,46 +333,44 @@
         }
     </script>
 
-    @push('styles')
-        <style>
-            /* Enhanced scrollbar styling */
-            .kanban-column::-webkit-scrollbar {
-                width: 8px;
-            }
+    <style>
+        /* Enhanced scrollbar styling */
+        .kanban-column::-webkit-scrollbar {
+            width: 8px;
+        }
 
-            .kanban-column::-webkit-scrollbar-track {
-                background: #f1f5f9;
-                border-radius: 6px;
-            }
+        .kanban-column::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 6px;
+        }
 
-            .kanban-column::-webkit-scrollbar-thumb {
-                background: linear-gradient(180deg, #cbd5e1, #94a3b8);
-                border-radius: 6px;
-                border: 1px solid #e2e8f0;
-            }
+        .kanban-column::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #cbd5e1, #94a3b8);
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
 
-            .kanban-column::-webkit-scrollbar-thumb:hover {
-                background: linear-gradient(180deg, #94a3b8, #64748b);
-            }
+        .kanban-column::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #94a3b8, #64748b);
+        }
 
-            /* Dark mode scrollbar */
-            .dark .kanban-column::-webkit-scrollbar-track {
-                background: #1e293b;
-            }
+        /* Dark mode scrollbar */
+        .dark .kanban-column::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
 
-            .dark .kanban-column::-webkit-scrollbar-thumb {
-                background: linear-gradient(180deg, #475569, #334155);
-                border: 1px solid #334155;
-            }
+        .dark .kanban-column::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #475569, #334155);
+            border: 1px solid #334155;
+        }
 
-            .dark .kanban-column::-webkit-scrollbar-thumb:hover {
-                background: linear-gradient(180deg, #64748b, #475569);
-            }
+        .dark .kanban-column::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #64748b, #475569);
+        }
 
-            /* Smooth animations */
-            * {
-                scroll-behavior: smooth;
-            }
-        </style>
-    @endpush
+        /* Smooth animations */
+        * {
+            scroll-behavior: smooth;
+        }
+    </style>
 </div>
