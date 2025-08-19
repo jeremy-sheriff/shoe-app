@@ -274,41 +274,73 @@
             return {
                 draggedOrder: null,
                 dragOverColumn: null,
+                placeholderEl: null,
 
                 init() {
-                    // Initialize any additional setup
+                    // Create a reusable placeholder element
+                    this.placeholderEl = document.createElement("div");
+                    this.placeholderEl.className =
+                        "h-24 bg-slate-200 dark:bg-slate-700 border-2 border-dashed border-slate-400 rounded-2xl my-2";
                 },
 
                 handleDragStart(event, orderUuid) {
                     this.draggedOrder = orderUuid;
-                    event.dataTransfer.effectAllowed = 'move';
-                    event.dataTransfer.setData('text/html', event.target.outerHTML);
+                    event.dataTransfer.effectAllowed = "move";
+                    event.dataTransfer.setData("text/plain", orderUuid);
 
-                    // Add drag styling
-                    event.target.style.opacity = '0.6';
-                    event.target.style.transform = 'rotate(5deg) scale(1.05)';
+                    event.target.style.opacity = "0.6";
+                    event.target.style.transform = "rotate(5deg) scale(1.05)";
 
-                @this.call('handleOrderDragged', orderUuid)
+                @this.call("handleOrderDragged", orderUuid)
                     ;
                 },
 
                 handleDragEnd() {
-                    // Reset styling
                     document.querySelectorAll('[draggable="true"]').forEach(el => {
-                        el.style.opacity = '1';
-                        el.style.transform = '';
+                        el.style.opacity = "1";
+                        el.style.transform = "";
                     });
+
+                    // Remove placeholder after drop
+                    if (this.placeholderEl.parentNode) {
+                        this.placeholderEl.parentNode.removeChild(this.placeholderEl);
+                    }
                 },
 
-                handleDragOver(status) {
+                handleDragOver(status, event) {
                     this.dragOverColumn = status;
-                @this.call('handleDragOver', status)
+
+                    const column = event.currentTarget.querySelector(".p-6");
+                    if (!column) return;
+
+                    // Find where to insert the placeholder
+                    const afterElement = Array.from(column.querySelectorAll("[draggable='true']"))
+                        .reduce((closest, child) => {
+                            const box = child.getBoundingClientRect();
+                            const offset = event.clientY - box.top - box.height / 2;
+                            if (offset < 0 && offset > closest.offset) {
+                                return {offset: offset, element: child};
+                            } else {
+                                return closest;
+                            }
+                        }, {offset: Number.NEGATIVE_INFINITY}).element;
+
+                    if (afterElement == null) {
+                        column.appendChild(this.placeholderEl);
+                    } else {
+                        column.insertBefore(this.placeholderEl, afterElement);
+                    }
+
+                @this.call("handleDragOver", status)
                     ;
                 },
 
                 handleDragLeave() {
                     this.dragOverColumn = null;
-                @this.call('handleDragLeave')
+                    if (this.placeholderEl.parentNode) {
+                        this.placeholderEl.parentNode.removeChild(this.placeholderEl);
+                    }
+                @this.call("handleDragLeave")
                     ;
                 },
 
@@ -316,21 +348,26 @@
                     event.preventDefault();
 
                     if (this.draggedOrder) {
-                    @this.call('handleOrderDropped', this.draggedOrder, newStatus)
+                    @this.call("handleOrderDropped", this.draggedOrder, newStatus)
                         ;
                     }
 
                     this.draggedOrder = null;
                     this.dragOverColumn = null;
 
-                    // Reset all styling
+                    // Clean up placeholder
+                    if (this.placeholderEl.parentNode) {
+                        this.placeholderEl.parentNode.removeChild(this.placeholderEl);
+                    }
+
                     document.querySelectorAll('[draggable="true"]').forEach(el => {
-                        el.style.opacity = '1';
-                        el.style.transform = '';
+                        el.style.opacity = "1";
+                        el.style.transform = "";
                     });
                 }
             }
         }
+
     </script>
 
     <style>
