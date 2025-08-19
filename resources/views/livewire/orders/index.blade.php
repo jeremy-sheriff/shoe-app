@@ -294,51 +294,77 @@
             draggedFromColumn: null,
             draggedFromIndex: null,
             dragOverColumn: null,
+            lastInsertIndex: -1,
             placeholder: null,
+            dragThrottleTimer: null,
 
             init() {
-                // Create a dynamic placeholder element for smooth drop animation
+                // Create a stable placeholder element
                 this.placeholder = document.createElement("div");
-                this.placeholder.className = "h-32 mx-2 my-4 border-4 border-dashed border-indigo-300 dark:border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 rounded-3xl opacity-70 transition-all duration-300 flex items-center justify-center";
-                this.placeholder.innerHTML = '<div class="text-indigo-500 dark:text-indigo-400 font-medium text-sm">Drop here</div>';
+                this.placeholder.className = "h-32 mx-2 my-2 border-3 border-dashed border-indigo-300 dark:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-2xl flex items-center justify-center transition-opacity duration-200";
+                this.placeholder.innerHTML = '<div class="text-indigo-500 dark:text-indigo-400 font-medium text-xs opacity-70">Drop here</div>';
             },
 
             handleDragStart(event, orderUuid, fromColumn, fromIndex) {
                 this.draggedOrder = orderUuid;
                 this.draggedFromColumn = fromColumn;
                 this.draggedFromIndex = fromIndex;
+                this.lastInsertIndex = -1;
 
                 event.dataTransfer.effectAllowed = "move";
                 event.dataTransfer.setData("text/plain", orderUuid);
 
-                // Call Livewire method
+                // Add dragging class immediately for visual feedback
+                const draggedElement = document.querySelector(`[data-order-uuid="${orderUuid}"]`);
+                if (draggedElement) {
+                    draggedElement.style.transition = 'all 0.2s ease';
+                }
+
             @this.call("handleOrderDragged", orderUuid)
                 ;
             },
 
             handleDragEnd() {
                 // Clean up placeholder
-                if (this.placeholder.parentNode) {
+                if (this.placeholder && this.placeholder.parentNode) {
                     this.placeholder.parentNode.removeChild(this.placeholder);
                 }
 
-                // Remove sliding effect from all cards
+                // Reset all card transforms smoothly
                 document.querySelectorAll('[data-order-uuid]').forEach(card => {
                     card.style.transform = '';
-                    card.style.transition = '';
+                    card.style.transition = 'transform 0.3s ease';
                 });
+
+                // Clear throttle timer
+                if (this.dragThrottleTimer) {
+                    clearTimeout(this.dragThrottleTimer);
+                    this.dragThrottleTimer = null;
+                }
 
                 // Reset state
                 this.draggedOrder = null;
                 this.draggedFromColumn = null;
                 this.draggedFromIndex = null;
                 this.dragOverColumn = null;
+                this.lastInsertIndex = -1;
             },
 
             handleDragOver(event, status) {
-                this.dragOverColumn = status;
+                // Prevent excessive calls and flickering
+                event.preventDefault();
+                event.stopPropagation();
 
                 if (!this.draggedOrder) return;
+
+                // Throttle drag over events to reduce flickering
+                if (this.dragThrottleTimer) return;
+
+                this.dragThrottleTimer = setTimeout(() => {
+                    this.dragThrottleTimer = null;
+                }, 50);
+
+                this.dragOverColumn = status;
 
                 const column = document.getElementById(`column-${status}`);
                 if (!column) return;
@@ -349,67 +375,84 @@
 
                 const mouseY = event.clientY;
 
-                // Reset all card positions
-                cards.forEach(card => {
-                    card.style.transform = '';
-                    card.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                });
-
-                // Find insertion point
+                // Calculate insertion point more efficiently
                 let insertIndex = cards.length;
                 for (let i = 0; i < cards.length; i++) {
-                    const card = cards[i];
-                    const rect = card.getBoundingClientRect();
-                    const cardCenter = rect.top + rect.height / 2;
-
-                    if (mouseY < cardCenter) {
+                    const rect = cards[i].getBoundingClientRect();
+                    if (mouseY < rect.top + rect.height / 2) {
                         insertIndex = i;
                         break;
                     }
                 }
 
-                // Apply slide down effect to cards that will move
-                for (let i = insertIndex; i < cards.length; i++) {
-                    cards[i].style.transform = 'translateY(140px)';
+                // Only update if insertion point changed
+                if (this.lastInsertIndex === insertIndex) return;
+                this.lastInsertIndex = insertIndex;
+
+                // Reset all transforms first (only if needed)
+                cards.forEach((card, index) => {
+                    const shouldSlide = index >= insertIndex;
+                    const currentTransform = card.style.transform;
+                    const targetTransform = shouldSlide ? 'translateY(140px)' : '';
+
+                    if (currentTransform !== targetTransform) {
+                        card.style.transition = 'transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.style.transform = targetTransform;
+                    }
+                });
+
+                // Position placeholder only when needed
+                if (!this.placeholder.parentNode || this.placeholder.nextSibling !== (cards[insertIndex] || null)) {
+                    if (insertIndex === cards.length) {
+                        column.appendChild(this.placeholder);
+                    } else {
+                        column.insertBefore(this.placeholder, cards[insertIndex]);
+                    }
                 }
 
-                // Position placeholder
-                if (insertIndex === cards.length) {
-                    column.appendChild(this.placeholder);
-                } else {
-                    column.insertBefore(this.placeholder, cards[insertIndex]);
-                }
-
-                // Call Livewire method
+                // Reduce Livewire calls
             @this.call("handleDragOver", status)
                 ;
             },
 
-            handleDragLeave() {
-                // Remove placeholder
-                if (this.placeholder.parentNode) {
-                    this.placeholder.parentNode.removeChild(this.placeholder);
-                }
+            handleDragLeave(event) {
+                // Only trigger if we're actually leaving the drop zone
+                if (event.currentTarget.contains(event.relatedTarget)) return;
 
-                // Reset card positions
-                document.querySelectorAll('[data-order-uuid]').forEach(card => {
-                    card.style.transform = '';
-                });
+                // Debounce drag leave to prevent flickering
+                setTimeout(() => {
+                    if (this.dragOverColumn === null) return;
 
-                this.dragOverColumn = null;
-            @this.call("handleDragLeave")
-                ;
+                    // Remove placeholder
+                    if (this.placeholder && this.placeholder.parentNode) {
+                        this.placeholder.parentNode.removeChild(this.placeholder);
+                    }
+
+                    // Reset card positions smoothly
+                    document.querySelectorAll('[data-order-uuid]').forEach(card => {
+                        if (card.style.transform) {
+                            card.style.transition = 'transform 0.2s ease';
+                            card.style.transform = '';
+                        }
+                    });
+
+                    this.dragOverColumn = null;
+                    this.lastInsertIndex = -1;
+                @this.call("handleDragLeave")
+                    ;
+                }, 100);
             },
 
             handleDrop(event, newStatus) {
                 event.preventDefault();
+                event.stopPropagation();
 
                 if (this.draggedOrder) {
                 @this.call("handleOrderDropped", this.draggedOrder, newStatus)
                     ;
                 }
 
-                // Clean up
+                // Clean up immediately
                 this.handleDragEnd();
             }
         }
